@@ -27,10 +27,14 @@ export class HeaderComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.isMenuOpen) return;
     const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-    if (currentScroll > this.lastScrollTop) {
+    if (currentScroll <= 60) {
+      this.isHeaderHidden = false;
+    } else if (currentScroll > this.lastScrollTop && currentScroll - this.lastScrollTop > 8) {
       this.isHeaderHidden = true;
-    } else {
+    } else if (currentScroll < this.lastScrollTop && this.lastScrollTop - currentScroll > 8) {
       this.isHeaderHidden = false;
     }
     this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;

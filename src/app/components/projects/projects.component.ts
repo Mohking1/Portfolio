@@ -60,6 +60,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
   private telemetryData: any = null;
   private telemetryCache: { [key: string]: any } = {};
   isLoadingTelemetry = false;
+  private sdkInterval: any = null;
 
   // ==========================================
   // 2. LOCAL ML EXPERIMENT TRACKER DEMO STATE
@@ -536,6 +537,14 @@ AI / ML Infrastructure Operations`
         this.viewportObserver = null;
       }
     }
+    if (this.sdkInterval) {
+      clearInterval(this.sdkInterval);
+      this.sdkInterval = null;
+    }
+    if (this.argusTimer) {
+      clearTimeout(this.argusTimer);
+      this.argusTimer = null;
+    }
   }
 
   private setupViewportObserver() {
@@ -581,6 +590,13 @@ AI / ML Infrastructure Operations`
 
   async loadSimulationTelemetry() {
     if (!this.isBrowser) return;
+    if (!this.selectedCreature.hasTelemetry) {
+      this.telemetryData = null;
+      this.totalFrames = 0;
+      this.currentFrameIdx = 0;
+      return;
+    }
+
     const creatureId = this.selectedCreature.id === 'spider' ? 'hexapod_spider' : this.selectedCreature.id;
     const key = `${creatureId}_${this.selectedTerrain.id}`;
     if (this.telemetryCache[key]) {
@@ -603,7 +619,7 @@ AI / ML Infrastructure Operations`
         this.telemetryData = null;
         this.totalFrames = 0;
       }
-    } catch (e) {
+    } catch {
       this.telemetryData = null;
       this.totalFrames = 0;
     } finally {
@@ -617,11 +633,11 @@ AI / ML Infrastructure Operations`
     let frameAcc = 0;
 
     const render = (time: number) => {
-      this.animFrameId = requestAnimationFrame(render); // Always keep the loop alive!
+      this.animFrameId = requestAnimationFrame(render);
       const dt = Math.min((time - lastTime) / 1000, 0.1);
       lastTime = time;
 
-      if (this.isPlaying && this.activeTab === 'creature' && !this.isLoadingTelemetry) {
+      if (this.isPlaying && !this.isLoadingTelemetry) {
         if (this.telemetryData && this.totalFrames > 0) {
           frameAcc += dt * 30 * this.playbackSpeed; // 30 FPS telemetry playback
           if (frameAcc >= 1) {
@@ -638,6 +654,14 @@ AI / ML Infrastructure Operations`
               this.currentFrameIdx = nextFrame;
             }
           }
+        } else {
+          // Procedural locomotion loop for other morphologies
+          const speed = parseFloat(this.selectedCreature.speed) || 2.5;
+          this.simTime += dt * this.playbackSpeed;
+          this.simTrackX = (this.simTrackX + dt * speed * this.playbackSpeed) % 100;
+          this.simSpeed = speed * (0.9 + 0.15 * Math.cos(this.simTime * 4));
+          const baseRew = parseFloat(this.selectedCreature.reward.replace('+', '')) || 1500;
+          this.simReward = Math.round(baseRew * (0.95 + 0.05 * Math.sin(this.simTime * 2)));
         }
         this.drawCreature();
       }
@@ -648,7 +672,14 @@ AI / ML Infrastructure Operations`
   selectCreature(c: any) {
     this.selectedCreature = c;
     this.currentFrameIdx = 0;
-    this.loadSimulationTelemetry().then(() => this.drawCreature());
+    if (c.hasTelemetry) {
+      this.loadSimulationTelemetry().then(() => this.drawCreature());
+    } else {
+      this.telemetryData = null;
+      this.totalFrames = 0;
+      this.simSpeed = parseFloat(c.speed) || 2.0;
+      this.drawCreature();
+    }
   }
 
   async selectTerrain(t: any) {
@@ -688,6 +719,10 @@ AI / ML Infrastructure Operations`
 
   runSdkPipeline() {
     if (this.sdkState === 'running') return;
+    if (this.sdkInterval) {
+      clearInterval(this.sdkInterval);
+      this.sdkInterval = null;
+    }
     this.sdkState = 'running';
     this.sdkProgress = 15;
     this.currentEpoch = 1;
@@ -705,11 +740,12 @@ AI / ML Infrastructure Operations`
     ];
 
     let epoch = 1;
-    const interval = setInterval(() => {
+    this.sdkInterval = setInterval(() => {
       epoch += 3;
       if (epoch >= this.selectedExp.epochs) {
         epoch = this.selectedExp.epochs;
-        clearInterval(interval);
+        clearInterval(this.sdkInterval);
+        this.sdkInterval = null;
         this.currentEpoch = epoch;
         this.sdkProgress = 100;
         this.sdkState = 'completed';
@@ -765,9 +801,78 @@ AI / ML Infrastructure Operations`
     return this.argusDocling;
   }
 
+  getMatrixTotal(matrix: number[][]): number {
+    if (!matrix || matrix.length === 0) return 1;
+    return matrix.reduce((acc, row) => acc + row.reduce((rSum, v) => rSum + v, 0), 0);
+  }
+
+  getLossPoints(): { x: number; y: number }[] {
+    const raw = this.selectedExp.lossPoints || '0,108 300,8';
+    const pairs = raw.trim().split(/\s+/).map(p => p.split(',').map(Number));
+    return pairs.map(([x, y]) => {
+      const px = 20 + (x / 300) * 260;
+      const py = Math.max(15, Math.min(105, 105 - ((y - 5) / 105) * 85));
+      return { x: px, y: py };
+    });
+  }
+
+  getLossPath(): string {
+    const pts = this.getLossPoints();
+    if (pts.length === 0) return 'M 20 25 L 280 100';
+    return 'M ' + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ');
+  }
+
+  getLossAreaPath(): string {
+    const pts = this.getLossPoints();
+    if (pts.length === 0) return 'M 20 25 L 280 100 L 280 108 L 20 108 Z';
+    const first = pts[0];
+    const last = pts[pts.length - 1];
+    return `M ${first.x.toFixed(1)} 108 L ` + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ') + ` L ${last.x.toFixed(1)} 108 Z`;
+  }
+
+  getLossLastPoint(): { x: number; y: number } {
+    const pts = this.getLossPoints();
+    return pts[pts.length - 1] || { x: 280, y: 100 };
+  }
+
+  getAccPoints(): { x: number; y: number }[] {
+    const raw = this.selectedExp.accPoints || '0,20 300,112';
+    const pairs = raw.trim().split(/\s+/).map(p => p.split(',').map(Number));
+    return pairs.map(([x, y]) => {
+      const px = 20 + (x / 300) * 260;
+      const py = Math.max(15, Math.min(105, 105 - ((y - 15) / 100) * 85));
+      return { x: px, y: py };
+    });
+  }
+
+  getAccPath(): string {
+    const pts = this.getAccPoints();
+    if (pts.length === 0) return 'M 20 105 L 280 20';
+    return 'M ' + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ');
+  }
+
+  getAccAreaPath(): string {
+    const pts = this.getAccPoints();
+    if (pts.length === 0) return 'M 20 105 L 280 20 L 280 108 L 20 108 Z';
+    const first = pts[0];
+    const last = pts[pts.length - 1];
+    return `M ${first.x.toFixed(1)} 108 L ` + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ') + ` L ${last.x.toFixed(1)} 108 Z`;
+  }
+
+  getAccLastPoint(): { x: number; y: number } {
+    const pts = this.getAccPoints();
+    return pts[pts.length - 1] || { x: 280, y: 20 };
+  }
+
   drawCreature() {
     const canvas = this.creatureCanvasRef?.nativeElement;
     if (!canvas) return;
+    if (canvas.clientWidth > 0 && canvas.clientHeight > 0) {
+      if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+      }
+    }
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -1049,28 +1154,309 @@ AI / ML Infrastructure Operations`
   }
 
   private drawProceduralFallback(ctx: CanvasRenderingContext2D, w: number, h: number) {
-    const cx = w * 0.45;
-    const cy = h - 120;
+    const cid = this.selectedCreature.id;
+    const ppm = 36.0;
+    const t = this.simTime * 6; // gait oscillation phase
+    const screenCenterX = w * 0.38;
+    const screenCenterY = h * 0.68;
+    const camX = this.simTrackX;
 
-    ctx.fillStyle = '#0f172a';
-    ctx.strokeStyle = '#4ade80';
-    ctx.lineWidth = 2;
+    const toScreenX = (wx: number) => screenCenterX + (wx - camX) * ppm;
+    const toScreenY = (wy: number) => screenCenterY - wy * ppm;
+
+    // 1. Grid Background
+    ctx.strokeStyle = 'rgba(30, 41, 59, 0.3)';
+    ctx.lineWidth = 1;
+    const gridSpacing = ppm * 1.0;
+    const startGridX = toScreenX(Math.floor(camX - 15)) % gridSpacing;
+    for (let x = startGridX; x < w; x += gridSpacing) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+    }
+
+    // 2. Terrain Ground Plane
+    const groundY = toScreenY(0);
+    ctx.fillStyle = '#0a0f1d';
     ctx.beginPath();
-    ctx.moveTo(0, h - 50);
-    ctx.lineTo(w, h - 50);
-    ctx.lineTo(w, h);
-    ctx.lineTo(0, h);
-    ctx.closePath();
+    ctx.rect(0, groundY, w, h - groundY);
     ctx.fill();
+
+    // Surface color depends on terrain
+    let groundColor = '#10b981';
+    if (this.selectedTerrain.id === 'variable_friction') groundColor = '#06b6d4';
+    else if (this.selectedTerrain.id === 'slopes') groundColor = '#8b5cf6';
+    else if (this.selectedTerrain.id === 'stairs') groundColor = '#f59e0b';
+    else if (this.selectedTerrain.id === 'hurdles') groundColor = '#ef4444';
+
+    ctx.strokeStyle = groundColor;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(0, groundY);
+    ctx.lineTo(w, groundY);
     ctx.stroke();
 
-    ctx.fillStyle = '#64748b';
-    ctx.strokeStyle = '#f8fafc';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(cx - 20, cy - 35, 40, 50, 8);
-    ctx.fill();
-    ctx.stroke();
+    // Friction dashes
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1;
+    for (let x = (toScreenX(0) % 40); x < w; x += 40) {
+      ctx.beginPath();
+      ctx.moveTo(x, groundY + 8);
+      ctx.lineTo(x + 15, groundY + 18);
+      ctx.stroke();
+    }
+
+    // 3. Dynamic Procedural Morphology Kinematics
+    const bodyBaseY = 1.35 + Math.sin(t * 2) * 0.05;
+    const rootSX = toScreenX(camX);
+    const rootSY = toScreenY(bodyBaseY);
+
+    if (cid === 'biped') {
+      // BIPED CHICKEN
+      const legPhases = [t, t + Math.PI];
+      legPhases.forEach((phase, legIdx) => {
+        const hipAngle = Math.sin(phase) * 0.55;
+        const kneeAngle = Math.max(0, -Math.sin(phase)) * 0.85;
+
+        const hipX = rootSX + (legIdx === 0 ? -6 : 6);
+        const hipY = rootSY + 8;
+        const thighLen = 26;
+        const shinLen = 26;
+
+        const kneeX = hipX + Math.sin(hipAngle) * thighLen;
+        const kneeY = hipY + Math.cos(hipAngle) * thighLen;
+        const footX = kneeX + Math.sin(hipAngle + kneeAngle) * shinLen;
+        const footY = Math.min(groundY, kneeY + Math.cos(hipAngle + kneeAngle) * shinLen);
+
+        ctx.strokeStyle = this.showStrain && Math.abs(hipAngle) > 0.4 ? '#fbbf24' : '#34d399';
+        ctx.lineWidth = 4;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(hipX, hipY);
+        ctx.lineTo(kneeX, kneeY);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#10b981';
+        ctx.beginPath();
+        ctx.moveTo(kneeX, kneeY);
+        ctx.lineTo(footX, footY);
+        ctx.stroke();
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.beginPath();
+        ctx.arc(kneeX, kneeY, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (this.showContacts && footY >= groundY - 2) {
+          ctx.fillStyle = 'rgba(244, 63, 94, 0.9)';
+          ctx.beginPath();
+          ctx.arc(footX, groundY, 5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      // Body & Beak
+      ctx.fillStyle = '#1e293b';
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.ellipse(rootSX, rootSY, 20, 15, Math.sin(t) * 0.08, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.moveTo(rootSX + 18, rootSY - 3);
+      ctx.lineTo(rootSX + 28, rootSY);
+      ctx.lineTo(rootSX + 18, rootSY + 3);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.beginPath();
+      ctx.arc(rootSX + 12, rootSY - 4, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+    } else if (cid === 'hound') {
+      // QUADRUPED HOUND
+      const legPairs = [
+        { phase: t, offset: -20 },
+        { phase: t + Math.PI, offset: -14 },
+        { phase: t + Math.PI, offset: 14 },
+        { phase: t, offset: 20 }
+      ];
+
+      legPairs.forEach(lp => {
+        const hipAngle = Math.sin(lp.phase) * 0.45;
+        const kneeAngle = Math.max(0, -Math.sin(lp.phase)) * 0.65;
+        const hx = rootSX + lp.offset;
+        const hy = rootSY + 6;
+        const kx = hx + Math.sin(hipAngle) * 18;
+        const ky = hy + Math.cos(hipAngle) * 18;
+        const fx = kx + Math.sin(hipAngle + kneeAngle) * 18;
+        const fy = Math.min(groundY, ky + Math.cos(hipAngle + kneeAngle) * 18);
+
+        ctx.strokeStyle = this.showStrain && Math.abs(hipAngle) > 0.35 ? '#fbbf24' : '#06b6d4';
+        ctx.lineWidth = 3.5;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(hx, hy);
+        ctx.lineTo(kx, ky);
+        ctx.lineTo(fx, fy);
+        ctx.stroke();
+
+        if (this.showContacts && fy >= groundY - 2) {
+          ctx.fillStyle = 'rgba(244, 63, 94, 0.9)';
+          ctx.beginPath();
+          ctx.arc(fx, groundY, 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      // Hound Body
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.roundRect(rootSX - 26, rootSY - 10, 52, 20, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.roundRect(rootSX + 20, rootSY - 20, 18, 16, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(rootSX - 26, rootSY - 5);
+      ctx.quadraticCurveTo(rootSX - 36, rootSY - 16, rootSX - 32, rootSY - 22);
+      ctx.stroke();
+
+    } else if (cid === 'hopper') {
+      // SINGLE-LEG HOPPER
+      const hopPhase = Math.abs(Math.sin(t * 1.4));
+      const hopHeight = hopPhase * 36;
+      const hopSY = groundY - 48 - hopHeight;
+      const legCompress = (1 - hopPhase) * 14;
+
+      const pTopX = rootSX;
+      const pTopY = hopSY + 10;
+      const pFootX = rootSX;
+      const pFootY = Math.min(groundY, pTopY + 34 - legCompress);
+
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(pTopX, pTopY);
+      ctx.lineTo(pFootX, pFootY);
+      ctx.stroke();
+
+      ctx.fillStyle = '#1e1b4b';
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.roundRect(rootSX - 14, hopSY - 14, 28, 24, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      if (this.showContacts && pFootY >= groundY - 2) {
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.9)';
+        ctx.beginPath();
+        ctx.arc(pFootX, groundY, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+    } else {
+      // HUMANOID RUNNER
+      const legPhase = [t, t + Math.PI];
+      const armPhase = [t + Math.PI, t];
+
+      armPhase.forEach(phase => {
+        const armAngle = Math.sin(phase) * 0.55;
+        const shX = rootSX;
+        const shY = rootSY - 12;
+        const elX = shX + Math.sin(armAngle) * 15;
+        const elY = shY + Math.cos(armAngle) * 15;
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(shX, shY);
+        ctx.lineTo(elX, elY);
+        ctx.stroke();
+      });
+
+      legPhase.forEach((phase, legIdx) => {
+        const hipAngle = Math.sin(phase) * 0.55;
+        const kneeAngle = Math.max(0, -Math.sin(phase)) * 0.75;
+        const hx = rootSX + (legIdx === 0 ? -4 : 4);
+        const hy = rootSY + 10;
+        const kx = hx + Math.sin(hipAngle) * 22;
+        const ky = hy + Math.cos(hipAngle) * 22;
+        const fx = kx + Math.sin(hipAngle + kneeAngle) * 22;
+        const fy = Math.min(groundY, ky + Math.cos(hipAngle + kneeAngle) * 22);
+
+        ctx.strokeStyle = this.showStrain && Math.abs(hipAngle) > 0.4 ? '#f59e0b' : '#38bdf8';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(hx, hy);
+        ctx.lineTo(kx, ky);
+        ctx.lineTo(fx, fy);
+        ctx.stroke();
+
+        if (this.showContacts && fy >= groundY - 2) {
+          ctx.fillStyle = 'rgba(244, 63, 94, 0.9)';
+          ctx.beginPath();
+          ctx.arc(fx, groundY, 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(rootSX - 9, rootSY - 16, 18, 26, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(rootSX, rootSY - 23, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    // 4. Procedural LiDAR Beams
+    if (this.showLidar) {
+      const numRays = 8;
+      const angleStart = -Math.PI * 0.12;
+      const angleEnd = Math.PI * 0.42;
+      for (let i = 0; i < numRays; i++) {
+        const angle = angleStart + (i / (numRays - 1)) * (angleEnd - angleStart);
+        const rayLen = 130;
+        const tx = rootSX + Math.cos(angle) * rayLen;
+        const ty = rootSY + Math.sin(angle) * rayLen;
+        const hitGround = ty >= groundY;
+        const finalY = hitGround ? groundY : ty;
+        const finalX = hitGround ? rootSX + (groundY - rootSY) / Math.tan(angle) : tx;
+
+        ctx.strokeStyle = hitGround ? 'rgba(74, 222, 128, 0.35)' : 'rgba(148, 163, 184, 0.15)';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(rootSX, rootSY);
+        ctx.lineTo(finalX, finalY);
+        ctx.stroke();
+
+        if (hitGround) {
+          ctx.fillStyle = '#4ade80';
+          ctx.beginPath();
+          ctx.arc(finalX, groundY, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
   }
 
   // ==========================================
@@ -1090,15 +1476,30 @@ AI / ML Infrastructure Operations`
       if (!this.isArgusRunning) return;
 
       if (index < this.argusSteps.length) {
-        // Mark previous steps completed
         if (index > 0) {
           this.argusSteps[index - 1].status = 'completed';
         }
-        // If we are on parallel step 2 (index 1 & 2), highlight parallel execution
         this.argusSteps[index].status = 'running';
         this.argusCurrentStep = index + 1;
 
-        // Keep legacy mailDocLogs synced
+        // Parallel branch execution visualization for step 2a & 2b
+        if (index === 1) {
+          this.argusSteps[2].status = 'running';
+          this.argusActiveView = 'doc';
+        } else if (index === 2) {
+          this.argusSteps[1].status = 'completed';
+          this.argusSteps[2].status = 'completed';
+          this.argusActiveView = 'memory';
+        } else if (index === 0) {
+          this.argusActiveView = 'email';
+        } else if (index === 3) {
+          this.argusActiveView = 'web';
+        } else if (index === 4) {
+          this.argusActiveView = 'dag';
+        } else if (index === 5) {
+          this.argusActiveView = 'email';
+        }
+
         if (index < this.mailDocLogs.length) {
           this.mailDocLogs[index].status = 'running';
           if (index > 0) {
@@ -1109,7 +1510,6 @@ AI / ML Infrastructure Operations`
         index++;
         this.argusTimer = setTimeout(executeNext, stepDelay);
       } else {
-        // All steps completed
         this.argusSteps.forEach(s => s.status = 'completed');
         this.mailDocLogs.forEach(l => l.status = 'done');
         this.argusCurrentStep = this.argusSteps.length;
@@ -1127,6 +1527,7 @@ AI / ML Infrastructure Operations`
     }
     this.isArgusRunning = false;
     this.argusCurrentStep = 0;
+    this.argusActiveView = 'dag';
     this.argusSteps.forEach(s => s.status = 'pending');
     this.mailDocLogs.forEach(l => l.status = 'pending');
   }
@@ -1147,6 +1548,13 @@ AI / ML Infrastructure Operations`
         s.status = 'pending';
       }
     });
+
+    if (targetStepNumber === 1) this.argusActiveView = 'email';
+    else if (targetStepNumber === 2) this.argusActiveView = 'doc';
+    else if (targetStepNumber === 3) this.argusActiveView = 'memory';
+    else if (targetStepNumber === 4) this.argusActiveView = 'web';
+    else if (targetStepNumber === 5) this.argusActiveView = 'dag';
+    else if (targetStepNumber === 6) this.argusActiveView = 'email';
   }
 
   setArgusPlaybackSpeed(speed: 1 | 2) {

@@ -1,4 +1,4 @@
-<section id="projects" class="section-container py-20">
+<section id="projects" class="section-container py-20 scroll-mt-24">
   
   <!-- Section Header -->
   <div class="flex items-center gap-3 mb-4" data-aos="fade-up">
@@ -37,7 +37,7 @@
   <!-- ========================================== -->
   <!-- 1. CREATURE — RL PHYSICS PLATFORM CARD -->
   <!-- ========================================== -->
-  <div id="project-creature" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden" data-aos="fade-up">
+  <div id="project-creature" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden scroll-mt-24" data-aos="fade-up">
     
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-10 items-start">
       
@@ -148,9 +148,12 @@
               <div class="flex flex-wrap gap-1">
                 @for (c of creatures; track c.id) {
                 <button (click)="selectCreature(c)"
-                  [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                  [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors flex items-center gap-1 ' + 
                            (selectedCreature.id === c.id ? 'bg-emerald-400 text-black font-bold' : 'bg-white/[0.04] text-slate-300 hover:text-white')">
-                  {{ c.name }}
+                  <span>{{ c.name }}</span>
+                  @if (c.hasTelemetry) {
+                  <span class="text-[9px] px-1 py-0.2 rounded bg-black/20 text-emerald-950 font-extrabold uppercase">PPO</span>
+                  }
                 </button>
                 }
               </div>
@@ -201,8 +204,8 @@
         </div>
 
         <!-- Canvas Viewport -->
-        <div class="relative w-full h-[320px] bg-[#03060c] flex items-center justify-center">
-          <canvas #creatureCanvas width="760" height="320" class="w-full h-full"></canvas>
+        <div class="relative w-full h-[260px] sm:h-[320px] bg-[#03060c] flex items-center justify-center">
+          <canvas #creatureCanvas width="760" height="320" class="w-full h-full block"></canvas>
 
           <!-- Telemetry HUD Overlay -->
           <div class="absolute top-3 left-3 bg-[#07090e]/90 border border-white/[0.08] p-3 rounded-xl font-mono text-[11px] text-slate-300 space-y-1 backdrop-blur-md shadow-lg">
@@ -264,7 +267,7 @@
   <!-- ========================================== -->
   <!-- 2. LOCAL ML EXPERIMENT TRACKER CARD -->
   <!-- ========================================== -->
-  <div id="project-tracker" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden" data-aos="fade-up">
+  <div id="project-tracker" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden scroll-mt-24" data-aos="fade-up">
     
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-10 items-start">
       
@@ -542,7 +545,7 @@
                   <div class="grid grid-cols-3 gap-2">
                     @for (row of selectedExp.matrix; track rIdx; let rIdx = $index) {
                       @for (val of row; track cIdx; let cIdx = $index) {
-                      <div (mouseenter)="setHoveredCell(confusionLabels[rIdx], confusionLabels[cIdx], val, 2000)"
+                      <div (mouseenter)="setHoveredCell(confusionLabels[rIdx], confusionLabels[cIdx], val, getMatrixTotal(selectedExp.matrix))"
                            (mouseleave)="clearHoveredCell()"
                            [class]="'w-28 h-20 rounded-lg flex flex-col items-center justify-center p-2 border transition-all cursor-pointer ' + 
                                     (rIdx === cIdx ? 'bg-cyan-950/60 border-cyan-500/50 hover:border-cyan-300 hover:scale-105' : 'bg-slate-900/60 border-slate-800 hover:border-slate-600')">
@@ -569,11 +572,18 @@
               </div>
               <div class="w-full h-44 bg-[#03060c] rounded p-2 flex items-end">
                 <svg viewBox="0 0 300 120" class="w-full h-full">
+                  <defs>
+                    <linearGradient id="lossGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.3"/>
+                      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
                   <line x1="20" y1="20" x2="280" y2="20" stroke="#1f2937" stroke-dasharray="3 3"/>
                   <line x1="20" y1="60" x2="280" y2="60" stroke="#1f2937" stroke-dasharray="3 3"/>
                   <line x1="20" y1="100" x2="280" y2="100" stroke="#1f2937"/>
-                  <path d="M 20 25 Q 70 50, 120 75 T 280 100" fill="none" stroke="#22d3ee" stroke-width="2.5"/>
-                  <circle cx="280" cy="100" r="4" fill="#22d3ee"/>
+                  <path [attr.d]="getLossAreaPath()" fill="url(#lossGrad)"/>
+                  <path [attr.d]="getLossPath()" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle [attr.cx]="getLossLastPoint().x" [attr.cy]="getLossLastPoint().y" r="4.5" fill="#22d3ee" stroke="#07090e" stroke-width="1.5"/>
                 </svg>
               </div>
             </div>
@@ -585,11 +595,18 @@
               </div>
               <div class="w-full h-44 bg-[#03060c] rounded p-2 flex items-end">
                 <svg viewBox="0 0 300 120" class="w-full h-full">
+                  <defs>
+                    <linearGradient id="accGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#34d399" stop-opacity="0.3"/>
+                      <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
                   <line x1="20" y1="20" x2="280" y2="20" stroke="#1f2937" stroke-dasharray="3 3"/>
                   <line x1="20" y1="60" x2="280" y2="60" stroke="#1f2937" stroke-dasharray="3 3"/>
                   <line x1="20" y1="100" x2="280" y2="100" stroke="#1f2937"/>
-                  <path d="M 20 105 Q 80 45, 160 25 T 280 20" fill="none" stroke="#34d399" stroke-width="2.5"/>
-                  <circle cx="280" cy="20" r="4" fill="#34d399"/>
+                  <path [attr.d]="getAccAreaPath()" fill="url(#accGrad)"/>
+                  <path [attr.d]="getAccPath()" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle [attr.cx]="getAccLastPoint().x" [attr.cy]="getAccLastPoint().y" r="4.5" fill="#34d399" stroke="#07090e" stroke-width="1.5"/>
                 </svg>
               </div>
             </div>
@@ -659,7 +676,7 @@
   <!-- ========================================== -->
   <!-- 3. ARGUS OS — MULTI-AGENT EXECUTIVE CARD -->
   <!-- ========================================== -->
-  <div id="project-argus" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden" data-aos="fade-up">
+  <div id="project-argus" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden scroll-mt-24" data-aos="fade-up">
     
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-10 items-start">
       
@@ -725,7 +742,7 @@
         <div class="grid grid-cols-2 gap-3 pt-2 text-xs font-mono">
           <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
             <span class="text-slate-500 block text-[10px] uppercase">DAG Workflow</span>
-            <span class="text-white font-bold text-sm">5 Steps (2 Parallel)</span>
+            <span class="text-white font-bold text-sm">6 Steps (2 Parallel)</span>
           </div>
           <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
             <span class="text-slate-500 block text-[10px] uppercase">Doc Intelligence</span>
@@ -792,7 +809,7 @@
             <div class="flex items-center gap-2">
               <button (click)="runArgusSimulation()" [disabled]="isArgusRunning"
                       class="px-4 py-2 bg-violet-400 text-black font-bold rounded-lg font-mono text-xs hover:bg-violet-300 transition-colors disabled:opacity-50 shadow-md">
-                {{ isArgusRunning ? '⚡ Executing Step ' + argusCurrentStep + '/5...' : (argusCurrentStep === 5 ? '✓ Execution Finished (Re-run)' : '▶ Run Multi-Agent DAG Pipeline') }}
+                {{ isArgusRunning ? '⚡ Executing Step ' + argusCurrentStep + '/' + argusSteps.length + '...' : (argusCurrentStep === argusSteps.length ? '✓ Execution Finished (Re-run)' : '▶ Run Multi-Agent DAG Pipeline') }}
               </button>
               <button (click)="resetArgusSimulation()"
                       class="px-3 py-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 rounded-lg font-mono text-xs border border-white/[0.06] transition-colors">
@@ -826,7 +843,7 @@
             <span>Click any node to inspect</span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-2.5">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
             @for (st of argusSteps; track st.stepId; let idx = $index) {
             <div (click)="jumpToArgusStep(idx + 1)"
               [class]="'p-2.5 rounded-xl border font-mono text-xs cursor-pointer transition-all ' +
@@ -1105,7 +1122,7 @@
   <!-- ========================================== -->
   <!-- 4. MORE WORK: SECONDARY PROJECTS BENTO GRID -->
   <!-- ========================================== -->
-  <div id="project-more-work" class="pt-8" data-aos="fade-up">
+  <div id="project-more-work" class="pt-8 scroll-mt-24" data-aos="fade-up">
     
     <div class="flex items-center gap-3 mb-3">
       <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">

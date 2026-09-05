@@ -1,64 +1,49 @@
-<section id="experience" class="section-container">
-    <div class="mt-12" data-aos="fade-up" data-aos-duration="1000">
-        <h3 class="text-2xl font-semibold mb-4">Skills</h3>
+<section id="capabilities" class="section-container">
+  <h2 class="section-title" data-aos="fade-up">What I Build</h2>
 
-        <h4 class="text-xl font-semibold mb-2">Front-end</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            @for (frontend of frontends; track frontend) {
-            <div class="p-4 rounded-lg shadow-md text-center flex flex-col items-center">
-                <img [src]="frontend.logo" [alt]="frontend.name"
-                    class="h-10 w-10 mb-2 transition-transform duration-300 transform hover:scale-110"
-                    [class.invert]="frontend?.isInvertLogo">
-                <span class="font-semibold text-lightest-slate">{{ frontend.name }}</span>
-            </div>
-            }
-        </div>
+  <!-- 4 Capability Groups -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    @for (cap of capabilities; track cap.title) {
+    <div class="bg-navy-light/90 border border-lightest-navy/60 rounded-xl p-6 sm:p-7 hover:border-green-400/50 transition-all duration-300 shadow-lg group" data-aos="fade-up">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-lightest-slate group-hover:text-green-400 transition-colors">
+          {{ cap.title }}
+        </h3>
+        <span class="w-2.5 h-2.5 rounded-full bg-green-400/60 group-hover:bg-green-400 transition-colors"></span>
+      </div>
+      
+      <p class="text-green-300/90 font-mono text-xs mb-3">
+        {{ cap.subtitle }}
+      </p>
 
-        <h4 class="text-xl font-semibold mb-2 mt-8">Back-end</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            @for (backend of backends; track backend) {
-            <div class="p-4 rounded-lg shadow-md text-center flex flex-col items-center">
-                <img [src]="backend.logo" [alt]="backend.name"
-                    class="h-10 w-10 mb-2 transition-transform duration-300 transform hover:scale-110"
-                    [class.invert]="backend?.isInvertLogo">
-                <span class="font-semibold text-lightest-slate">{{ backend.name }}</span>
-            </div>
-            }
-        </div>
+      <p class="text-slate text-sm leading-relaxed mb-5">
+        {{ cap.description }}
+      </p>
 
-        <h4 class="text-xl font-semibold mb-2 mt-8">Database</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            @for (database of databases; track database) {
-            <div class="p-4 rounded-lg shadow-md text-center flex flex-col items-center">
-                <img [src]="database.logo" [alt]="database.name"
-                    class="h-10 w-10 mb-2 transition-transform duration-300 transform hover:scale-110"
-                    [class.invert]="database?.isInvertLogo">
-                <span class="font-semibold text-lightest-slate">{{ database.name }}</span>
-            </div>
-            }
-        </div>
-
-        <h4 class="text-xl font-semibold mb-2 mt-8">Ops</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            @for (ops of opss; track ops) {
-            <div class="p-4 rounded-lg shadow-md text-center flex flex-col items-center">
-                <img [src]="ops.logo" [alt]="ops.name"
-                    class="h-10 w-10 mb-2  transition-transform duration-300 transform hover:scale-110"
-                    [class.invert]="ops?.isInvertLogo">
-                <span class="font-semibold text-lightest-slate">{{ ops.name }}</span>
-            </div>
-            }
-        </div>
-        <h4 class="text-xl font-semibold mb-2 mt-8">AI Framework & Languages</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            @for (ai of ais; track ai) {
-            <div class="p-4 rounded-lg shadow-md text-center flex flex-col items-center">
-                <img [src]="ai.logo" [alt]="ai.name"
-                    class="h-10 w-10 mb-2  transition-transform duration-300 transform hover:scale-110"
-                    [class.invert]="ai?.isInvertLogo">
-                <span class="font-semibold text-lightest-slate">{{ ai.name }}</span>
-            </div>
-            }
-        </div>
+      <div class="flex flex-wrap gap-2 pt-2 border-t border-lightest-navy/40">
+        @for (item of cap.skills; track item) {
+        <span class="text-xs font-mono text-slate bg-navy px-2.5 py-1 rounded-md border border-lightest-navy/30">
+          {{ item }}
+        </span>
+        }
+      </div>
     </div>
+    }
+  </div>
+
+  <!-- Compact text-based technology list -->
+  <div class="mt-12 p-6 bg-navy-light/40 border border-lightest-navy/40 rounded-xl" data-aos="fade-up">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+      <span class="text-xs font-mono text-green-400 uppercase tracking-wider font-semibold shrink-0">
+        Core Technologies:
+      </span>
+      <div class="flex flex-wrap gap-2">
+        @for (tech of technologies; track tech) {
+        <span class="text-xs font-mono text-slate/90 hover:text-green-400 bg-navy/80 hover:bg-navy px-3 py-1 rounded transition-colors">
+          {{ tech }}
+        </span>
+        }
+      </div>
+    </div>
+  </div>
 </section>

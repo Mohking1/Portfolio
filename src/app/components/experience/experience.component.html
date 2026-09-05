@@ -1,38 +1,59 @@
 <section id="experience" class="section-container">
-  <h2 class="section-title" data-aos="fade-up">Experience</h2>
+  <h2 class="section-title" data-aos="fade-up">Professional Experience</h2>
 
-  <div class="grid md:grid-cols-2 gap-8">
-    <div data-aos="fade-up" data-aos-duration="800">
-
-      <div class="p-6 rounded-lg shadow-md">
-        <h4 class="font-semibold text-lightest-slate">AI/ML Intern</h4>
-        <p class="text-slate"><a href="https://www.seepossible.com/">SeePossible Innovative Solutions LLP</a> • June 2024 -
-          June 2024
-        </p>
-        <ul class="list-disc ml-4 mt-2 text-slate">
-          <li><b>Built and deployed</b> an image upscaling API that lets users submit images with custom parameters (model type,
-              resolution, size), secured with authentication —processed <b>5,000+ images</b>
-              with <b>99.9% uptime</b></li>
-          <li><b>Fine-tuned a deep learning super-resolution model</b> specifically for jewelry imagery, achieving a <b>28% increase in
-              </b> image quality (measured via LPIPS and PSNR) improving clarity and sharpness while preserving details.</li>
-          <li>
-            <b>Used Weights & Biases for experiment tracking, model versioning, and performance visualization</b>, enabling
-            reproducible training workflows for both upscaling and interpolation pipelines.
-          </li>
-          <li>
-            <b>Implemented a real-time quota and user usage tracking system using supabase</b>, that supported <b>100+ concurrent users</b> without
-            latency spikes.
-          </li>
-          <li>
-            <b>Developed a CLI based frame interpolation system</b> to generate intermediate video frames from existing renders,
-            eliminating the need for costly re-rendering—reducing post-production time and computational cost by nearly <b>50%</b>.
-          </li>
-          <li>
-            <b>Enhanced the interpolation model</b> through architectural tweaks, hyperparameter tuning, and post-processing strategies
-            and boosting frame coherence by <b>32%</b> (based on temporal SSIM metrics).
-          </li>
-        </ul>
+  <div class="space-y-8 mt-8">
+    @for (exp of experiences; track exp.company) {
+    <div class="bg-navy-light/80 border border-lightest-navy/60 rounded-xl p-6 sm:p-8 hover:border-green-400/40 transition-all duration-300 shadow-md" data-aos="fade-up">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold text-lightest-slate">
+            {{ exp.role }}
+            <span class="text-green-400 font-normal">
+              &#64; <a [href]="exp.companyUrl" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ exp.company }}</a>
+            </span>
+          </h3>
+          <p class="text-xs font-mono text-slate mt-1">{{ exp.location }}</p>
+        </div>
+        <span class="text-xs font-mono text-green-300/90 bg-navy px-3 py-1 rounded-full border border-lightest-navy/40 self-start sm:self-auto">
+          {{ exp.period }}
+        </span>
       </div>
+
+      <ul class="space-y-3 mt-4 text-slate text-sm sm:text-base leading-relaxed">
+        @for (pt of exp.points; track pt) {
+        <li class="flex items-start gap-3">
+          <span class="text-green-400 text-sm mt-1">▹</span>
+          <span>{{ pt }}</span>
+        </li>
+        }
+      </ul>
+
+      <div class="flex flex-wrap gap-2 mt-6 pt-4 border-t border-lightest-navy/30">
+        @for (tag of exp.tags; track tag) {
+        <span class="text-xs font-mono text-slate bg-navy px-2.5 py-1 rounded border border-lightest-navy/30">
+          {{ tag }}
+        </span>
+        }
+      </div>
+    </div>
+    }
+
+    <!-- Beyond AI / Additional Experience Item -->
+    <div class="bg-navy-light/40 border border-lightest-navy/40 rounded-xl p-6 hover:border-lightest-navy/80 transition-all duration-300" data-aos="fade-up">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-mono uppercase tracking-wider text-green-400 bg-navy px-2 py-0.5 rounded border border-lightest-navy/30">
+            Beyond AI / Platform Proof
+          </span>
+          <h4 class="text-base sm:text-lg font-bold text-lightest-slate">
+            {{ beyondAi.title }}
+          </h4>
+        </div>
+        <span class="text-xs font-mono text-slate">{{ beyondAi.period }} · {{ beyondAi.highlight }}</span>
+      </div>
+      <p class="text-slate text-sm leading-relaxed">
+        {{ beyondAi.description }}
+      </p>
     </div>
   </div>
 </section>

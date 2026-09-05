@@ -1,0 +1,26 @@
+<section id="achievements" class="section-container">
+  <h2 class="section-title" data-aos="fade-up">Achievements & Recognition</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+    @for (item of achievements; track item.title) {
+    <div class="bg-navy-light/70 border border-lightest-navy/50 rounded-xl p-5 hover:border-green-400/50 hover:bg-navy-light transition-all duration-300 flex flex-col justify-between" data-aos="fade-up">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-green-400 font-semibold bg-navy px-2 py-0.5 rounded border border-lightest-navy/30">
+            {{ item.tag }}
+          </span>
+          <span class="text-xs font-mono font-medium text-green-300">
+            {{ item.highlight }}
+          </span>
+        </div>
+        <h3 class="text-base font-bold text-lightest-slate mt-2 mb-2">
+          {{ item.title }}
+        </h3>
+        <p class="text-slate text-xs sm:text-sm leading-relaxed">
+          {{ item.description }}
+        </p>
+      </div>
+    </div>
+    }
+  </div>
+</section>

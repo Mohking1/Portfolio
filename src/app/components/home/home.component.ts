@@ -4,7 +4,7 @@ import { AboutMeComponent } from '../about-me/about-me.component';
 import { ExperienceComponent } from '../experience/experience.component';
 import { ProjectsComponent } from '../projects/projects.component';
 import { SkillsComponent } from '../skills/skills.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AchievementsComponent } from '../achievements/achievements.component';
 import { ContactComponent } from '../contact/contact.component';
 
 @Component({
@@ -14,12 +14,12 @@ import { ContactComponent } from '../contact/contact.component';
   imports: [
     HeroComponent,
     AboutMeComponent,
-    SkillsComponent,
     ExperienceComponent,
     ProjectsComponent,
-    ContactComponent,
-    ReactiveFormsModule,
-    FormsModule,
+    SkillsComponent,
+    AchievementsComponent,
+    ContactComponent
   ]
 })
 export class HomeComponent { }
+

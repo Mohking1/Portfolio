@@ -1,1205 +1,1141 @@
-<section id="projects" class="section-container">
-  <h2 class="section-title" data-aos="fade-up">Selected Work</h2>
-  <p class="text-slate max-w-2xl text-base -mt-4 mb-8" data-aos="fade-up">
-    Four flagship systems spanning reinforcement learning, ML experiment tooling, multimodal video generation, and business agent workflows with browser-based interactive demonstrations.
-  </p>
+<section id="projects" class="section-container py-20">
+  
+  <!-- Section Header -->
+  <div class="flex items-center gap-3 mb-4" data-aos="fade-up">
+    <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
+      03. Applied Systems & Code
+    </span>
+  </div>
 
-  <!-- Flagship Navigation Tabs -->
-  <div class="flex flex-wrap gap-2 sm:gap-3 p-1.5 bg-navy-light/60 rounded-xl border border-lightest-navy/50 mb-8" data-aos="fade-up">
-    <button (click)="activeTab = 'creature'"
-      [class]="'px-4 py-2.5 rounded-lg font-mono text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 ' + 
-               (activeTab === 'creature' ? 'bg-green-400 text-black shadow-md' : 'text-slate hover:text-lightest-slate hover:bg-navy')">
-      <span>01.</span> Creature (RL Platform)
-    </button>
-    <button (click)="activeTab = 'tracker'"
-      [class]="'px-4 py-2.5 rounded-lg font-mono text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 ' + 
-               (activeTab === 'tracker' ? 'bg-green-400 text-black shadow-md' : 'text-slate hover:text-lightest-slate hover:bg-navy')">
-      <span>02.</span> ML Experiment Tracker
-    </button>
-    <button (click)="activeTab = 'video'"
-      [class]="'px-4 py-2.5 rounded-lg font-mono text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 ' + 
-               (activeTab === 'video' ? 'bg-green-400 text-black shadow-md' : 'text-slate hover:text-lightest-slate hover:bg-navy')">
-      <span>03.</span> AI Video Ad Generator
-    </button>
-    <button (click)="activeTab = 'maildoc'"
-      [class]="'px-4 py-2.5 rounded-lg font-mono text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 ' + 
-               (activeTab === 'maildoc' ? 'bg-green-400 text-black shadow-md' : 'text-slate hover:text-lightest-slate hover:bg-navy')">
-      <span>04.</span> Argus OS (Multi-Agent)
-    </button>
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12" data-aos="fade-up">
+    <div>
+      <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Flagship Engineering Systems
+      </h2>
+      <p class="text-slate max-w-2xl text-base mt-2">
+        Three deep AI/ML systems spanning reinforcement learning physics, zero-cloud ML observability tooling, and multi-agent topological DAG execution — each with a fully interactive in-browser simulation engine.
+      </p>
+    </div>
+
+    <!-- Quick Jump Links -->
+    <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs font-mono">
+      <a href="#project-creature" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors">
+        01. Creature RL
+      </a>
+      <a href="#project-tracker" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors">
+        02. ML Tracker
+      </a>
+      <a href="#project-argus" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors">
+        03. Argus OS
+      </a>
+      <a href="#project-more-work" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors">
+        More Work
+      </a>
+    </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- 1. CREATURE RL LOCOMOTION PLATFORM -->
+  <!-- 1. CREATURE — RL PHYSICS PLATFORM CARD -->
   <!-- ========================================== -->
-  @if (activeTab === 'creature') {
-  <div class="bg-navy-light/80 border border-lightest-navy/70 rounded-2xl p-6 sm:p-8 shadow-xl" data-aos="fade-up">
-    <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-4 mb-6">
-      <div>
-        <div class="flex items-center gap-3">
-          <span class="text-xs font-mono uppercase tracking-wider text-green-400 bg-navy px-2.5 py-1 rounded border border-lightest-navy/40">
-            Flagship Pure-ML
-          </span>
-          <span class="text-xs font-mono text-slate">Reinforcement Learning</span>
+  <div id="project-creature" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden" data-aos="fade-up">
+    
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-10 items-start">
+      
+      <!-- Left Column: Narrative & Technical Specs -->
+      <div class="xl:col-span-5 space-y-6">
+        
+        <div class="space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+              01 / FLAGSHIP SYSTEM
+            </span>
+            <span class="text-xs font-mono text-slate-400">Pure-ML · Reinforcement Learning</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Creature — Multi-Terrain RL Physics Platform
+          </h3>
         </div>
-        <h3 class="text-2xl sm:text-3xl font-bold text-lightest-slate mt-2">
-          Creature — RL Locomotion Platform
-        </h3>
-        <p class="text-slate text-sm sm:text-base mt-2 max-w-3xl">
-          A configurable 2D locomotion environment where users can build articulated creatures, train them with reinforcement learning (PPO / SAC), and evaluate them across procedural terrain.
+
+        <p class="text-slate text-sm sm:text-base leading-relaxed">
+          A custom browser-integrated physics simulation and continuous-control reinforcement learning platform. Evaluates deep RL policies (PPO) across procedurally generated 100m championship tracks with complex obstacles, slopes, steps, and variable-friction surfaces.
         </p>
-      </div>
 
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="https://github.com/Mohking1" target="_blank" rel="noopener noreferrer"
-          class="px-5 py-2.5 bg-green-400 text-black font-semibold rounded-lg font-mono text-xs hover:bg-green-300 transition-colors">
-          GitHub Repo ↗
-        </a>
-      </div>
-    </div>
-
-    <!-- Tags -->
-    <div class="flex flex-wrap gap-2 mb-6">
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">PPO</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">SAC</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">PyTorch</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Box2D</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Gymnasium</span>
-      <span class="text-xs font-mono text-slate bg-navy px-3 py-1 rounded-full border border-lightest-navy/30">120 Hz Physics / 30 Hz Policy</span>
-    </div>
-
-    <!-- Interactive Simulation HUD & Canvas -->
-    <div class="bg-black/90 border border-lightest-navy/60 rounded-xl overflow-hidden mb-6">
-      <!-- Simulation Controls Bar -->
-      <div class="p-4 bg-navy/90 border-b border-lightest-navy/40 flex flex-wrap items-center justify-between gap-4">
-        <!-- Creature Morphology Switcher -->
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-mono text-slate">Morphology:</span>
-          <div class="flex flex-wrap gap-1">
-            @for (c of creatures; track c.id) {
-            <button (click)="selectCreature(c)"
-              [class]="'px-2.5 py-1 text-xs font-mono rounded transition-colors ' + 
-                       (selectedCreature.id === c.id ? 'bg-green-400 text-black font-semibold' : 'bg-navy-light text-slate hover:text-white')">
-              {{ c.name }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Terrain Switcher -->
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-mono text-slate">Terrain:</span>
-          <div class="flex flex-wrap gap-1">
-            @for (t of terrains; track t.id) {
-            <button (click)="selectTerrain(t)"
-              [class]="'px-2.5 py-1 text-xs font-mono rounded transition-colors ' + 
-                       (selectedTerrain.id === t.id ? 'bg-green-400 text-black font-semibold' : 'bg-navy-light text-slate hover:text-white')">
-              {{ t.name }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Playback & Toggles -->
-        <div class="flex items-center gap-3">
-          <button (click)="togglePlay()" class="px-3 py-1.5 bg-navy-light hover:bg-lightest-navy/40 text-green-400 rounded-lg font-mono text-xs font-semibold border border-lightest-navy/40 transition-colors">
-            {{ isPlaying ? '⏸ Pause' : '▶ Play' }}
-          </button>
-          <div class="flex items-center gap-1 bg-navy-light p-1 rounded-lg border border-lightest-navy/40">
-            <button (click)="setPlaybackSpeed(0.5)"
-              [class]="'px-2 py-0.5 text-xs font-mono rounded transition-all ' + 
-                       (playbackSpeed === 0.5 ? 'bg-green-400 text-black font-bold shadow-sm' : 'text-slate hover:text-white')">
-              0.5x
-            </button>
-            <button (click)="setPlaybackSpeed(1.0)"
-              [class]="'px-2 py-0.5 text-xs font-mono rounded transition-all ' + 
-                       (playbackSpeed === 1.0 ? 'bg-green-400 text-black font-bold shadow-sm' : 'text-slate hover:text-white')">
-              1.0x
-            </button>
-            <button (click)="setPlaybackSpeed(2.0)"
-              [class]="'px-2 py-0.5 text-xs font-mono rounded transition-all ' + 
-                       (playbackSpeed === 2.0 ? 'bg-green-400 text-black font-bold shadow-sm' : 'text-slate hover:text-white')">
-              2.0x
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Canvas Rendering Viewport -->
-      <div class="relative w-full h-[320px] bg-slate-950 flex items-center justify-center">
-        <canvas #creatureCanvas width="760" height="320" class="w-full h-full"></canvas>
-
-        <!-- Live Telemetry HUD Overlay -->
-        <div class="absolute top-3 left-3 bg-black/85 border border-lightest-navy/50 p-3 rounded-lg font-mono text-[11px] text-slate space-y-1 backdrop-blur-md">
-          <div class="flex items-center gap-2 text-green-400 font-semibold">
-            <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
-            <span>SIMULATION TELEMETRY (Deterministic Policy)</span>
-          </div>
-          <div>Morphology: <span class="text-lightest-slate">{{ selectedCreature.name }}</span> ({{ selectedCreature.joints }} DOF)</div>
-          <div>Course Stage: <span class="text-lightest-slate">{{ selectedTerrain.name }} ({{ selectedTerrain.trackRange }})</span></div>
-          <div>Track Coordinate: <span class="text-green-300 font-bold">x = {{ simTrackX.toFixed(1) }} m</span></div>
-          <div>Terrain Friction: <span class="text-lightest-slate">{{ selectedTerrain.friction }}</span></div>
-          <div>Forward Velocity: <span class="text-lightest-slate">{{ simSpeed.toFixed(2) }} m/s</span></div>
-          <div>Stage Traveled: <span class="text-lightest-slate">{{ simDistance.toFixed(2) }} m</span></div>
-          <div>Cumulative Reward: <span class="text-green-300 font-bold">+{{ simReward.toFixed(1) }}</span></div>
-        </div>
-
-        <!-- Overlays Checkboxes -->
-        <div class="absolute top-3 right-3 flex flex-col gap-1.5 bg-black/80 border border-lightest-navy/40 p-2 rounded font-mono text-[11px] text-slate">
-          <label class="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" [(ngModel)]="showLidar" class="accent-green-400"> LiDAR Raycasting
-          </label>
-          <label class="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" [(ngModel)]="showContacts" class="accent-green-400"> Foot Contacts
-          </label>
-          <label class="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" [(ngModel)]="showStrain" class="accent-green-400"> Torque Heatmap
-          </label>
-        </div>
-
-        <!-- Disclaimer Badge -->
-        <div class="absolute bottom-2 right-3 text-[10px] font-mono text-slate/80 bg-black/90 px-2 py-0.5 rounded border border-lightest-navy/30">
-          * Real 120Hz Box2D physics & trained PPO checkpoint telemetry
-        </div>
-      </div>
-
-      <!-- Interactive Playback Scrubber Bar -->
-      <div class="px-4 py-2.5 bg-navy/95 border-t border-lightest-navy/40 flex items-center gap-3 font-mono text-xs text-slate">
-        <span class="text-green-400 shrink-0 font-semibold w-12">{{ simTime.toFixed(1) }}s</span>
-        <input type="range" min="0" [max]="totalFrames > 0 ? totalFrames - 1 : 100" [value]="currentFrameIdx" (input)="onScrub($event)"
-          class="w-full accent-green-400 bg-navy-light cursor-pointer h-1.5 rounded-lg">
-        <span class="text-slate/70 shrink-0 w-14 text-right">{{ totalFrames > 0 ? (totalFrames / 30).toFixed(1) : '20.0' }}s</span>
-      </div>
-    </div>
-
-    <!-- Technical Architecture Breakdown -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-      <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40">
-        <span class="text-green-400 font-semibold uppercase block mb-1">Architecture Flow</span>
-        <p class="text-slate leading-relaxed">
-          Morphology Body Tree → Box2D Physics Dynamics → Sensor & LiDAR Encoder → Observation Normalizer → PPO/SAC Continuous Policy → PD Joint Motor Controller → Physics State.
-        </p>
-      </div>
-      <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40">
-        <span class="text-green-400 font-semibold uppercase block mb-1">Physics & Control Loop</span>
-        <p class="text-slate leading-relaxed">
-          120 Hz physics sub-stepping with 30 Hz policy decision frequency. Procedural course dynamically adapts friction, inclines, terraces, and obstacle hurdle heights.
-        </p>
-      </div>
-    </div>
-  </div>
-  }
-
-  <!-- ========================================== -->
-  <!-- 2. LOCAL ML EXPERIMENT TRACKER -->
-  <!-- ========================================== -->
-  @if (activeTab === 'tracker') {
-  <div class="bg-navy-light/80 border border-lightest-navy/70 rounded-2xl p-6 sm:p-8 shadow-xl" data-aos="fade-up">
-    <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-4 mb-6">
-      <div>
-        <div class="flex items-center gap-3">
-          <span class="text-xs font-mono uppercase tracking-wider text-green-400 bg-navy px-2.5 py-1 rounded border border-lightest-navy/40">
-            ML Tooling & Infrastructure
-          </span>
-          <span class="text-xs font-mono text-slate">Local-First Python SDK & Dashboard</span>
-        </div>
-        <h3 class="text-2xl sm:text-3xl font-bold text-lightest-slate mt-2">
-          Local ML Experiment Tracker
-        </h3>
-        <p class="text-slate text-sm sm:text-base mt-2 max-w-3xl">
-          A local-first experiment tracking system built from scratch with automated gradient stability telemetry, model artifact versioning, and zero cloud dependency.
-        </p>
-      </div>
-
-      <div class="flex flex-wrap items-center gap-3 shrink-0">
-        <a href="https://experiment-tracker-qula8htwv-mohking1s-projects.vercel.app/" target="_blank" rel="noopener noreferrer"
-          class="px-4 py-2.5 bg-green-400 text-black font-semibold rounded-lg font-mono text-xs hover:bg-green-300 transition-colors flex items-center gap-1.5 shadow-md">
-          <span>⚡ Live Web Dashboard ↗</span>
-        </a>
-        <a href="https://github.com/Mohking1/experiment_tracker" target="_blank" rel="noopener noreferrer"
-          class="px-4 py-2.5 bg-navy border border-lightest-navy/60 text-slate hover:text-white font-semibold rounded-lg font-mono text-xs hover:border-green-400/50 transition-colors">
-          GitHub Repo ↗
-        </a>
-      </div>
-    </div>
-
-    <!-- Tags -->
-    <div class="flex flex-wrap gap-2 mb-6">
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Python SDK</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">PyTorch Hooks</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Gradient Dynamics</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Artifact Catalog</span>
-      <span class="text-xs font-mono text-slate bg-navy px-3 py-1 rounded-full border border-lightest-navy/30">Local-First (~/.experiment_tracker)</span>
-    </div>
-
-    <!-- Interactive Experiment Tracker Dashboard Widget -->
-    <div class="bg-black/90 border border-lightest-navy/60 rounded-xl overflow-hidden mb-6">
-      <!-- Top Dashboard Header -->
-      <div class="p-4 bg-navy border-b border-lightest-navy/40 flex flex-wrap items-center justify-between gap-3">
-        <!-- Benchmark Model Switcher -->
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="text-xs font-mono text-slate">Benchmark Model:</span>
-          <div class="flex flex-wrap gap-1.5">
-            @for (exp of experiments; track exp.id) {
-            <button (click)="selectExperiment(exp)"
-              [class]="'px-3 py-1.5 text-xs font-mono rounded transition-colors ' + 
-                       (selectedExp.id === exp.id ? 'bg-green-400 text-black font-semibold shadow-sm' : 'bg-navy-light text-slate hover:text-white')">
-              {{ exp.name }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Dashboard Sub-Tabs -->
-        <div class="flex flex-wrap items-center gap-1 bg-navy-light p-1 rounded-lg">
-          <button (click)="trackerActiveTab = 'sdk'"
-            [class]="'px-3 py-1 text-xs font-mono rounded transition-colors ' + 
-                     (trackerActiveTab === 'sdk' ? 'bg-green-400 text-black font-semibold shadow-sm' : 'text-slate hover:text-white')">
-            ⚡ SDK Sandbox
-          </button>
-          <button (click)="trackerActiveTab = 'matrix'"
-            [class]="'px-3 py-1 text-xs font-mono rounded transition-colors ' + 
-                     (trackerActiveTab === 'matrix' ? 'bg-green-400 text-black font-semibold shadow-sm' : 'text-slate hover:text-white')">
-            🎯 Confusion Heatmap
-          </button>
-          <button (click)="trackerActiveTab = 'charts'"
-            [class]="'px-3 py-1 text-xs font-mono rounded transition-colors ' + 
-                     (trackerActiveTab === 'charts' ? 'bg-green-400 text-black font-semibold shadow-sm' : 'text-slate hover:text-white')">
-            📈 Metric Curves
-          </button>
-          @if (selectedExp.gradients.length > 0) {
-          <button (click)="trackerActiveTab = 'gradients'"
-            [class]="'px-3 py-1 text-xs font-mono rounded transition-colors ' + 
-                     (trackerActiveTab === 'gradients' ? 'bg-green-400 text-black font-semibold shadow-sm' : 'text-slate hover:text-white')">
-            ⚡ Gradient Dynamics
-          </button>
-          }
-          <button (click)="trackerActiveTab = 'benchmark'"
-            [class]="'px-3 py-1 text-xs font-mono rounded transition-colors ' + 
-                     (trackerActiveTab === 'benchmark' ? 'bg-green-400 text-black font-semibold shadow-sm' : 'text-slate hover:text-white')">
-            📊 3-Way Benchmark
-          </button>
-        </div>
-      </div>
-
-      <!-- Live KPI Summary Ribbon -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 bg-navy/60 border-b border-lightest-navy/30 text-xs font-mono">
-        <div class="bg-navy-light/60 p-2.5 rounded-lg border border-lightest-navy/30">
-          <span class="text-slate block text-[10px] uppercase">Test Accuracy</span>
-          <span class="text-green-300 font-bold text-sm">{{ liveMetrics.accuracy }}</span>
-        </div>
-        <div class="bg-navy-light/60 p-2.5 rounded-lg border border-lightest-navy/30">
-          <span class="text-slate block text-[10px] uppercase">High-Risk AUC</span>
-          <span class="text-lightest-slate font-bold text-sm">{{ selectedExp.auc }}</span>
-        </div>
-        <div class="bg-navy-light/60 p-2.5 rounded-lg border border-lightest-navy/30">
-          <span class="text-slate block text-[10px] uppercase">Live Loss</span>
-          <span class="text-lightest-slate font-bold text-sm">{{ liveMetrics.loss }}</span>
-        </div>
-        <div class="bg-navy-light/60 p-2.5 rounded-lg border border-lightest-navy/30">
-          <span class="text-slate block text-[10px] uppercase">Framework Engine</span>
-          <span class="text-green-400 font-semibold text-xs truncate">{{ selectedExp.framework }}</span>
-        </div>
-      </div>
-
-      <!-- Dashboard Body -->
-      <div class="p-5">
-        <!-- 1. SDK SANDBOX TAB -->
-        @if (trackerActiveTab === 'sdk') {
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 font-mono text-xs">
-          <!-- Left: Python Code Window -->
-          <div class="lg:col-span-7 bg-slate-950 rounded-xl border border-lightest-navy/50 overflow-hidden flex flex-col">
-            <div class="px-4 py-2.5 bg-navy/90 border-b border-lightest-navy/40 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
-                <span class="ml-2 text-slate text-[11px]">train_{{ selectedExp.id }}.py</span>
-              </div>
-              <button (click)="runSdkPipeline()"
-                [disabled]="sdkState === 'running'"
-                [class]="'px-3 py-1 rounded text-xs font-semibold flex items-center gap-1.5 transition-all ' + 
-                         (sdkState === 'running' ? 'bg-green-400/20 text-green-300 cursor-not-allowed animate-pulse' : 'bg-green-400 text-black hover:bg-green-300 shadow-md')">
-                <span>{{ sdkState === 'running' ? '⏳ Executing...' : '▶ Run Pipeline' }}</span>
-              </button>
-            </div>
-            <div class="p-4 bg-slate-950/90 text-slate overflow-x-auto text-[11px] leading-relaxed flex-1">
-              <pre class="font-mono text-lightest-slate"><code>{{ selectedExp.codeSnippet }}</code></pre>
-            </div>
-          </div>
-
-          <!-- Right: Live Telemetry Terminal & Gauges -->
-          <div class="lg:col-span-5 flex flex-col gap-4">
-            <!-- Execution Telemetry Card -->
-            <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40 space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-green-400 font-semibold flex items-center gap-1.5">
-                  <span class="w-2 h-2 rounded-full" [class]="sdkState === 'running' ? 'bg-green-400 animate-ping' : 'bg-green-400'"></span>
-                  <span>Pipeline Execution Stream</span>
-                </span>
-                <span class="text-[11px] text-slate">{{ currentEpoch }}/{{ selectedExp.epochs }} Epochs</span>
-              </div>
-
-              <!-- Progress Bar -->
-              <div class="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-lightest-navy/30">
-                <div class="h-full bg-gradient-to-r from-emerald-500 to-green-300 transition-all duration-300"
-                     [style.width.%]="sdkProgress"></div>
-              </div>
-
-              <!-- Live Step Metrics -->
-              <div class="grid grid-cols-2 gap-2 text-[11px]">
-                <div class="bg-navy-light p-2 rounded border border-lightest-navy/30">
-                  <span class="text-slate block text-[10px]">CURRENT LOSS</span>
-                  <span class="text-rose-400 font-bold">{{ liveMetrics.loss }}</span>
-                </div>
-                <div class="bg-navy-light p-2 rounded border border-lightest-navy/30">
-                  <span class="text-slate block text-[10px]">ACCURACY</span>
-                  <span class="text-green-300 font-bold">{{ liveMetrics.accuracy }}</span>
-                </div>
-                <div class="bg-navy-light p-2 rounded border border-lightest-navy/30">
-                  <span class="text-slate block text-[10px]">LEARNING RATE</span>
-                  <span class="text-lightest-slate font-bold">{{ liveMetrics.lr }}</span>
-                </div>
-                <div class="bg-navy-light p-2 rounded border border-lightest-navy/30">
-                  <span class="text-slate block text-[10px]">STEP LATENCY</span>
-                  <span class="text-lightest-slate font-bold">{{ liveMetrics.stepTime }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Terminal Output Window -->
-            <div class="p-3 bg-black/90 rounded-xl border border-lightest-navy/50 flex-1 flex flex-col justify-between font-mono text-[10px]">
-              <div class="space-y-1 overflow-y-auto max-h-36">
-                @for (log of terminalLogs; track $index) {
-                <div [class]="log.includes('✓') || log.includes('⚡') ? 'text-green-300' : 'text-slate'">
-                  {{ log }}
-                </div>
-                }
-              </div>
-              <div class="pt-2 mt-2 border-t border-lightest-navy/30 flex items-center justify-between text-slate text-[9px]">
-                <span>Status: <span class="text-green-400">{{ sdkPhase }}</span></span>
-                <span>Storage: ~/.experiment_tracker</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        }
-
-        <!-- 2. CONFUSION MATRIX HEATMAP TAB -->
-        @if (trackerActiveTab === 'matrix') {
-        <div class="space-y-4 font-mono text-xs">
-          <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+        <!-- Technical Highlights -->
+        <div class="space-y-3 pt-2 border-t border-white/[0.06] text-xs">
+          <div class="flex items-start gap-2.5">
+            <span class="text-emerald-400 font-mono font-bold mt-0.5">▸</span>
             <div>
-              <span class="text-green-400 font-semibold block">Interactive 3-Class Confusion Matrix Heatmap</span>
-              <span class="text-slate text-[11px]">Hover over matrix cells to inspect predicted vs. ground truth sample distribution</span>
-            </div>
-            <div class="text-[11px] bg-navy-light px-3 py-1 rounded border border-lightest-navy/40">
-              @if (hoveredCell) {
-              <span>True: <strong class="text-green-300">{{ hoveredCell.row }}</strong> → Pred: <strong class="text-green-300">{{ hoveredCell.col }}</strong> (<strong class="text-white">{{ hoveredCell.count }}</strong> samples · {{ hoveredCell.percentage }})</span>
-              } @else {
-              <span class="text-slate">Hover any cell for class details</span>
-              }
+              <strong class="text-white">Verlet & Euler Physics Engine:</strong>
+              <span class="text-slate-300 block">60 FPS real-time kinematics with joint torque limits and ground reaction impulse modeling.</span>
             </div>
           </div>
-
-          <div class="p-6 bg-navy rounded-xl border border-lightest-navy/40 overflow-x-auto flex justify-center">
-            <div class="inline-block">
-              <div class="text-center text-[11px] text-slate mb-2 font-semibold tracking-wider uppercase">Predicted Risk Class</div>
-              <div class="flex items-center">
-                <div class="text-[11px] text-slate font-semibold tracking-wider uppercase -rotate-90 mr-3 whitespace-nowrap">Actual Class</div>
-                <div class="grid grid-cols-3 gap-2">
-                  @for (row of selectedExp.matrix; track rIdx; let rIdx = $index) {
-                    @for (val of row; track cIdx; let cIdx = $index) {
-                    <div (mouseenter)="setHoveredCell(confusionLabels[rIdx], confusionLabels[cIdx], val, 2000)"
-                         (mouseleave)="clearHoveredCell()"
-                         [class]="'w-28 h-20 rounded-lg flex flex-col items-center justify-center p-2 border transition-all cursor-pointer ' + 
-                                  (rIdx === cIdx ? 'bg-emerald-950/70 border-emerald-500/50 hover:border-green-300 hover:scale-105' : 'bg-slate-900/60 border-slate-800 hover:border-slate-600')">
-                      <span class="text-[10px] text-slate">{{ confusionLabels[cIdx] }}</span>
-                      <span [class]="'text-lg font-bold ' + (rIdx === cIdx ? 'text-green-300' : 'text-slate-400')">{{ val }}</span>
-                      <span class="text-[9px] text-slate/70">{{ rIdx === cIdx ? '✓ Diagonal' : 'Error' }}</span>
-                    </div>
-                    }
-                  }
-                </div>
-              </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-emerald-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">12-DoF Hexapod Spider Policy:</strong>
+              <span class="text-slate-300 block">Trained with continuous PPO control, generalized joint actuation, and distance-penalized reward functions.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-emerald-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Procedural Terrain Curriculum:</strong>
+              <span class="text-slate-300 block">Seamless 100m transitions: Flat, Ice & Mud (0.05-2.5μ), 15° Slopes, Stepped Terraces, and Hurdles.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-emerald-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">LiDAR Raycasting & Sensors:</strong>
+              <span class="text-slate-300 block">Real-time proximity rays, joint strain heatmaps, and contact pressure vectors rendered on canvas.</span>
             </div>
           </div>
         </div>
-        }
 
-        <!-- 3. METRIC CURVES TAB -->
-        @if (trackerActiveTab === 'charts') {
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
-          <!-- Loss Curve Chart (SVG) -->
-          <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40">
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-xs font-mono text-green-400 font-semibold">Training Loss vs. Epochs</span>
-              <span class="text-xs font-mono text-slate">Final: {{ selectedExp.loss }}</span>
-            </div>
-            <div class="w-full h-44 bg-slate-950/70 rounded p-2 flex items-end">
-              <svg viewBox="0 0 300 120" class="w-full h-full">
-                <!-- Grid Lines -->
-                <line x1="0" y1="30" x2="300" y2="30" stroke="#1e293b" stroke-dasharray="2"/>
-                <line x1="0" y1="60" x2="300" y2="60" stroke="#1e293b" stroke-dasharray="2"/>
-                <line x1="0" y1="90" x2="300" y2="90" stroke="#1e293b" stroke-dasharray="2"/>
-                <!-- Loss Curve -->
-                <polyline fill="none" stroke="#f43f5e" stroke-width="2.5" [attr.points]="selectedExp.lossPoints" />
-              </svg>
-            </div>
-            <div class="flex justify-between text-[10px] font-mono text-slate mt-2">
-              <span>Step 0</span>
-              <span>Step {{ selectedExp.epochs / 2 }}</span>
-              <span>Step {{ selectedExp.epochs }}</span>
-            </div>
+        <!-- Metric Specs Grid -->
+        <div class="grid grid-cols-2 gap-3 pt-2 text-xs font-mono">
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Active Joints</span>
+            <span class="text-white font-bold text-sm">{{ selectedCreature.joints }} Actuators</span>
           </div>
-
-          <!-- Accuracy / Convergence Curve Chart (SVG) -->
-          <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40">
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-xs font-mono text-green-400 font-semibold">Validation Accuracy Convergence</span>
-              <span class="text-xs font-mono text-slate">Peak: {{ selectedExp.accuracy }}</span>
-            </div>
-            <div class="w-full h-44 bg-slate-950/70 rounded p-2 flex items-end">
-              <svg viewBox="0 0 300 120" class="w-full h-full">
-                <!-- Grid Lines -->
-                <line x1="0" y1="30" x2="300" y2="30" stroke="#1e293b" stroke-dasharray="2"/>
-                <line x1="0" y1="60" x2="300" y2="60" stroke="#1e293b" stroke-dasharray="2"/>
-                <line x1="0" y1="90" x2="300" y2="90" stroke="#1e293b" stroke-dasharray="2"/>
-                <!-- Accuracy Curve -->
-                <polyline fill="none" stroke="#4ade80" stroke-width="2.5" [attr.points]="selectedExp.accPoints" />
-              </svg>
-            </div>
-            <div class="flex justify-between text-[10px] font-mono text-slate mt-2">
-              <span>Step 0</span>
-              <span>Step {{ selectedExp.epochs / 2 }}</span>
-              <span>Step {{ selectedExp.epochs }}</span>
-            </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Course Track</span>
+            <span class="text-white font-bold text-sm">100m Championship</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Mean Speed</span>
+            <span class="text-emerald-400 font-bold text-sm">{{ selectedCreature.speed }}</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Peak Policy Reward</span>
+            <span class="text-emerald-400 font-bold text-sm">{{ selectedCreature.reward }}</span>
           </div>
         </div>
-        }
 
-        <!-- 4. GRADIENT DYNAMICS TAB -->
-        @if (trackerActiveTab === 'gradients') {
-        <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40 font-mono text-xs overflow-x-auto">
-          <div class="flex justify-between items-center mb-3">
-            <span class="text-xs font-mono text-green-400 font-semibold">PyTorch Backward Hook Gradient Telemetry</span>
-            <span class="text-xs text-green-300 font-mono bg-green-500/10 px-2 py-0.5 rounded border border-green-500/30">✓ Signal Stable (No Vanishing/Exploding)</span>
-          </div>
-          <table class="w-full text-left">
-            <thead>
-              <tr class="border-b border-lightest-navy/40 text-slate">
-                <th class="py-2">Layer / Submodule</th>
-                <th class="py-2">L2 Norm</th>
-                <th class="py-2">Mean (abs)</th>
-                <th class="py-2">Min Value</th>
-                <th class="py-2">Signal Health</th>
-              </tr>
-            </thead>
-            <tbody class="text-lightest-slate divide-y divide-lightest-navy/20">
-              @for (g of selectedExp.gradients; track g.layer) {
-              <tr>
-                <td class="py-2 text-slate">{{ g.layer }}</td>
-                <td class="font-mono text-green-300">{{ g.norm }}</td>
-                <td class="font-mono">{{ g.mean }}</td>
-                <td class="font-mono text-slate">{{ g.min }}</td>
-                <td><span class="text-[10px] px-2 py-0.5 rounded bg-green-500/15 text-green-300 border border-green-500/30">✓ {{ g.status }}</span></td>
-              </tr>
-              }
-            </tbody>
-          </table>
+        <!-- Tags & Actions -->
+        <div class="flex flex-wrap gap-2 pt-2">
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">PyTorch</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">PPO</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">Verlet Physics</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">HTML5 Canvas</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">TypeScript</span>
         </div>
-        }
 
-        <!-- 5. 3-WAY BENCHMARK BATTLE TAB -->
-        @if (trackerActiveTab === 'benchmark') {
-        <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40 font-mono text-xs overflow-x-auto">
-          <div class="flex justify-between items-center mb-3">
-            <span class="text-xs font-mono text-green-400 font-semibold">3-Way Architecture Benchmark Battle</span>
-            <span class="text-xs text-slate">Evaluated on 2,000 holdout fraud test samples</span>
-          </div>
-          <table class="w-full text-left">
-            <thead>
-              <tr class="border-b border-lightest-navy/40 text-slate">
-                <th class="py-2">Model Architecture</th>
-                <th class="py-2">Accuracy</th>
-                <th class="py-2">High-Risk AUC</th>
-                <th class="py-2">Train Time</th>
-                <th class="py-2">Model Size</th>
-                <th class="py-2">Gradient Hooks</th>
-              </tr>
-            </thead>
-            <tbody class="text-lightest-slate divide-y divide-lightest-navy/20">
-              <tr class="bg-green-500/5">
-                <td class="py-2.5 font-bold text-green-300">PyTorch Deep Residual MLP (v3.0)</td>
-                <td class="font-bold text-green-300">92.75% 🏆</td>
-                <td class="font-bold text-green-300">0.9249 🏆</td>
-                <td>6.88s</td>
-                <td>50.2 KB (.pt)</td>
-                <td><span class="text-green-400">✓ 5 Layers</span></td>
-              </tr>
-              <tr>
-                <td class="py-2.5 text-slate">XGBoost Tree Ensemble (100 Trees)</td>
-                <td>85.50%</td>
-                <td>0.8513</td>
-                <td>1.85s</td>
-                <td>124.0 KB (.json)</td>
-                <td class="text-slate">N/A (Trees)</td>
-              </tr>
-              <tr>
-                <td class="py-2.5 text-slate">Scikit-Learn Random Forest</td>
-                <td>84.00%</td>
-                <td>0.7786 (F1)</td>
-                <td>0.82s</td>
-                <td>1.1 MB (Pickle)</td>
-                <td class="text-slate">N/A (Forest)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        }
-
-        <!-- Bottom Action CTA Banner -->
-        <div class="mt-5 p-3.5 bg-gradient-to-r from-navy to-navy-light rounded-xl border border-green-400/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
-          <div class="flex items-center gap-2 text-slate">
-            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-            <span>Run ID: <span class="text-lightest-slate">{{ selectedExp.id }}</span> · Storage: <span class="text-green-300">~/.experiment_tracker</span></span>
-          </div>
-          <a href="https://experiment-tracker-qula8htwv-mohking1s-projects.vercel.app/" target="_blank" rel="noopener noreferrer"
-            class="text-green-400 hover:text-green-300 underline font-semibold transition-colors flex items-center gap-1">
-            <span>Explore Full Live Web Dashboard (ROC Curves & All Runs) ↗</span>
+        <div class="pt-2">
+          <a href="https://github.com/Mohking1/Creature" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-400 text-black font-bold font-mono text-xs rounded-xl hover:bg-emerald-300 transition-all duration-200 shadow-lg shadow-emerald-500/10 hover:-translate-y-0.5">
+            <span>View GitHub Repository</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
           </a>
         </div>
-      </div>
-    </div>
-  </div>
-  }
 
-  <!-- ========================================== -->
-  <!-- 3. AI VIDEO AD GENERATOR -->
-  <!-- ========================================== -->
-  @if (activeTab === 'video') {
-  <div class="bg-navy-light/80 border border-lightest-navy/70 rounded-2xl p-6 sm:p-8 shadow-xl" data-aos="fade-up">
-    <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-4 mb-6">
-      <div>
-        <div class="flex items-center gap-3">
-          <span class="text-xs font-mono uppercase tracking-wider text-green-400 bg-navy px-2.5 py-1 rounded border border-lightest-navy/40">
-            Multimodal Video Workflow
-          </span>
-          <span class="text-xs font-mono text-slate">Agents & Media Generation</span>
-        </div>
-        <h3 class="text-2xl sm:text-3xl font-bold text-lightest-slate mt-2">
-          AI Video Ad Generator
-        </h3>
-        <p class="text-slate text-sm sm:text-base mt-2 max-w-3xl">
-          An agentic and pipeline-based system for generating multi-scene video ads from product inputs, coordinating image, video, voice, lip-sync, and automated FFmpeg composition.
-        </p>
       </div>
 
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="https://github.com/Mohking1/AI-Video-Ad-Generator" target="_blank" rel="noopener noreferrer"
-          class="px-5 py-2.5 bg-green-400 text-black font-semibold rounded-lg font-mono text-xs hover:bg-green-300 transition-colors">
-          GitHub Repo ↗
-        </a>
-      </div>
-    </div>
-
-    <!-- Tags -->
-    <div class="flex flex-wrap gap-2 mb-6">
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Agents</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Multimodal AI</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Image & Video Gen</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Lip-Sync</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">FFmpeg</span>
-    </div>
-
-    <!-- Mode Switcher -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <button (click)="videoMode = 'agentic'"
-        [class]="'p-4 rounded-xl border text-left transition-all ' + 
-                 (videoMode === 'agentic' ? 'bg-navy border-green-400/80 shadow-lg' : 'bg-navy/40 border-lightest-navy/30 hover:border-lightest-navy')">
-        <div class="flex items-center justify-between mb-1">
-          <span class="font-mono text-sm font-bold text-lightest-slate">AGENTIC MODE</span>
-          <span class="text-[10px] font-mono bg-green-400/20 text-green-300 px-2 py-0.5 rounded">Dynamic Routing</span>
-        </div>
-        <p class="text-xs text-slate">
-          Natural-language control where an LLM coordinator dynamically chooses media operations, evaluates intermediate video quality, and iterates until validation passes.
-        </p>
-      </button>
-
-      <button (click)="videoMode = 'pipeline'"
-        [class]="'p-4 rounded-xl border text-left transition-all ' + 
-                 (videoMode === 'pipeline' ? 'bg-navy border-green-400/80 shadow-lg' : 'bg-navy/40 border-lightest-navy/30 hover:border-lightest-navy')">
-        <div class="flex items-center justify-between mb-1">
-          <span class="font-mono text-sm font-bold text-lightest-slate">PIPELINE MODE</span>
-          <span class="text-[10px] font-mono bg-green-400/20 text-green-300 px-2 py-0.5 rounded">Deterministic Structure</span>
-        </div>
-        <p class="text-xs text-slate">
-          Predefined ad structures that automatically extract product context, generate shot timelines, synthesize voice & music, and render via an automated FFmpeg DAG.
-        </p>
-      </button>
-    </div>
-
-    <!-- Multi-Scene Storyboard Pipeline Viewer -->
-    <div class="bg-black/90 border border-lightest-navy/60 rounded-xl p-5">
-      <div class="flex justify-between items-center mb-4">
-        <span class="text-xs font-mono text-green-400 font-semibold uppercase">
-          Generated Ad Storyboard Breakdown (Titanium Smartwatch Ad)
-        </span>
-        <span class="text-xs font-mono text-slate">Total Duration: 13.5s · 4 Scenes</span>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        @for (sc of videoScenes; track sc.id) {
-        <div class="bg-navy p-4 rounded-xl border border-lightest-navy/40 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between text-xs font-mono mb-2">
-              <span class="text-lightest-slate font-bold">{{ sc.title }}</span>
-              <span class="text-green-300">{{ sc.duration }}</span>
-            </div>
-            <p class="text-[11px] font-mono text-slate/80 mb-2">{{ sc.operation }}</p>
-            <p class="text-xs text-slate leading-relaxed mb-3">"{{ sc.visualPrompt }}"</p>
-          </div>
-          <div class="pt-2 border-t border-lightest-navy/30 text-[10px] font-mono text-green-400/90">
-            ✓ {{ sc.status }}
-          </div>
-        </div>
-        }
-      </div>
-
-      <div class="mt-4 pt-3 border-t border-lightest-navy/30 flex flex-col sm:flex-row justify-between text-xs font-mono text-slate gap-2">
-        <span>Workflow Flow: <span class="text-lightest-slate">Prompt → Agent/Pipeline → Scene Planning → Generation → Validation → Revision → FFmpeg Composition</span></span>
-      </div>
-    </div>
-  </div>
-  }
-
-  <!-- ========================================== -->
-  <!-- 4. ARGUS OS (FORMERLY MAILDOC AI) — MULTI-AGENT EXECUTIVE SYSTEM -->
-  <!-- ========================================== -->
-  @if (activeTab === 'maildoc') {
-  <div class="bg-navy-light/80 border border-lightest-navy/70 rounded-2xl p-6 sm:p-8 shadow-xl" data-aos="fade-up">
-    <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-4 mb-6">
-      <div>
-        <div class="flex items-center gap-3">
-          <span class="text-xs font-mono uppercase tracking-wider text-green-400 bg-navy px-2.5 py-1 rounded border border-lightest-navy/40">
-            Executive Multi-Agent System
-          </span>
-          <span class="text-xs font-mono text-slate">Local 3B SLMs · Topological DAG Engine</span>
-        </div>
-        <h3 class="text-2xl sm:text-3xl font-bold text-lightest-slate mt-2">
-          Argus OS (formerly MailDoc AI) — Autonomous Executive AI Operating System
-        </h3>
-        <p class="text-slate text-sm sm:text-base mt-2 max-w-3xl">
-          An offline-first executive AI operating system that compiles complex natural language goals into deterministic directed acyclic graphs (DAGs). Coordinates specialized subagents across email intelligence, multimodal document parsing (Docling + IBM TableFormer), zero-cloud web research (SearXNG), and persistent cognitive memory (SQLite Loci-Hindsight) with supervised safety gating.
-        </p>
-      </div>
-
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="https://github.com/Mohking1/Multi-Agent" target="_blank" rel="noopener noreferrer"
-          class="px-5 py-2.5 bg-green-400 text-black font-semibold rounded-lg font-mono text-xs hover:bg-green-300 transition-colors">
-          GitHub Repo ↗
-        </a>
-      </div>
-    </div>
-
-    <!-- Architectural Tags -->
-    <div class="flex flex-wrap gap-2 mb-6">
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Topological DAG (graphlib)</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Local 3B SLMs (Ollama)</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Docling + IBM TableFormer</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">Parent-Child RAG (Elasticsearch)</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">SearXNG Metasearch</span>
-      <span class="text-xs font-mono text-green-300 bg-navy px-3 py-1 rounded-full border border-lightest-navy/50">SQLite Loci Memory (FTS5)</span>
-      <span class="text-xs font-mono text-slate bg-navy px-3 py-1 rounded-full border border-lightest-navy/30">Supervised Autonomy Policy</span>
-    </div>
-
-    <!-- Main Interactive Showcase Console -->
-    <div class="bg-black/90 border border-lightest-navy/60 rounded-xl overflow-hidden mb-6">
-      
-      <!-- Executive Goal & Control Header -->
-      <div class="p-5 bg-navy border-b border-lightest-navy/40">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-          <div class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-red-400/80"></span>
-            <span class="w-3 h-3 rounded-full bg-yellow-400/80"></span>
-            <span class="w-3 h-3 rounded-full bg-green-400/80"></span>
-            <span class="text-xs font-mono text-slate ml-2">Executive Mission Control · Session: acme_renewal_audit</span>
-          </div>
-          <div class="flex items-center gap-2 text-[11px] font-mono">
-            <span class="px-2 py-0.5 rounded bg-navy-light text-green-300 border border-lightest-navy/40">SLM: refinedtoolcallv5-3b (Local)</span>
-            <span class="px-2 py-0.5 rounded bg-navy-light text-yellow-300 border border-lightest-navy/40">Policy: SUPERVISED</span>
-          </div>
-        </div>
-
-        <!-- Unified Multi-Source Goal Prompt Display -->
-        <div class="mt-3 p-4 bg-navy-light/90 rounded-lg border border-lightest-navy/40">
-          <div class="flex items-center justify-between text-[11px] font-mono text-slate mb-1">
-            <span class="text-green-400 font-semibold">ENTERPRISE GOAL (UNIFIED MULTI-SOURCE WORKFLOW):</span>
-            <span>Natural Language Intent</span>
-          </div>
-          <p class="text-sm font-medium text-lightest-slate leading-relaxed">
-            "{{ argusGoal }}"
-          </p>
-          <div class="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate">
-            <span class="px-2 py-0.5 bg-navy rounded border border-lightest-navy/30 text-green-300">📧 Email IMAP</span>
-            <span class="px-2 py-0.5 bg-navy rounded border border-lightest-navy/30 text-green-300">📄 Docling TableFormer</span>
-            <span class="px-2 py-0.5 bg-navy rounded border border-lightest-navy/30 text-green-300">🧠 Cognitive Loci Memory</span>
-            <span class="px-2 py-0.5 bg-navy rounded border border-lightest-navy/30 text-green-300">🌐 SearXNG Web Research</span>
-            <span class="px-2 py-0.5 bg-navy rounded border border-lightest-navy/30 text-yellow-300">🛡️ Supervised Draft Staging</span>
-          </div>
-        </div>
-
-        <!-- Simulation Action Controls & Speed Toggles -->
-        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
-          <div class="flex items-center gap-2">
-            <button (click)="runArgusSimulation()" [disabled]="isArgusRunning"
-              class="px-5 py-2.5 bg-green-400 text-black font-semibold rounded-lg font-mono text-xs hover:bg-green-300 transition-colors disabled:opacity-50 shadow-md">
-              {{ isArgusRunning ? '⚡ Executing Step ' + argusCurrentStep + '/5...' : (argusCurrentStep === 5 ? '✓ Execution Finished (Re-run)' : '▶ Run Multi-Agent DAG Pipeline') }}
-            </button>
-            <button (click)="resetArgusSimulation()"
-              class="px-3.5 py-2.5 bg-navy-light hover:bg-lightest-navy/40 text-slate hover:text-white rounded-lg font-mono text-xs border border-lightest-navy/40 transition-colors">
-              ↺ Reset
-            </button>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-mono text-slate">Playback Speed:</span>
-            <div class="flex items-center gap-1 bg-navy-light p-1 rounded-lg border border-lightest-navy/40">
-              <button (click)="setArgusPlaybackSpeed(1)"
-                [class]="'px-2.5 py-1 text-xs font-mono rounded transition-all ' + 
-                         (argusPlaybackSpeed === 1 ? 'bg-green-400 text-black font-bold shadow-sm' : 'text-slate hover:text-white')">
-                1.0x
-              </button>
-              <button (click)="setArgusPlaybackSpeed(2)"
-                [class]="'px-2.5 py-1 text-xs font-mono rounded transition-all ' + 
-                         (argusPlaybackSpeed === 2 ? 'bg-green-400 text-black font-bold shadow-sm' : 'text-slate hover:text-white')">
-                2.0x (Fast)
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Topological DAG Pipeline Visualizer -->
-      <div class="p-5 border-b border-lightest-navy/40 bg-navy/40">
-        <div class="flex items-center justify-between mb-3 text-xs font-mono text-slate">
-          <span class="text-lightest-slate font-semibold">DIRECTED ACYCLIC GRAPH (TopologicalSorter Execution Order):</span>
-          <span>Click any node to jump & inspect</span>
-        </div>
-
-        <!-- DAG Steps Grid with Parallel Split -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
-          @for (st of argusSteps; track st.stepId; let idx = $index) {
-          <div (click)="jumpToArgusStep(idx + 1)"
-            [class]="'p-3 rounded-lg border font-mono text-xs cursor-pointer transition-all duration-300 relative ' +
-                     (st.status === 'completed' ? 'bg-navy border-green-400/60 shadow-md' :
-                      st.status === 'running' ? 'bg-navy-light border-green-400 ring-2 ring-green-400/30 shadow-lg' :
-                      'bg-navy/30 border-lightest-navy/20 opacity-60 hover:opacity-90')">
-            
-            <!-- Step Header Bar -->
-            <div class="flex items-center justify-between mb-1.5">
-              <span class="px-1.5 py-0.5 rounded text-[10px] uppercase font-bold bg-black/50 text-green-300">
-                {{ st.agentLabel }}
-              </span>
-              <span class="text-[10px] text-slate">{{ st.durationMs }}ms</span>
-            </div>
-
-            <!-- Title & Status -->
-            <div class="font-bold text-lightest-slate text-xs mb-1 line-clamp-1">
-              {{ st.title }}
-            </div>
-            <p class="text-slate text-[11px] line-clamp-2 mb-2">
-              {{ st.description }}
-            </p>
-
-            <!-- Status Indicator Badge -->
-            <div class="flex items-center justify-between text-[10px] pt-1 border-t border-lightest-navy/30">
-              <span class="text-slate/80">{{ st.stepId }}</span>
-              <span [class]="st.status === 'completed' ? 'text-green-400 font-bold' : st.status === 'running' ? 'text-green-300 animate-pulse font-bold' : 'text-slate'">
-                {{ st.status === 'completed' ? '✓ Completed' : st.status === 'running' ? '⚡ Running...' : 'Pending' }}
-              </span>
-            </div>
-          </div>
-          }
-        </div>
-
-        <!-- Variable Interpolation Flow Indicator -->
-        <div class="mt-3 p-2.5 bg-black/60 rounded border border-lightest-navy/30 flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate">
-          <span class="text-green-400 font-semibold">Shared Blackboard State:</span>
-          <span class="px-1.5 py-0.5 bg-navy rounded border border-lightest-navy/40 text-lightest-slate">$step_1.saved_paths</span>
-          <span class="text-slate">➔</span>
-          <span class="px-1.5 py-0.5 bg-navy rounded border border-lightest-navy/40 text-lightest-slate">$step_2a.tables (TableFormer)</span>
-          <span class="text-slate">+</span>
-          <span class="px-1.5 py-0.5 bg-navy rounded border border-lightest-navy/40 text-lightest-slate">$step_2b.active_rules (Memory)</span>
-          <span class="text-slate">+</span>
-          <span class="px-1.5 py-0.5 bg-navy rounded border border-lightest-navy/40 text-lightest-slate">$step_3.market_rate (Web)</span>
-          <span class="text-slate">➔</span>
-          <span class="px-1.5 py-0.5 bg-navy rounded border border-lightest-navy/40 text-green-300">$step_5.draft_uid</span>
-        </div>
-      </div>
-
-      <!-- Interactive Subsystem Inspector Deck -->
-      <div class="p-5">
+      <!-- Right Column: Interactive Simulation Stage -->
+      <div class="xl:col-span-7 bg-[#050811] rounded-2xl border border-white/[0.08] overflow-hidden shadow-2xl">
         
-        <!-- Subsystem View Switcher Tabs -->
-        <div class="flex flex-wrap items-center gap-1.5 mb-4 border-b border-lightest-navy/30 pb-3">
-          <button (click)="argusActiveView = 'dag'"
-            [class]="'px-3 py-1.5 rounded-lg text-xs font-mono transition-all ' + 
-                     (argusActiveView === 'dag' ? 'bg-green-400 text-black font-semibold' : 'bg-navy text-slate hover:text-white')">
-            📊 Topological DAG Flow
-          </button>
-          <button (click)="argusActiveView = 'email'"
-            [class]="'px-3 py-1.5 rounded-lg text-xs font-mono transition-all ' + 
-                     (argusActiveView === 'email' ? 'bg-green-400 text-black font-semibold' : 'bg-navy text-slate hover:text-white')">
-            📧 Email & Staged Draft
-          </button>
-          <button (click)="argusActiveView = 'doc'"
-            [class]="'px-3 py-1.5 rounded-lg text-xs font-mono transition-all ' + 
-                     (argusActiveView === 'doc' ? 'bg-green-400 text-black font-semibold' : 'bg-navy text-slate hover:text-white')">
-            📄 Docling TableFormer
-          </button>
-          <button (click)="argusActiveView = 'memory'"
-            [class]="'px-3 py-1.5 rounded-lg text-xs font-mono transition-all ' + 
-                     (argusActiveView === 'memory' ? 'bg-green-400 text-black font-semibold' : 'bg-navy text-slate hover:text-white')">
-            🧠 Cognitive Memory (Loci)
-          </button>
-          <button (click)="argusActiveView = 'web'"
-            [class]="'px-3 py-1.5 rounded-lg text-xs font-mono transition-all ' + 
-                     (argusActiveView === 'web' ? 'bg-green-400 text-black font-semibold' : 'bg-navy text-slate hover:text-white')">
-            🌐 Web Intelligence (SearXNG)
-          </button>
-          <button (click)="argusActiveView = 'telemetry'"
-            [class]="'px-3 py-1.5 rounded-lg text-xs font-mono transition-all ' + 
-                     (argusActiveView === 'telemetry' ? 'bg-green-400 text-black font-semibold' : 'bg-navy text-slate hover:text-white')">
-            ⚡ Telemetry Traces
-          </button>
+        <!-- Controls Header Bar -->
+        <div class="p-4 bg-[#0a0f1d] border-b border-white/[0.08] space-y-3">
+          
+          <!-- Top Row: Creature selector & Playback controls -->
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Morphology Selector -->
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-mono text-slate-400">Creature:</span>
+              <div class="flex flex-wrap gap-1">
+                @for (c of creatures; track c.id) {
+                <button (click)="selectCreature(c)"
+                  [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                           (selectedCreature.id === c.id ? 'bg-emerald-400 text-black font-bold' : 'bg-white/[0.04] text-slate-300 hover:text-white')">
+                  {{ c.name }}
+                </button>
+                }
+              </div>
+            </div>
+
+            <!-- Playback Buttons -->
+            <div class="flex items-center gap-2">
+              <button (click)="togglePlay()" 
+                      class="px-3 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg font-mono text-xs font-semibold border border-emerald-500/30 transition-colors flex items-center gap-1.5">
+                <span>{{ isPlaying ? '⏸ Pause' : '▶ Play' }}</span>
+              </button>
+              
+              <div class="flex items-center gap-1 bg-white/[0.03] p-0.5 rounded-lg border border-white/[0.06]">
+                <button (click)="setPlaybackSpeed(0.5)"
+                  [class]="'px-2 py-0.5 text-xs font-mono rounded transition-all ' + 
+                           (playbackSpeed === 0.5 ? 'bg-emerald-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                  0.5x
+                </button>
+                <button (click)="setPlaybackSpeed(1.0)"
+                  [class]="'px-2 py-0.5 text-xs font-mono rounded transition-all ' + 
+                           (playbackSpeed === 1.0 ? 'bg-emerald-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                  1.0x
+                </button>
+                <button (click)="setPlaybackSpeed(2.0)"
+                  [class]="'px-2 py-0.5 text-xs font-mono rounded transition-all ' + 
+                           (playbackSpeed === 2.0 ? 'bg-emerald-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                  2.0x
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Row: Terrain Selector -->
+          <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-white/[0.04]">
+            <span class="text-[11px] font-mono text-slate-400">Terrain:</span>
+            <div class="flex flex-wrap gap-1">
+              @for (t of terrains; track t.id) {
+              <button (click)="selectTerrain(t)"
+                [class]="'px-2.5 py-0.5 text-[11px] font-mono rounded-lg transition-colors ' + 
+                         (selectedTerrain.id === t.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold' : 'bg-white/[0.02] text-slate-400 hover:text-white border border-transparent')">
+                {{ t.name }}
+              </button>
+              }
+            </div>
+          </div>
+
         </div>
 
-        <!-- VIEW 1: TOPOLOGICAL DAG FLOW & STEP DETAILS -->
-        @if (argusActiveView === 'dag') {
-        <div class="space-y-3">
-          @for (st of argusSteps; track st.stepId) {
-          <div [class]="'p-3.5 rounded-lg border font-mono text-xs transition-all duration-300 ' + 
-                       (st.status === 'completed' ? 'bg-navy border-green-400/50 text-lightest-slate' : 
-                        st.status === 'running' ? 'bg-navy-light border-green-400 text-green-300 shadow-md' : 
-                        'bg-navy/30 border-lightest-navy/20 text-slate/60')">
-            <div class="flex items-center justify-between mb-1">
-              <div class="flex items-center gap-2">
-                <span class="font-bold text-lightest-slate">{{ st.title }}</span>
-                <span class="text-[10px] px-1.5 py-0.2 rounded bg-navy-light text-green-300 border border-lightest-navy/30">
-                  {{ st.badge }}
-                </span>
-              </div>
-              <span class="text-[10px]">
-                {{ st.status === 'completed' ? '✓ Completed (' + st.durationMs + 'ms)' : st.status === 'running' ? '⚡ Processing...' : 'Pending' }}
-              </span>
+        <!-- Canvas Viewport -->
+        <div class="relative w-full h-[320px] bg-[#03060c] flex items-center justify-center">
+          <canvas #creatureCanvas width="760" height="320" class="w-full h-full"></canvas>
+
+          <!-- Telemetry HUD Overlay -->
+          <div class="absolute top-3 left-3 bg-[#07090e]/90 border border-white/[0.08] p-3 rounded-xl font-mono text-[11px] text-slate-300 space-y-1 backdrop-blur-md shadow-lg">
+            <div class="flex items-center gap-2 text-emerald-400 font-semibold text-xs">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>DETERMINISTIC RL POLICY HUD</span>
             </div>
-            <p class="text-slate text-xs mt-1">{{ st.description }}</p>
-            <div class="mt-2 p-2 bg-black/60 rounded border border-lightest-navy/30 space-y-1 text-[11px]">
-              <div class="text-green-400/90 font-mono">Tool Call: <span class="text-lightest-slate">{{ st.toolCall }}</span></div>
-              <div class="text-slate font-mono">Receipt: <span class="text-lightest-slate">{{ st.receipt }}</span></div>
-            </div>
+            <div>Track Coordinate: <span class="text-emerald-300 font-bold">x = {{ simTrackX.toFixed(1) }} m</span> / 100m</div>
+            <div>Stage: <span class="text-white">{{ selectedTerrain.name }}</span></div>
+            <div>Surface Friction: <span class="text-white">{{ selectedTerrain.friction }}</span></div>
+            <div>Forward Velocity: <span class="text-white">{{ simSpeed.toFixed(2) }} m/s</span></div>
+            <div>Cumulative Reward: <span class="text-emerald-300 font-bold">+{{ simReward.toFixed(1) }}</span></div>
+          </div>
+
+          <!-- Sensor Layer Checkboxes -->
+          <div class="absolute top-3 right-3 flex flex-col gap-1.5 bg-[#07090e]/90 border border-white/[0.08] p-2.5 rounded-xl font-mono text-[11px] text-slate-300 backdrop-blur-md">
+            <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+              <input type="checkbox" [(ngModel)]="showLidar" class="accent-emerald-400"> LiDAR Raycasting
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+              <input type="checkbox" [(ngModel)]="showContacts" class="accent-emerald-400"> Ground Contacts
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer hover:text-white">
+              <input type="checkbox" [(ngModel)]="showStrain" class="accent-emerald-400"> Torque Heatmap
+            </label>
+          </div>
+
+          <!-- Telemetry Loading Indicator -->
+          @if (isLoadingTelemetry) {
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center font-mono text-xs text-emerald-400">
+            <span>Loading Telemetry Trajectory...</span>
           </div>
           }
 
-          <!-- Synthesized Brief Box (Available when finished or stepped through) -->
-          @if (argusCurrentStep === 5) {
-          <div class="mt-4 p-4 bg-navy-light/90 border border-green-400/80 rounded-xl animate-fade-in">
-            <div class="flex items-center justify-between mb-2">
-              <div class="flex items-center gap-2 text-green-400 text-xs font-mono font-bold">
-                <span>✓ EXECUTIVE COUNTER-OFFER SYNTHESIZED & STAGED</span>
-              </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-yellow-400/10 text-yellow-300 border border-yellow-400/30">
-                SUPERVISED GATING: Draft Staged
-              </span>
-            </div>
-            <p class="text-slate text-sm leading-relaxed mb-3">
-              "Reconciled Acme Cloud's proposal against corporate spending rules and live market telemetry. Detected an unannounced <strong>+14.28% YoY increase</strong> on compute clusters ($18.40/hr vs $16.10/hr) with downgraded 99.90% SLA. Cross-referenced with Cognitive Memory (CFO rule: max +6.0% YoY) and SearXNG web research (median cloud pricing declined 3.8% in Q3; Acme suffered 4h outage #ACM-8821). Formulated a defensible 3-point counter-proposal capped at <strong>+4.5% ($16.82/hr)</strong> with 99.95% SLA penalty multipliers, staged in <strong>Drafts/Vendor_Renewals</strong> for review."
-            </p>
-            <div class="flex flex-wrap items-center gap-2 text-[10px] font-mono text-slate">
-              <span class="bg-navy px-2 py-0.5 rounded border border-lightest-navy/40">Evidence: Acme_Enterprise_Renewal_2026.pdf (Table 4.1)</span>
-              <span class="bg-navy px-2 py-0.5 rounded border border-lightest-navy/40">Memory: wings/projects/decisions/vendor_escalation_cap</span>
-              <span class="bg-navy px-2 py-0.5 rounded border border-lightest-navy/40">Web: CloudMetrics Q3 Report</span>
-            </div>
-          </div>
-          }
-        </div>
-        }
-
-        <!-- VIEW 2: EMAIL THREAD & STAGED DRAFT -->
-        @if (argusActiveView === 'email') {
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <!-- Inbound Mail -->
-          <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40 space-y-3 font-mono text-xs">
-            <div class="flex items-center justify-between text-slate pb-2 border-b border-lightest-navy/30">
-              <span class="text-green-400 font-bold">1. INBOUND THREAD (IMAP FETCH)</span>
-              <span>{{ argusEmail.inbound.date }}</span>
-            </div>
-            <div class="space-y-1 text-slate">
-              <div><span class="text-lightest-slate">From:</span> {{ argusEmail.inbound.from }}</div>
-              <div><span class="text-lightest-slate">To:</span> {{ argusEmail.inbound.to }}</div>
-              <div><span class="text-lightest-slate">Subject:</span> {{ argusEmail.inbound.subject }}</div>
-            </div>
-            <div class="p-3 bg-navy-light rounded border border-lightest-navy/30 text-lightest-slate leading-relaxed font-sans text-xs">
-              {{ argusEmail.inbound.snippet }}
-            </div>
-            <div class="p-2.5 bg-black/60 rounded border border-lightest-navy/30 flex items-center justify-between">
-              <span class="text-green-400">📎 {{ argusEmail.inbound.attachment }}</span>
-              <span class="text-[10px] text-slate">Saved to Vault</span>
-            </div>
-          </div>
-
-          <!-- Staged Outbound Counter-Draft -->
-          <div class="p-4 bg-navy rounded-xl border border-green-400/50 space-y-3 font-mono text-xs">
-            <div class="flex items-center justify-between text-slate pb-2 border-b border-lightest-navy/30">
-              <span class="text-yellow-300 font-bold">2. STAGED COUNTER-DRAFT (SUPERVISED)</span>
-              <span class="text-[10px] text-green-400">IMAP Staged</span>
-            </div>
-            <div class="p-2 rounded bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 text-[11px]">
-              ⚠️ {{ argusEmail.draft.autonomyBadge }}
-            </div>
-            <div class="space-y-1 text-slate">
-              <div><span class="text-lightest-slate">To:</span> {{ argusEmail.draft.to }}</div>
-              <div><span class="text-lightest-slate">Folder:</span> {{ argusEmail.draft.folder }}</div>
-              <div><span class="text-lightest-slate">Subject:</span> {{ argusEmail.draft.subject }}</div>
-            </div>
-            <div class="p-3 bg-navy-light rounded border border-lightest-navy/30 text-lightest-slate whitespace-pre-line font-mono text-[11px] leading-relaxed max-h-56 overflow-y-auto">
-              {{ argusEmail.draft.body }}
-            </div>
+          <div class="absolute bottom-2 right-3 text-[10px] font-mono text-slate-500 bg-[#07090e]/90 px-2 py-0.5 rounded border border-white/[0.06]">
+            Precomputed Policy Trajectory · Zero Cloud Latency
           </div>
         </div>
-        }
 
-        <!-- VIEW 3: DOCLING & IBM TABLEFORMER -->
-        @if (argusActiveView === 'doc') {
-        <div class="space-y-4 font-mono text-xs">
-          <div class="p-3.5 bg-navy rounded-xl border border-lightest-navy/40 flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <div class="text-green-400 font-bold">{{ argusDocling.fileName }}</div>
-              <div class="text-slate text-[11px] mt-0.5">{{ argusDocling.parser }} · Vault ID: {{ argusDocling.documentId }}</div>
-            </div>
-            <span class="px-2.5 py-1 bg-navy-light rounded border border-lightest-navy/40 text-lightest-slate text-[11px]">
-              {{ argusDocling.stats }}
+        <!-- Simulation Progress Track Scrubber -->
+        <div class="p-3 bg-[#0a0f1d] border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-slate-400">
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">100m Track Progress:</span>
+            <span>{{ simTrackX.toFixed(1) }}m</span>
+          </div>
+          <div class="w-1/2 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-150"
+                 [style.width.%]="(simTrackX / 100) * 100"></div>
+          </div>
+          <span class="text-slate-500">Finish Line: 100.0m</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. LOCAL ML EXPERIMENT TRACKER CARD -->
+  <!-- ========================================== -->
+  <div id="project-tracker" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden" data-aos="fade-up">
+    
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-10 items-start">
+      
+      <!-- Left Column: Narrative & Technical Specs -->
+      <div class="xl:col-span-5 space-y-6">
+        
+        <div class="space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/25">
+              02 / FLAGSHIP SYSTEM
             </span>
+            <span class="text-xs font-mono text-slate-400">ML Tooling & Infrastructure</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Local ML Experiment Tracker & Profiler
+          </h3>
+        </div>
+
+        <p class="text-slate text-sm sm:text-base leading-relaxed">
+          A zero-cloud, high-performance experiment tracking and model evaluation engine. Replaces slow cloud dependencies with a local SQLite WAL catalog, streaming loss/accuracy telemetry, PyTorch gradient norm hooks, and comprehensive confusion matrix evaluation.
+        </p>
+
+        <!-- Technical Highlights -->
+        <div class="space-y-3 pt-2 border-t border-white/[0.06] text-xs">
+          <div class="flex items-start gap-2.5">
+            <span class="text-cyan-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Zero-Cloud SQLite WAL Storage:</strong>
+              <span class="text-slate-300 block">Sub-millisecond local run indexing in <code>~/.experiment_tracker/</code> without external servers or network bottlenecks.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-cyan-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">PyTorch Gradient Diagnostics:</strong>
+              <span class="text-slate-300 block">Automatic backward hook registration via <code>run.watch(model)</code> for gradient norm monitoring and layer diagnostics.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-cyan-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Multi-Class Evaluation Matrix:</strong>
+              <span class="text-slate-300 block">Computes multi-class ROC-AUC (0.9249), 3x3 interactive confusion matrix, and MDI feature importances.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-cyan-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Reproducibility & Weight Checkpoints:</strong>
+              <span class="text-slate-300 block">Automatic hyperparameter hashing, environment fingerprinting, and PyTorch model state dict serialization.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Specs Grid -->
+        <div class="grid grid-cols-2 gap-3 pt-2 text-xs font-mono">
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">PyTorch Test Accuracy</span>
+            <span class="text-white font-bold text-sm">92.75%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Multi-Class ROC-AUC</span>
+            <span class="text-cyan-300 font-bold text-sm">0.9249</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Per-Step Latency</span>
+            <span class="text-white font-bold text-sm">34 ms / step</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Storage Engine</span>
+            <span class="text-white font-bold text-sm">SQLite WAL Catalog</span>
+          </div>
+        </div>
+
+        <!-- Tags & Actions -->
+        <div class="flex flex-wrap gap-2 pt-2">
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">Python</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">PyTorch</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">SQLite WAL</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">Scikit-Learn</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">FastAPI</span>
+        </div>
+
+        <div class="pt-2">
+          <a href="https://github.com/Mohking1/Local-ML-Experiment-Tracker" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 px-6 py-3 bg-cyan-400 text-black font-bold font-mono text-xs rounded-xl hover:bg-cyan-300 transition-all duration-200 shadow-lg shadow-cyan-500/10 hover:-translate-y-0.5">
+            <span>View GitHub Repository</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Inspection Stage -->
+      <div class="xl:col-span-7 bg-[#050811] rounded-2xl border border-white/[0.08] overflow-hidden shadow-2xl">
+        
+        <!-- Controls Header Bar -->
+        <div class="p-4 bg-[#0a0f1d] border-b border-white/[0.08] space-y-3">
+          
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-mono text-slate-400">Benchmark Model:</span>
+              <div class="flex flex-wrap gap-1">
+                @for (exp of experiments; track exp.id) {
+                <button (click)="selectExperiment(exp)"
+                  [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                           (selectedExp.id === exp.id ? 'bg-cyan-400 text-black font-bold' : 'bg-white/[0.04] text-slate-300 hover:text-white')">
+                  {{ exp.name }}
+                </button>
+                }
+              </div>
+            </div>
+
+            <!-- View Sub-tabs -->
+            <div class="flex flex-wrap items-center gap-1 bg-white/[0.03] p-1 rounded-xl border border-white/[0.06]">
+              <button (click)="trackerActiveTab = 'sdk'"
+                [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                         (trackerActiveTab === 'sdk' ? 'bg-cyan-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                ⚡ SDK Sandbox
+              </button>
+              <button (click)="trackerActiveTab = 'matrix'"
+                [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                         (trackerActiveTab === 'matrix' ? 'bg-cyan-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                🎯 Confusion Matrix
+              </button>
+              <button (click)="trackerActiveTab = 'charts'"
+                [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                         (trackerActiveTab === 'charts' ? 'bg-cyan-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                📈 Curves
+              </button>
+              @if (selectedExp.gradients.length > 0) {
+              <button (click)="trackerActiveTab = 'gradients'"
+                [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                         (trackerActiveTab === 'gradients' ? 'bg-cyan-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                ⚡ Gradients
+              </button>
+              }
+              <button (click)="trackerActiveTab = 'benchmark'"
+                [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                         (trackerActiveTab === 'benchmark' ? 'bg-cyan-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                📊 Benchmark
+              </button>
+            </div>
           </div>
 
-          <!-- Structured Matrix Table -->
-          <div class="overflow-x-auto rounded-xl border border-lightest-navy/50 bg-black/80">
-            <div class="p-3 bg-navy border-b border-lightest-navy/40 text-lightest-slate font-bold">
-              {{ argusDocling.extractedTable.title }}
+          <!-- Live KPI Ribbon -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-white/[0.04] text-xs font-mono">
+            <div class="bg-white/[0.02] p-2 rounded-lg border border-white/[0.04]">
+              <span class="text-slate-500 block text-[10px] uppercase">Accuracy</span>
+              <span class="text-cyan-300 font-bold">{{ liveMetrics.accuracy }}</span>
             </div>
-            <table class="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr class="bg-navy-light/60 text-slate border-b border-lightest-navy/40">
-                  @for (col of argusDocling.extractedTable.columns; track col) {
-                  <th class="p-2.5 font-semibold">{{ col }}</th>
+            <div class="bg-white/[0.02] p-2 rounded-lg border border-white/[0.04]">
+              <span class="text-slate-500 block text-[10px] uppercase">ROC-AUC</span>
+              <span class="text-white font-bold">{{ selectedExp.auc }}</span>
+            </div>
+            <div class="bg-white/[0.02] p-2 rounded-lg border border-white/[0.04]">
+              <span class="text-slate-500 block text-[10px] uppercase">Loss</span>
+              <span class="text-emerald-400 font-bold">{{ liveMetrics.loss }}</span>
+            </div>
+            <div class="bg-white/[0.02] p-2 rounded-lg border border-white/[0.04]">
+              <span class="text-slate-500 block text-[10px] uppercase">Engine</span>
+              <span class="text-slate-300 font-semibold truncate block">{{ selectedExp.framework }}</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Dashboard Viewport -->
+        <div class="p-5">
+          
+          <!-- Tab 1: SDK Sandbox -->
+          @if (trackerActiveTab === 'sdk') {
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 font-mono text-xs">
+            
+            <!-- Code Block -->
+            <div class="lg:col-span-7 bg-[#03060c] rounded-xl border border-white/[0.08] overflow-hidden flex flex-col">
+              <div class="px-4 py-2 bg-[#07090e] border-b border-white/[0.08] flex items-center justify-between">
+                <div class="flex items-center gap-2 text-[11px] text-slate-400">
+                  <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                  <span class="ml-1">train_{{ selectedExp.id }}.py</span>
+                </div>
+                <button (click)="runSdkPipeline()"
+                        [disabled]="sdkState === 'running'"
+                        [class]="'px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ' + 
+                                 (sdkState === 'running' ? 'bg-cyan-500/20 text-cyan-300 cursor-not-allowed animate-pulse' : 'bg-cyan-400 text-black hover:bg-cyan-300 shadow-md')">
+                  <span>{{ sdkState === 'running' ? '⏳ Executing...' : '▶ Run Pipeline' }}</span>
+                </button>
+              </div>
+              <div class="p-4 text-slate-300 overflow-x-auto text-[11px] leading-relaxed flex-1">
+                <pre class="font-mono text-slate-200"><code>{{ selectedExp.codeSnippet }}</code></pre>
+              </div>
+            </div>
+
+            <!-- Terminal Stream & Progress -->
+            <div class="lg:col-span-5 flex flex-col gap-4">
+              <div class="p-4 bg-[#0a0f1d] rounded-xl border border-white/[0.08] space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-cyan-400 font-semibold flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full" [class]="sdkState === 'running' ? 'bg-cyan-400 animate-ping' : 'bg-cyan-400'"></span>
+                    <span>Pipeline Execution Stream</span>
+                  </span>
+                  <span class="text-[11px] text-slate-400">{{ currentEpoch }}/{{ selectedExp.epochs }} Epochs</span>
+                </div>
+
+                <div class="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all duration-300"
+                       [style.width.%]="sdkProgress"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                  <div class="bg-black/40 p-2 rounded border border-white/[0.04]">
+                    <span class="text-slate-500 block text-[10px]">CURRENT LOSS</span>
+                    <span class="text-rose-400 font-bold">{{ liveMetrics.loss }}</span>
+                  </div>
+                  <div class="bg-black/40 p-2 rounded border border-white/[0.04]">
+                    <span class="text-slate-500 block text-[10px]">ACCURACY</span>
+                    <span class="text-cyan-300 font-bold">{{ liveMetrics.accuracy }}</span>
+                  </div>
+                  <div class="bg-black/40 p-2 rounded border border-white/[0.04]">
+                    <span class="text-slate-500 block text-[10px]">LEARNING RATE</span>
+                    <span class="text-white font-bold">{{ liveMetrics.lr }}</span>
+                  </div>
+                  <div class="bg-black/40 p-2 rounded border border-white/[0.04]">
+                    <span class="text-slate-500 block text-[10px]">STEP LATENCY</span>
+                    <span class="text-white font-bold">{{ liveMetrics.stepTime }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Terminal Output Box -->
+              <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] flex-1 flex flex-col justify-between font-mono text-[10px]">
+                <div class="space-y-1 overflow-y-auto max-h-36">
+                  @for (log of terminalLogs; track $index) {
+                  <div [class]="log.includes('✓') || log.includes('⚡') ? 'text-cyan-300' : 'text-slate-400'">
+                    {{ log }}
+                  </div>
                   }
+                </div>
+                <div class="pt-2 mt-2 border-t border-white/[0.06] flex items-center justify-between text-slate-500 text-[9px]">
+                  <span>Status: <span class="text-cyan-400">{{ sdkPhase }}</span></span>
+                  <span>Catalog: ~/.experiment_tracker</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          }
+
+          <!-- Tab 2: Confusion Matrix Heatmap -->
+          @if (trackerActiveTab === 'matrix') {
+          <div class="space-y-4 font-mono text-xs">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+              <div>
+                <span class="text-cyan-400 font-semibold block">Interactive 3-Class Confusion Matrix Heatmap</span>
+                <span class="text-slate-400 text-[11px]">Hover over matrix cells to inspect predicted vs. ground truth distribution</span>
+              </div>
+              <div class="text-[11px] bg-[#0a0f1d] px-3 py-1.5 rounded-lg border border-white/[0.08]">
+                @if (hoveredCell) {
+                <span>True: <strong class="text-cyan-300">{{ hoveredCell.row }}</strong> → Pred: <strong class="text-cyan-300">{{ hoveredCell.col }}</strong> (<strong class="text-white">{{ hoveredCell.count }}</strong> samples · {{ hoveredCell.percentage }})</span>
+                } @else {
+                <span class="text-slate-400">Hover any cell for class details</span>
+                }
+              </div>
+            </div>
+
+            <div class="p-6 bg-[#03060c] rounded-xl border border-white/[0.08] overflow-x-auto flex justify-center">
+              <div class="inline-block">
+                <div class="text-center text-[11px] text-slate-400 mb-2 font-semibold tracking-wider uppercase">Predicted Risk Class</div>
+                <div class="flex items-center">
+                  <div class="text-[11px] text-slate-400 font-semibold tracking-wider uppercase -rotate-90 mr-3 whitespace-nowrap">Actual Class</div>
+                  <div class="grid grid-cols-3 gap-2">
+                    @for (row of selectedExp.matrix; track rIdx; let rIdx = $index) {
+                      @for (val of row; track cIdx; let cIdx = $index) {
+                      <div (mouseenter)="setHoveredCell(confusionLabels[rIdx], confusionLabels[cIdx], val, 2000)"
+                           (mouseleave)="clearHoveredCell()"
+                           [class]="'w-28 h-20 rounded-lg flex flex-col items-center justify-center p-2 border transition-all cursor-pointer ' + 
+                                    (rIdx === cIdx ? 'bg-cyan-950/60 border-cyan-500/50 hover:border-cyan-300 hover:scale-105' : 'bg-slate-900/60 border-slate-800 hover:border-slate-600')">
+                        <span class="text-[10px] text-slate-400">{{ confusionLabels[cIdx] }}</span>
+                        <span [class]="'text-lg font-bold ' + (rIdx === cIdx ? 'text-cyan-300' : 'text-slate-400')">{{ val }}</span>
+                        <span class="text-[9px] text-slate-500">{{ rIdx === cIdx ? '✓ Diagonal' : 'Error' }}</span>
+                      </div>
+                      }
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- Tab 3: Metric Curves -->
+          @if (trackerActiveTab === 'charts') {
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
+            <div class="p-4 bg-[#0a0f1d] rounded-xl border border-white/[0.08]">
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-xs text-cyan-400 font-semibold">Training Loss vs. Epochs</span>
+                <span class="text-xs text-slate-400">Final: {{ selectedExp.loss }}</span>
+              </div>
+              <div class="w-full h-44 bg-[#03060c] rounded p-2 flex items-end">
+                <svg viewBox="0 0 300 120" class="w-full h-full">
+                  <line x1="20" y1="20" x2="280" y2="20" stroke="#1f2937" stroke-dasharray="3 3"/>
+                  <line x1="20" y1="60" x2="280" y2="60" stroke="#1f2937" stroke-dasharray="3 3"/>
+                  <line x1="20" y1="100" x2="280" y2="100" stroke="#1f2937"/>
+                  <path d="M 20 25 Q 70 50, 120 75 T 280 100" fill="none" stroke="#22d3ee" stroke-width="2.5"/>
+                  <circle cx="280" cy="100" r="4" fill="#22d3ee"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="p-4 bg-[#0a0f1d] rounded-xl border border-white/[0.08]">
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-xs text-emerald-400 font-semibold">Validation Accuracy Convergence</span>
+                <span class="text-xs text-slate-400">Peak: {{ selectedExp.accuracy }}</span>
+              </div>
+              <div class="w-full h-44 bg-[#03060c] rounded p-2 flex items-end">
+                <svg viewBox="0 0 300 120" class="w-full h-full">
+                  <line x1="20" y1="20" x2="280" y2="20" stroke="#1f2937" stroke-dasharray="3 3"/>
+                  <line x1="20" y1="60" x2="280" y2="60" stroke="#1f2937" stroke-dasharray="3 3"/>
+                  <line x1="20" y1="100" x2="280" y2="100" stroke="#1f2937"/>
+                  <path d="M 20 105 Q 80 45, 160 25 T 280 20" fill="none" stroke="#34d399" stroke-width="2.5"/>
+                  <circle cx="280" cy="20" r="4" fill="#34d399"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- Tab 4: Gradients -->
+          @if (trackerActiveTab === 'gradients') {
+          <div class="p-4 bg-[#0a0f1d] rounded-xl border border-white/[0.08] space-y-4 font-mono text-xs">
+            <div class="flex justify-between items-center">
+              <span class="text-cyan-400 font-semibold">Layer-by-Layer Gradient Norm Distribution (PyTorch Backward Hooks)</span>
+              <span class="text-slate-400 text-[11px]">Norm range: 0.84 - 1.28</span>
+            </div>
+            <div class="space-y-3">
+              @for (g of selectedExp.gradients; track g.layer) {
+              <div class="space-y-1">
+                <div class="flex justify-between text-[11px]">
+                  <span class="text-white">{{ g.layer }}</span>
+                  <span class="text-cyan-300">Norm: {{ g.norm }}</span>
+                </div>
+                <div class="w-full h-2 bg-black/50 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 rounded-full"
+                       [style.width.%]="getGradientWidth(g.norm)"></div>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          <!-- Tab 5: 3-Way Benchmark -->
+          @if (trackerActiveTab === 'benchmark') {
+          <div class="p-4 bg-[#0a0f1d] rounded-xl border border-white/[0.08] overflow-x-auto font-mono text-xs">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="border-b border-white/[0.08] text-slate-400 text-[11px]">
+                  <th class="pb-2">Architecture</th>
+                  <th class="pb-2">Framework</th>
+                  <th class="pb-2">Accuracy</th>
+                  <th class="pb-2">High-Risk AUC</th>
+                  <th class="pb-2">Duration</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-lightest-navy/20">
-                @for (row of argusDocling.extractedTable.rows; track row.tier) {
-                <tr class="hover:bg-navy-light/30 transition-colors">
-                  <td class="p-2.5 text-lightest-slate font-medium">{{ row.tier }}</td>
-                  <td class="p-2.5 text-slate">{{ row.current }}</td>
-                  <td class="p-2.5 text-lightest-slate">{{ row.proposed }}</td>
-                  <td class="p-2.5">
-                    <span [class]="row.alert ? 'px-1.5 py-0.5 rounded bg-red-400/10 text-red-400 border border-red-400/30' : 'text-slate'">
-                      {{ row.change }}
-                    </span>
-                  </td>
-                  <td class="p-2.5 text-green-300">{{ row.market }}</td>
-                  <td class="p-2.5 text-yellow-300">{{ row.limit }}</td>
+              <tbody class="divide-y divide-white/[0.04] text-[11px]">
+                @for (m of experiments; track m.id) {
+                <tr [class]="m.id === selectedExp.id ? 'text-cyan-300 font-semibold bg-white/[0.02]' : 'text-slate-300'">
+                  <td class="py-2.5">{{ m.name }}</td>
+                  <td class="py-2.5">{{ m.framework }}</td>
+                  <td class="py-2.5 text-emerald-400">{{ m.accuracy }}</td>
+                  <td class="py-2.5">{{ m.auc }}</td>
+                  <td class="py-2.5 text-slate-400">{{ m.duration }}</td>
                 </tr>
                 }
               </tbody>
             </table>
           </div>
+          }
 
-          <!-- Extracted SLA Clauses -->
-          <div class="p-3.5 bg-navy rounded-xl border border-lightest-navy/40 space-y-2">
-            <div class="text-lightest-slate font-semibold text-xs">Docling Extracted SLA Commitments vs Memory Policies:</div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-              @for (sla of argusDocling.slaTerms; track sla.param) {
-              <div class="p-2.5 bg-black/60 rounded border border-lightest-navy/30 text-[11px]">
-                <div class="text-slate font-medium">{{ sla.param }}</div>
-                <div [class]="sla.compliant ? 'text-green-300 mt-1' : 'text-red-400 mt-1'">{{ sla.value }}</div>
-              </div>
-              }
-            </div>
-          </div>
         </div>
-        }
 
-        <!-- VIEW 4: COGNITIVE MEMORY (LOCI-HINDSIGHT) -->
-        @if (argusActiveView === 'memory') {
-        <div class="space-y-4 font-mono text-xs">
-          <div class="p-3.5 bg-navy rounded-xl border border-lightest-navy/40 flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <div class="text-green-400 font-bold">Loci-Hindsight Cognitive Memory Engine</div>
-              <div class="text-slate text-[11px] mt-0.5">{{ argusMemory.dbType }}</div>
-            </div>
-            <span class="px-2.5 py-1 bg-navy-light rounded border border-lightest-navy/40 text-lightest-slate text-[11px]">
-              {{ argusMemory.networks }}
-            </span>
-          </div>
-
-          <!-- Spatial Wings & Halls Hierarchy -->
-          <div class="space-y-3">
-            @for (w of argusMemory.spatialWings; track w.wing) {
-            <div class="p-3.5 bg-navy/60 rounded-xl border border-lightest-navy/40 space-y-2.5">
-              <div class="text-green-300 font-bold uppercase text-xs flex items-center gap-2">
-                <span>🏛️ Wing: {{ w.wing }}</span>
-              </div>
-
-              @for (h of w.halls; track h.hall) {
-              <div class="pl-3 border-l-2 border-green-400/40 space-y-2">
-                <div class="text-slate text-[11px] font-semibold">Hall: {{ h.hall }}</div>
-
-                <div class="space-y-1.5">
-                  @for (e of h.entries; track e.key) {
-                  <div class="p-2.5 bg-black/70 rounded border border-lightest-navy/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px]">
-                    <div class="space-y-0.5">
-                      <div class="flex items-center gap-2">
-                        <span class="text-lightest-slate font-bold">{{ e.key }}</span>
-                        <span class="text-slate">({{ e.type }})</span>
-                      </div>
-                      <div class="text-slate font-sans text-xs">{{ e.content }}</div>
-                    </div>
-                    <span [class]="e.status === 'ACTIVE' ? 'px-2 py-0.5 rounded bg-green-400/10 text-green-400 border border-green-400/30 text-[10px] shrink-0' : 'px-2 py-0.5 rounded bg-slate/10 text-slate border border-slate/30 text-[10px] shrink-0'">
-                      {{ e.status }}
-                    </span>
-                  </div>
-                  }
-                </div>
-              </div>
-              }
-            </div>
-            }
-          </div>
-        </div>
-        }
-
-        <!-- VIEW 5: WEB INTELLIGENCE (SEARXNG + TRAFILATURA) -->
-        @if (argusActiveView === 'web') {
-        <div class="space-y-4 font-mono text-xs">
-          <div class="p-3.5 bg-navy rounded-xl border border-lightest-navy/40 flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <div class="text-green-400 font-bold">Zero-Cloud Web Intelligence Subsystem</div>
-              <div class="text-slate text-[11px] mt-0.5">{{ argusWeb.searchBackend }} · {{ argusWeb.extractionEngine }}</div>
-            </div>
-            <span class="px-2.5 py-1 bg-navy-light rounded border border-lightest-navy/40 text-green-300 text-[11px]">
-              Zero-Cloud Privacy
-            </span>
-          </div>
-
-          <!-- Executed Queries & Extracted Markdown Grounding -->
-          <div class="space-y-3">
-            @for (q of argusWeb.queries; track q.query) {
-            <div class="p-4 bg-navy rounded-xl border border-lightest-navy/40 space-y-2">
-              <div class="flex items-center justify-between text-green-300 text-xs">
-                <span class="font-bold">🔎 Query: "{{ q.query }}"</span>
-                <span class="text-[10px] text-slate">Trafilatura Deep Fetch</span>
-              </div>
-              <div class="text-[11px] text-lightest-slate flex items-center gap-2">
-                <span class="text-slate">Source:</span>
-                <span class="text-green-400">{{ q.source }}</span>
-                <span class="text-slate truncate">({{ q.url }})</span>
-              </div>
-              <div class="p-3 bg-black/70 rounded border border-lightest-navy/30 text-slate font-sans text-xs leading-relaxed">
-                "{{ q.excerpt }}"
-              </div>
-            </div>
-            }
-          </div>
-        </div>
-        }
-
-        <!-- VIEW 6: REAL-TIME TELEMETRY TRACES -->
-        @if (argusActiveView === 'telemetry') {
-        <div class="space-y-3 font-mono text-xs">
-          <div class="p-3.5 bg-navy rounded-xl border border-lightest-navy/40 flex items-center justify-between">
-            <span class="text-green-400 font-bold">In-Memory Circular Ring Buffer (1,000 Events Telemetry)</span>
-            <span class="text-slate text-[11px]">Session: acme_renewal_audit</span>
-          </div>
-
-          <div class="p-4 bg-black/90 rounded-xl border border-lightest-navy/50 space-y-2 max-h-80 overflow-y-auto">
-            @for (tr of argusTraces; track tr.msg) {
-            <div class="flex items-start gap-2 text-[11px] leading-relaxed">
-              <span class="text-slate shrink-0">{{ tr.time }}</span>
-              <span [class]="tr.level === 'INFO' ? 'text-green-400 shrink-0' : 'text-yellow-400 shrink-0'">[{{ tr.level }}]</span>
-              <span class="text-indigo-400 shrink-0">[{{ tr.type }}]</span>
-              <span class="text-slate shrink-0">{{ tr.component }}:</span>
-              <span class="text-lightest-slate">{{ tr.msg }}</span>
-            </div>
-            }
-          </div>
-        </div>
-        }
-
-        <div class="text-[10px] font-mono text-slate/80 text-right pt-3">
-          * Fully deterministic, client-side simulation reproducing Argus OS DAG orchestration. Zero external cloud API dependencies.
-        </div>
-      </div>
-    </div>
-
-    <!-- 4 Core Engineering Architectural Pillars -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-navy/70 border border-lightest-navy/40 p-4 rounded-xl">
-        <div class="text-green-400 font-mono text-xs font-bold mb-1">01. Topological DAG & State</div>
-        <p class="text-slate text-xs leading-relaxed">
-          Decomposes objectives into directed acyclic graphs via <code class="text-lightest-slate">graphlib.TopologicalSorter</code>. Typed variable resolution across a shared blackboard eliminates fragile LLM loops.
-        </p>
       </div>
 
-      <div class="bg-navy/70 border border-lightest-navy/40 p-4 rounded-xl">
-        <div class="text-green-400 font-mono text-xs font-bold mb-1">02. Isolated 3B Micro-ReAct</div>
-        <p class="text-slate text-xs leading-relaxed">
-          Empowers compact local 3B parameter SLMs by scoping each subagent runtime to 3-6 domain tools, eliminating hallucinations and latency overhead.
-        </p>
-      </div>
-
-      <div class="bg-navy/70 border border-lightest-navy/40 p-4 rounded-xl">
-        <div class="text-green-400 font-mono text-xs font-bold mb-1">03. Docling + TableFormer</div>
-        <p class="text-slate text-xs leading-relaxed">
-          Deep multimodal document intelligence retaining complex table column hierarchies, cell spans, and figures in a lossless SHA-256 deduplicated vault.
-        </p>
-      </div>
-
-      <div class="bg-navy/70 border border-lightest-navy/40 p-4 rounded-xl">
-        <div class="text-green-400 font-mono text-xs font-bold mb-1">04. Loci Cognitive Memory</div>
-        <p class="text-slate text-xs leading-relaxed">
-          SQLite FTS5 spatial architecture with 4 networks (Facts, Experiences, Entities, Beliefs) featuring active belief superseding and sub-200 token index summaries.
-        </p>
-      </div>
     </div>
 
   </div>
-  }
 
   <!-- ========================================== -->
-  <!-- SECONDARY PROJECTS: MORE WORK -->
+  <!-- 3. ARGUS OS — MULTI-AGENT EXECUTIVE CARD -->
   <!-- ========================================== -->
-  <div class="mt-16" data-aos="fade-up">
-    <h3 class="text-xl sm:text-2xl font-bold text-lightest-slate mb-2">
-      More Work
+  <div id="project-argus" class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-16 relative overflow-hidden" data-aos="fade-up">
+    
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-10 items-start">
+      
+      <!-- Left Column: Narrative & Technical Specs -->
+      <div class="xl:col-span-5 space-y-6">
+        
+        <div class="space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold bg-violet-500/10 text-violet-400 border border-violet-500/25">
+              03 / FLAGSHIP SYSTEM
+            </span>
+            <span class="text-xs font-mono text-slate-400">Autonomous Multi-Agent Systems</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Argus OS — Topological Multi-Agent Executive
+          </h3>
+        </div>
+
+        <p class="text-slate text-sm sm:text-base leading-relaxed">
+          An offline-first executive AI operating system that compiles complex natural language goals into deterministic directed acyclic graphs (DAGs). Coordinates specialized subagents across email intelligence, multimodal document parsing (Docling + IBM TableFormer), zero-cloud web research (SearXNG), and persistent cognitive memory (SQLite Loci-Hindsight) with supervised safety gating.
+        </p>
+
+        <!-- Technical Highlights -->
+        <div class="space-y-3 pt-2 border-t border-white/[0.06] text-xs">
+          <div class="flex items-start gap-2.5">
+            <span class="text-violet-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Topological DAG Planning Engine:</strong>
+              <span class="text-slate-300 block">Decomposes goals into cycle-free dependency graphs with parallel branch execution and verified receipts.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-violet-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Blackboard Variable Interpolation:</strong>
+              <span class="text-slate-300 block">Downstream steps dynamically consume verified artifacts ($step_1.saved_paths -> $step_2a.table_matrix).</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-violet-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Docling + IBM TableFormer Extraction:</strong>
+              <span class="text-slate-300 block">Deep multimodal parsing retaining complex table column hierarchies, cell spans, and figures in a deduplicated vault.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-violet-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Cognitive Loci Memory & Web Metasearch:</strong>
+              <span class="text-slate-300 block">SQLite FTS5 spatial knowledge storage + local SearXNG metasearch for zero-cloud benchmark discovery.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-violet-400 font-mono font-bold mt-0.5">▸</span>
+            <div>
+              <strong class="text-white">Supervised Autonomy Safety Policy:</strong>
+              <span class="text-slate-300 block">Policy engine intercepting direct external SMTP actions and staging formatted counter-offer emails in Drafts.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Specs Grid -->
+        <div class="grid grid-cols-2 gap-3 pt-2 text-xs font-mono">
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">DAG Workflow</span>
+            <span class="text-white font-bold text-sm">5 Steps (2 Parallel)</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Doc Intelligence</span>
+            <span class="text-violet-300 font-bold text-sm">IBM TableFormer</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Cognitive Memory</span>
+            <span class="text-white font-bold text-sm">SQLite Loci FTS5</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#07090e]/80 border border-white/[0.06]">
+            <span class="text-slate-500 block text-[10px] uppercase">Governance Gate</span>
+            <span class="text-emerald-400 font-bold text-sm">Supervised Gating</span>
+          </div>
+        </div>
+
+        <!-- Tags & Actions -->
+        <div class="flex flex-wrap gap-2 pt-2">
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">Topological DAG</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">Local 3B SLMs</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">IBM TableFormer</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">SearXNG</span>
+          <span class="px-2.5 py-1 rounded bg-[#07090e] border border-white/[0.06] text-slate-300 font-mono text-xs">SQLite Loci</span>
+        </div>
+
+        <div class="pt-2">
+          <a href="https://github.com/Mohking1/Multi-Agent" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 px-6 py-3 bg-violet-400 text-black font-bold font-mono text-xs rounded-xl hover:bg-violet-300 transition-all duration-200 shadow-lg shadow-violet-500/10 hover:-translate-y-0.5">
+            <span>View GitHub Repository</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Multi-Agent Stage -->
+      <div class="xl:col-span-7 bg-[#050811] rounded-2xl border border-white/[0.08] overflow-hidden shadow-2xl">
+        
+        <!-- Controls Header Bar -->
+        <div class="p-4 bg-[#0a0f1d] border-b border-white/[0.08] space-y-3">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-2 text-xs font-mono">
+              <span class="w-2.5 h-2.5 rounded-full bg-violet-400 animate-pulse"></span>
+              <span class="text-white font-semibold">Executive Mission Control</span>
+              <span class="text-slate-500">· session: acme_renewal</span>
+            </div>
+            <div class="flex items-center gap-2 text-[11px] font-mono">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Policy: SUPERVISED</span>
+            </div>
+          </div>
+
+          <!-- Enterprise Goal Box -->
+          <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.06] text-xs">
+            <span class="text-[10px] font-mono text-violet-400 font-semibold uppercase block mb-1">Active Enterprise Goal:</span>
+            <p class="text-slate-200 leading-relaxed font-normal">
+              "{{ argusGoal }}"
+            </p>
+          </div>
+
+          <!-- Action Controls & Speed -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/[0.04]">
+            <div class="flex items-center gap-2">
+              <button (click)="runArgusSimulation()" [disabled]="isArgusRunning"
+                      class="px-4 py-2 bg-violet-400 text-black font-bold rounded-lg font-mono text-xs hover:bg-violet-300 transition-colors disabled:opacity-50 shadow-md">
+                {{ isArgusRunning ? '⚡ Executing Step ' + argusCurrentStep + '/5...' : (argusCurrentStep === 5 ? '✓ Execution Finished (Re-run)' : '▶ Run Multi-Agent DAG Pipeline') }}
+              </button>
+              <button (click)="resetArgusSimulation()"
+                      class="px-3 py-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 rounded-lg font-mono text-xs border border-white/[0.06] transition-colors">
+                ↺ Reset
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-mono text-slate-400">Speed:</span>
+              <div class="flex items-center gap-1 bg-white/[0.03] p-0.5 rounded-lg border border-white/[0.06]">
+                <button (click)="setArgusPlaybackSpeed(1)"
+                  [class]="'px-2 py-0.5 text-xs font-mono rounded transition-all ' + 
+                           (argusPlaybackSpeed === 1 ? 'bg-violet-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                  1.0x
+                </button>
+                <button (click)="setArgusPlaybackSpeed(2)"
+                  [class]="'px-2 py-0.5 text-xs font-mono rounded transition-all ' + 
+                           (argusPlaybackSpeed === 2 ? 'bg-violet-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+                  2.0x
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Topological DAG Node Graph -->
+        <div class="p-4 bg-[#07090e] border-b border-white/[0.08]">
+          <div class="flex items-center justify-between mb-3 text-xs font-mono text-slate-400">
+            <span class="text-white font-semibold">DIRECTED ACYCLIC GRAPH (Topological Order):</span>
+            <span>Click any node to inspect</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-2.5">
+            @for (st of argusSteps; track st.stepId; let idx = $index) {
+            <div (click)="jumpToArgusStep(idx + 1)"
+              [class]="'p-2.5 rounded-xl border font-mono text-xs cursor-pointer transition-all ' +
+                       (st.status === 'completed' ? 'bg-[#0a0f1d] border-violet-400/60 shadow-md' :
+                        st.status === 'running' ? 'bg-violet-950/40 border-violet-400 ring-2 ring-violet-400/30 shadow-lg' :
+                        'bg-black/40 border-white/[0.06] opacity-60 hover:opacity-90')">
+              
+              <div class="flex items-center justify-between mb-1">
+                <span class="px-1.5 py-0.2 rounded text-[9px] uppercase font-bold bg-white/[0.06] text-violet-300">
+                  {{ st.agentLabel }}
+                </span>
+                <span [class]="st.status === 'completed' ? 'text-emerald-400 font-bold text-[10px]' : 
+                               st.status === 'running' ? 'text-amber-300 animate-pulse text-[10px]' : 'text-slate-500 text-[10px]'">
+                  {{ st.status === 'completed' ? '✓ DONE' : (st.status === 'running' ? '⚡ RUN' : '○ PEND') }}
+                </span>
+              </div>
+
+              <div class="font-bold text-[11px] text-white truncate">{{ st.title }}</div>
+              <div class="text-[10px] text-slate-400 mt-1 truncate">{{ st.badge }}</div>
+            </div>
+            }
+          </div>
+        </div>
+
+        <!-- Inspector Sub-View Tabs -->
+        <div class="p-3 bg-[#0a0f1d] border-b border-white/[0.06] flex flex-wrap items-center gap-1">
+          <button (click)="argusActiveView = 'dag'"
+            [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                     (argusActiveView === 'dag' ? 'bg-violet-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+            Topological Step
+          </button>
+          <button (click)="argusActiveView = 'email'"
+            [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                     (argusActiveView === 'email' ? 'bg-violet-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+            📧 Ingested Email & Draft
+          </button>
+          <button (click)="argusActiveView = 'doc'"
+            [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                     (argusActiveView === 'doc' ? 'bg-violet-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+            📄 TableFormer Matrix
+          </button>
+          <button (click)="argusActiveView = 'memory'"
+            [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                     (argusActiveView === 'memory' ? 'bg-violet-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+            🧠 Loci Memory
+          </button>
+          <button (click)="argusActiveView = 'web'"
+            [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                     (argusActiveView === 'web' ? 'bg-violet-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+            🌐 SearXNG Web Intel
+          </button>
+          <button (click)="argusActiveView = 'telemetry'"
+            [class]="'px-2.5 py-1 text-xs font-mono rounded-lg transition-colors ' + 
+                     (argusActiveView === 'telemetry' ? 'bg-violet-400 text-black font-bold' : 'text-slate-400 hover:text-white')">
+            🔍 Traces
+          </button>
+        </div>
+
+        <!-- Inspector Deck Viewport -->
+        <div class="p-5 font-mono text-xs">
+          
+          <!-- View 1: Active Step Detail -->
+          @if (argusActiveView === 'dag') {
+          <div class="space-y-4">
+            @let cur = argusSteps[argusCurrentStep > 0 ? argusCurrentStep - 1 : 0];
+            <div class="p-4 bg-[#03060c] rounded-xl border border-white/[0.08] space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+                <div class="flex items-center gap-2">
+                  <span class="text-violet-400 font-bold">{{ cur.stepId }}:</span>
+                  <span class="text-white font-bold text-sm">{{ cur.title }}</span>
+                </div>
+                <span class="text-slate-400 text-[11px]">Agent: <strong class="text-white">{{ cur.agent }}</strong> ({{ cur.agentLabel }})</span>
+              </div>
+
+              <p class="text-slate-300 leading-relaxed font-sans text-xs sm:text-sm">
+                {{ cur.description }}
+              </p>
+
+              <div class="p-2.5 rounded-lg bg-black/60 border border-white/[0.04] space-y-1">
+                <span class="text-[10px] text-slate-500 uppercase block">Tool Invocation:</span>
+                <code class="text-violet-300 text-[11px]">{{ cur.toolCall }}</code>
+              </div>
+
+              <div class="p-2.5 rounded-lg bg-black/60 border border-white/[0.04] space-y-1">
+                <span class="text-[10px] text-slate-500 uppercase block">Blackboard Variable Resolution:</span>
+                @for (v of cur.variables; track v) {
+                <div class="text-emerald-300 text-[11px]">↳ {{ v }}</div>
+                }
+              </div>
+
+              @if (cur.receipt) {
+              <div class="p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-500/30 text-emerald-300 text-[11px]">
+                <strong>Verified Receipt:</strong> {{ cur.receipt }}
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          <!-- View 2: Email Thread & Staged Draft -->
+          @if (argusActiveView === 'email') {
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] space-y-2">
+              <span class="text-[10px] uppercase text-slate-500 block">INCOMING VENDOR EMAIL</span>
+              <div class="text-[11px] text-slate-400">From: <strong class="text-white">{{ argusEmail.inbound.from }}</strong></div>
+              <div class="text-[11px] text-slate-400">Subject: <strong class="text-white">{{ argusEmail.inbound.subject }}</strong></div>
+              <div class="p-2 bg-black/40 rounded text-slate-300 text-[11px] leading-relaxed">
+                {{ argusEmail.inbound.snippet }}
+              </div>
+            </div>
+
+            <div class="p-3 bg-[#03060c] rounded-xl border border-emerald-500/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] uppercase text-emerald-400 block font-bold">STAGED COUNTER-OFFER DRAFT</span>
+                <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">Supervised</span>
+              </div>
+              <div class="text-[11px] text-slate-400">Folder: <strong class="text-white">{{ argusEmail.draft.folder }}</strong></div>
+              <div class="text-[11px] text-slate-400">Subject: <strong class="text-white">{{ argusEmail.draft.subject }}</strong></div>
+              <div class="p-2 bg-black/40 rounded text-emerald-200/90 text-[11px] leading-relaxed">
+                {{ argusEmail.draft.body }}
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- View 3: TableFormer Document Matrix -->
+          @if (argusActiveView === 'doc') {
+          <div class="space-y-4 font-mono text-xs">
+            <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <div class="text-violet-400 font-bold">{{ argusDocling.fileName }}</div>
+                <div class="text-slate-400 text-[11px] mt-0.5">{{ argusDocling.parser }} · Vault: {{ argusDocling.documentId }}</div>
+              </div>
+              <span class="px-2.5 py-1 bg-white/[0.04] rounded border border-white/[0.08] text-slate-300 text-[11px]">
+                {{ argusDocling.stats }}
+              </span>
+            </div>
+
+            <!-- Structured Matrix Table -->
+            <div class="overflow-x-auto rounded-xl border border-white/[0.08] bg-[#03060c]">
+              <div class="p-3 bg-[#07090e] border-b border-white/[0.08] text-white font-bold text-[11px]">
+                {{ argusDocling.extractedTable.title }}
+              </div>
+              <table class="w-full text-left border-collapse text-[11px]">
+                <thead>
+                  <tr class="bg-white/[0.02] text-slate-400 border-b border-white/[0.06]">
+                    @for (col of argusDocling.extractedTable.columns; track col) {
+                    <th class="p-2.5 font-semibold">{{ col }}</th>
+                    }
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/[0.04]">
+                  @for (row of argusDocling.extractedTable.rows; track row.tier) {
+                  <tr class="hover:bg-white/[0.02] transition-colors">
+                    <td class="p-2.5 text-white font-medium">{{ row.tier }}</td>
+                    <td class="p-2.5 text-slate-400">{{ row.current }}</td>
+                    <td class="p-2.5 text-rose-400">{{ row.proposed }}</td>
+                    <td class="p-2.5">
+                      <span [class]="row.alert ? 'px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/25' : 'text-slate-400'">
+                        {{ row.change }}
+                      </span>
+                    </td>
+                    <td class="p-2.5 text-cyan-300">{{ row.market }}</td>
+                    <td class="p-2.5 text-emerald-400 font-bold">{{ row.limit }}</td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Extracted SLA Clauses -->
+            <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] space-y-2">
+              <div class="text-white font-semibold text-xs">Docling Extracted SLA Commitments vs Memory Policies:</div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                @for (sla of argusDocling.slaTerms; track sla.param) {
+                <div class="p-2.5 bg-black/40 rounded border border-white/[0.06] text-[11px]">
+                  <div class="text-slate-400 font-medium">{{ sla.param }}</div>
+                  <div [class]="sla.compliant ? 'text-emerald-400 mt-1' : 'text-rose-400 mt-1'">{{ sla.value }}</div>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- View 4: Cognitive Loci Memory -->
+          @if (argusActiveView === 'memory') {
+          <div class="space-y-4 font-mono text-xs">
+            <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <div class="text-violet-400 font-bold">Loci-Hindsight Cognitive Memory Engine</div>
+                <div class="text-slate-400 text-[11px] mt-0.5">{{ argusMemory.dbType }}</div>
+              </div>
+              <span class="px-2.5 py-1 bg-white/[0.04] rounded border border-white/[0.08] text-slate-300 text-[11px]">
+                {{ argusMemory.networks }}
+              </span>
+            </div>
+
+            <!-- Spatial Wings & Halls Hierarchy -->
+            <div class="space-y-3">
+              @for (w of argusMemory.spatialWings; track w.wing) {
+              <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] space-y-2.5">
+                <div class="text-emerald-400 font-bold uppercase text-xs flex items-center gap-2">
+                  <span>🏛️ Wing: {{ w.wing }}</span>
+                </div>
+
+                @for (h of w.halls; track h.hall) {
+                <div class="pl-3 border-l-2 border-emerald-400/40 space-y-2">
+                  <div class="text-slate-400 text-[11px] font-semibold">Hall: {{ h.hall }}</div>
+
+                  <div class="space-y-1.5">
+                    @for (e of h.entries; track e.key) {
+                    <div class="p-2.5 bg-black/50 rounded border border-white/[0.04] text-[11px] space-y-1">
+                      <div class="flex items-center justify-between">
+                        <span class="text-cyan-300 font-bold">{{ e.key }}</span>
+                        <div class="flex items-center gap-2">
+                          <span class="px-1.5 py-0.5 rounded text-[9px] bg-white/[0.06] text-slate-400">{{ e.type }}</span>
+                          <span [class]="e.status === 'ACTIVE' ? 'px-1.5 py-0.5 rounded text-[9px] bg-emerald-500/20 text-emerald-300' : 'px-1.5 py-0.5 rounded text-[9px] bg-slate-800 text-slate-500'">{{ e.status }}</span>
+                        </div>
+                      </div>
+                      <p class="text-slate-300 text-[10px] leading-relaxed">{{ e.content }}</p>
+                    </div>
+                    }
+                  </div>
+                </div>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          <!-- View 5: SearXNG Web Intelligence -->
+          @if (argusActiveView === 'web') {
+          <div class="space-y-3">
+            <div class="text-[11px] text-slate-400">
+              Metasearch Backend: <span class="text-white font-semibold">{{ argusWeb.searchBackend }}</span>
+            </div>
+            @for (q of argusWeb.queries; track q.query) {
+            <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] space-y-1.5">
+              <div class="flex justify-between items-center">
+                <span class="text-cyan-300 font-bold text-[11px]">Query: "{{ q.query }}"</span>
+                <span class="text-[10px] text-slate-500">{{ q.source }}</span>
+              </div>
+              <p class="text-slate-300 text-[11px] leading-relaxed">{{ q.excerpt }}</p>
+              <div class="text-[10px] text-slate-500 truncate">Citation: {{ q.url }}</div>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- View 6: Telemetry Traces -->
+          @if (argusActiveView === 'telemetry') {
+          <div class="space-y-2">
+            <span class="text-[10px] uppercase text-slate-500 block">RING BUFFER DEBUG TRACE STREAM</span>
+            <div class="space-y-1.5 p-3 bg-[#03060c] rounded-xl border border-white/[0.08] max-h-48 overflow-y-auto">
+              @for (tr of argusTraces; track $index) {
+              <div class="flex items-start gap-2 text-[10px]">
+                <span class="text-slate-500 shrink-0 w-12">{{ tr.time }}</span>
+                <span [class]="tr.level === 'WARN' ? 'text-amber-400 font-bold' : 'text-violet-400 font-bold'">[{{ tr.type }}]</span>
+                <span class="text-slate-300">{{ tr.msg }}</span>
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 4. MORE WORK: SECONDARY PROJECTS BENTO GRID -->
+  <!-- ========================================== -->
+  <div id="project-more-work" class="pt-8" data-aos="fade-up">
+    
+    <div class="flex items-center gap-3 mb-3">
+      <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
+        04. Repository Catalog
+      </span>
+    </div>
+
+    <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">
+      More Engineering Work & Open Source
     </h3>
-    <p class="text-slate text-sm mb-6">
-      Additional tools, experiments, open-source repositories, and developer utilities.
+    <p class="text-slate text-sm sm:text-base mb-8 max-w-2xl">
+      Additional tools, experiments, open-source repositories, and computer vision utilities.
     </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (item of moreWork; track item.title) {
-      <div class="bg-navy-light/60 border border-lightest-navy/50 rounded-xl p-5 hover:border-green-400/40 hover:bg-navy-light transition-all duration-300 flex flex-col justify-between" data-aos="fade-up">
+      <div class="glass-card rounded-2xl p-6 hover:border-emerald-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
         <div>
-          <div class="flex justify-between items-start mb-2">
+          <div class="flex justify-between items-start mb-3">
             <div>
-              <h4 class="text-lg font-bold text-lightest-slate hover:text-green-400 transition-colors">
+              <h4 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors">
                 {{ item.title }}
               </h4>
-              <p class="text-xs font-mono text-green-300/90">{{ item.subtitle }}</p>
+              <p class="text-xs font-mono text-emerald-400/80 mt-0.5">{{ item.subtitle }}</p>
             </div>
+            
             @if (item.githubLink) {
             <a [href]="item.githubLink" target="_blank" rel="noopener noreferrer" 
-               class="text-slate hover:text-green-400 transition-colors p-1" aria-label="GitHub Link">
+               class="p-2 rounded-lg bg-white/[0.03] text-slate hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" 
+               aria-label="GitHub Link">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
               </svg>
@@ -1207,14 +1143,14 @@
             }
           </div>
 
-          <p class="text-slate text-xs leading-relaxed mt-2 mb-4">
+          <p class="text-slate text-xs sm:text-sm leading-relaxed mb-6 font-normal">
             {{ item.description }}
           </p>
         </div>
 
-        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-lightest-navy/30">
+        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-white/[0.06]">
           @for (tag of item.tags; track tag) {
-          <span class="text-[11px] font-mono text-slate bg-navy px-2 py-0.5 rounded border border-lightest-navy/20">
+          <span class="text-[11px] font-mono text-slate-400 bg-[#07090e] px-2.5 py-1 rounded-md border border-white/[0.06]">
             {{ tag }}
           </span>
           }
@@ -1222,5 +1158,7 @@
       </div>
       }
     </div>
+
   </div>
+
 </section>

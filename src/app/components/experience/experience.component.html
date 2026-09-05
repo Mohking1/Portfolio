@@ -1,59 +1,104 @@
-<section id="experience" class="section-container">
-  <h2 class="section-title" data-aos="fade-up">Professional Experience</h2>
+<section id="experience" class="section-container py-20">
+  
+  <div class="flex items-center gap-3 mb-4" data-aos="fade-up">
+    <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
+      02. Experience & Track Record
+    </span>
+  </div>
 
-  <div class="space-y-8 mt-8">
+  <h2 class="section-title mb-10" data-aos="fade-up">
+    Professional Engineering
+  </h2>
+
+  <!-- Vertical Timeline Container -->
+  <div class="relative pl-6 sm:pl-8 space-y-10 border-l border-white/[0.1] ml-2 sm:ml-4">
+    
     @for (exp of experiences; track exp.company) {
-    <div class="bg-navy-light/80 border border-lightest-navy/60 rounded-xl p-6 sm:p-8 hover:border-green-400/40 transition-all duration-300 shadow-md" data-aos="fade-up">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-        <div>
-          <h3 class="text-xl sm:text-2xl font-bold text-lightest-slate">
-            {{ exp.role }}
-            <span class="text-green-400 font-normal">
-              &#64; <a [href]="exp.companyUrl" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ exp.company }}</a>
-            </span>
-          </h3>
-          <p class="text-xs font-mono text-slate mt-1">{{ exp.location }}</p>
-        </div>
-        <span class="text-xs font-mono text-green-300/90 bg-navy px-3 py-1 rounded-full border border-lightest-navy/40 self-start sm:self-auto">
-          {{ exp.period }}
-        </span>
+    <div class="relative group" data-aos="fade-up">
+      
+      <!-- Timeline Node Indicator -->
+      <div class="absolute -left-[31px] sm:-left-[39px] top-6 w-4 h-4 rounded-full bg-[#07090e] border-2 border-emerald-400 group-hover:border-cyan-400 group-hover:scale-125 transition-all duration-300 flex items-center justify-center">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
       </div>
 
-      <ul class="space-y-3 mt-4 text-slate text-sm sm:text-base leading-relaxed">
-        @for (pt of exp.points; track pt) {
-        <li class="flex items-start gap-3">
-          <span class="text-green-400 text-sm mt-1">▹</span>
-          <span>{{ pt }}</span>
-        </li>
-        }
-      </ul>
+      <!-- Experience Card -->
+      <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-4 border-b border-white/[0.06]">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/25">
+                {{ exp.type }}
+              </span>
+              <span class="text-xs font-mono text-slate-500">{{ exp.location }}</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white">
+              {{ exp.role }}
+              <span class="text-slate-400 font-normal">
+                &#64; <a [href]="exp.companyUrl" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 hover:underline transition-colors">{{ exp.company }} ↗</a>
+              </span>
+            </h3>
+          </div>
 
-      <div class="flex flex-wrap gap-2 mt-6 pt-4 border-t border-lightest-navy/30">
-        @for (tag of exp.tags; track tag) {
-        <span class="text-xs font-mono text-slate bg-navy px-2.5 py-1 rounded border border-lightest-navy/30">
-          {{ tag }}
-        </span>
-        }
+          <span class="text-xs font-mono text-slate-300 bg-white/[0.04] px-3 py-1.5 rounded-lg border border-white/[0.08] shrink-0 self-start">
+            {{ exp.period }}
+          </span>
+        </div>
+
+        <!-- Accomplishment Bullets -->
+        <ul class="space-y-3.5 text-slate text-sm sm:text-base leading-relaxed">
+          @for (pt of exp.points; track pt) {
+          <li class="flex items-start gap-3">
+            <svg class="w-4 h-4 text-emerald-400 mt-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span class="text-slate-300">{{ pt }}</span>
+          </li>
+          }
+        </ul>
+
+        <!-- Tech Stack Tags -->
+        <div class="flex flex-wrap gap-2 pt-2">
+          @for (tag of exp.tags; track tag) {
+          <span class="text-xs font-mono text-slate-400 bg-[#07090e] px-3 py-1 rounded-md border border-white/[0.06] hover:border-emerald-500/30 transition-colors">
+            {{ tag }}
+          </span>
+          }
+        </div>
       </div>
     </div>
     }
 
-    <!-- Beyond AI / Additional Experience Item -->
-    <div class="bg-navy-light/40 border border-lightest-navy/40 rounded-xl p-6 hover:border-lightest-navy/80 transition-all duration-300" data-aos="fade-up">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-        <div class="flex items-center gap-3">
-          <span class="text-xs font-mono uppercase tracking-wider text-green-400 bg-navy px-2 py-0.5 rounded border border-lightest-navy/30">
-            Beyond AI / Platform Proof
-          </span>
-          <h4 class="text-base sm:text-lg font-bold text-lightest-slate">
-            {{ beyondAi.title }}
-          </h4>
-        </div>
-        <span class="text-xs font-mono text-slate">{{ beyondAi.period }} · {{ beyondAi.highlight }}</span>
+    <!-- Beyond AI / Platform Proof -->
+    <div class="relative group" data-aos="fade-up">
+      <!-- Timeline Node -->
+      <div class="absolute -left-[31px] sm:-left-[39px] top-6 w-4 h-4 rounded-full bg-[#07090e] border-2 border-cyan-400 group-hover:scale-125 transition-all duration-300 flex items-center justify-center">
+        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
       </div>
-      <p class="text-slate text-sm leading-relaxed">
-        {{ beyondAi.description }}
-      </p>
+
+      <div class="glass-card rounded-2xl p-6 sm:p-7 border-cyan-500/20 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/[0.06]">
+          <div class="flex items-center gap-3">
+            <span class="text-[11px] font-mono uppercase tracking-wider text-cyan-300 bg-cyan-500/10 px-2.5 py-0.5 rounded border border-cyan-500/25 font-semibold">
+              Platform Engineering Proof
+            </span>
+            <h4 class="text-lg font-bold text-white">
+              {{ beyondAi.title }}
+            </h4>
+          </div>
+          <span class="text-xs font-mono text-cyan-300 font-semibold bg-cyan-500/10 px-3 py-1 rounded border border-cyan-500/20 shrink-0">
+            {{ beyondAi.highlight }}
+          </span>
+        </div>
+
+        <p class="text-slate text-sm sm:text-base leading-relaxed">
+          {{ beyondAi.description }}
+        </p>
+
+        <div class="text-xs font-mono text-slate-500">
+          Duration: {{ beyondAi.period }} · Role: {{ beyondAi.role }}
+        </div>
+      </div>
     </div>
+
   </div>
 </section>

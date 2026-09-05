@@ -19,7 +19,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Active flagship demo tab/state
-  activeTab: 'creature' | 'tracker' | 'video' | 'maildoc' = 'creature';
+  activeTab: 'creature' | 'tracker' | 'maildoc' = 'creature';
 
   // ==========================================
   // 1. CREATURE RL DEMO STATE & TELEMETRY
@@ -220,51 +220,6 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
   ];
   selectedExp = this.experiments[0];
   trackerActiveTab: 'sdk' | 'matrix' | 'charts' | 'gradients' | 'benchmark' = 'sdk';
-
-  // ==========================================
-  // 3. AI VIDEO AD GENERATOR DEMO STATE
-  // ==========================================
-  videoMode: 'agentic' | 'pipeline' = 'agentic';
-  currentScene = 1;
-  isPlayingVideo = false;
-  videoScenes = [
-    {
-      id: 1,
-      title: 'Scene 1: Hook & Context',
-      duration: '3.0s',
-      operation: 'Prompt Decomposition & Visual Anchor',
-      visualPrompt: 'Dynamic camera tracking high-end smartwatch on runner wrist at sunrise',
-      ttsVoice: 'En-US-Neural (Punchy Intro)',
-      status: 'Generated & Validated'
-    },
-    {
-      id: 2,
-      title: 'Scene 2: Core Feature Reveal',
-      duration: '4.5s',
-      operation: 'Multimodal Video Synthesis & Depth Map',
-      visualPrompt: 'Macro shot of titanium case, biometric sensors pulsing subtle emerald glow',
-      ttsVoice: 'En-US-Neural (Feature focus)',
-      status: 'Generated & Validated'
-    },
-    {
-      id: 3,
-      title: 'Scene 3: Real-World Use & Lip-Sync',
-      duration: '3.5s',
-      operation: 'Wav2Lip / Audio-Visual Alignment',
-      visualPrompt: 'Athlete smiling mid-workout, real-time heart rate and cadence overlay',
-      ttsVoice: 'En-US-Neural (Testimonial)',
-      status: 'Generated & Validated'
-    },
-    {
-      id: 4,
-      title: 'Scene 4: Outro & Call to Action',
-      duration: '2.5s',
-      operation: 'FFmpeg Concatenation & Subtitle Burning',
-      visualPrompt: 'Product hero spin, clean typography CTA banner with audio swell',
-      ttsVoice: 'En-US-Neural (Closing CTA)',
-      status: 'Composed & Ready'
-    }
-  ];
 
   // ==========================================
   // 4. ARGUS OS (FORMERLY MAILDOC AI) — MULTI-AGENT EXECUTIVE SYSTEM DEMO
@@ -799,6 +754,15 @@ AI / ML Infrastructure Operations`
 
   clearHoveredCell() {
     this.hoveredCell = null;
+  }
+
+  getGradientWidth(norm: string): number {
+    const val = parseFloat(norm) || 0;
+    return Math.min(100, Math.max(5, (val / 1.5) * 100));
+  }
+
+  get argusDoc() {
+    return this.argusDocling;
   }
 
   drawCreature() {

@@ -1,26 +1,50 @@
-<section id="achievements" class="section-container">
-  <h2 class="section-title" data-aos="fade-up">Achievements & Recognition</h2>
+<section id="achievements" class="section-container py-20">
+  
+  <div class="flex items-center gap-3 mb-4" data-aos="fade-up">
+    <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
+      05. Honors & Recognition
+    </span>
+  </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12" data-aos="fade-up">
+    <div>
+      <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Achievements & Grants
+      </h2>
+      <p class="text-slate max-w-2xl text-base mt-2">
+        Documented competitive qualifications, government grants, and open-source contributions.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     @for (item of achievements; track item.title) {
-    <div class="bg-navy-light/70 border border-lightest-navy/50 rounded-xl p-5 hover:border-green-400/50 hover:bg-navy-light transition-all duration-300 flex flex-col justify-between" data-aos="fade-up">
+    <div class="glass-card rounded-2xl p-6 sm:p-7 hover:-translate-y-1 hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between group" data-aos="fade-up">
       <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-[11px] font-mono uppercase tracking-wider text-green-400 font-semibold bg-navy px-2 py-0.5 rounded border border-lightest-navy/30">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
             {{ item.tag }}
           </span>
-          <span class="text-xs font-mono font-medium text-green-300">
+          <span class="text-xs font-mono font-bold text-white group-hover:text-emerald-300 transition-colors">
             {{ item.highlight }}
           </span>
         </div>
-        <h3 class="text-base font-bold text-lightest-slate mt-2 mb-2">
+
+        <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
           {{ item.title }}
         </h3>
-        <p class="text-slate text-xs sm:text-sm leading-relaxed">
+
+        <p class="text-slate text-xs sm:text-sm leading-relaxed font-normal">
           {{ item.description }}
         </p>
+      </div>
+
+      <div class="pt-4 mt-4 border-t border-white/[0.04] flex items-center justify-between text-[11px] font-mono text-slate-500">
+        <span>Verified Milestone</span>
+        <span class="text-emerald-400 font-bold">✓</span>
       </div>
     </div>
     }
   </div>
+
 </section>

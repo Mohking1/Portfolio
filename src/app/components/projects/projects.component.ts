@@ -230,6 +230,7 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
   isArgusRunning = false;
   argusCurrentStep = 0;
   argusPlaybackSpeed: 1 | 2 = 1;
+  argusExpandedView = false;
   private argusTimer: any = null;
 
   // Topological DAG execution steps with variable resolution & telemetry
@@ -251,8 +252,8 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       stepId: 'step_2a',
       agent: 'doc_agent',
       agentLabel: 'Doc Agent',
-      badge: 'Docling + TableFormer',
-      title: 'Docling & TableFormer Extraction [Parallel A]',
+      badge: 'Docling Tables',
+      title: 'Docling & TableFormer Extraction',
       description: "Parse '$step_1.saved_paths' via IBM TableFormer (ACCURATE mode). Extracts compute pricing matrix & SLA clauses.",
       toolCall: "doc_agent.parse_and_extract_tables(file_path=$step_1.saved_paths)",
       variables: ["$step_2a.tables -> 3 pricing matrices", "$step_2a.clauses -> 2 SLA policies"],
@@ -265,7 +266,7 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       agent: 'memory_agent',
       agentLabel: 'Cognitive Memory',
       badge: 'SQLite Loci FTS5',
-      title: 'Loci Beliefs & Budget Thresholds [Parallel B]',
+      title: 'Loci Beliefs & Budget Rules',
       description: "Query SQLite FTS5 spatial index in 'wings/projects/decisions' and 'wings/beliefs' for active spending ceilings and negotiation policies.",
       toolCall: "memory.search_beliefs(wing='projects', hall='decisions')",
       variables: ["$step_2b.active_rules -> 'vendor_escalation_cap: max 6.0%'"],
@@ -277,7 +278,7 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       stepId: 'step_3',
       agent: 'web_agent',
       agentLabel: 'Web Intelligence',
-      badge: 'SearXNG + Trafilatura',
+      badge: 'SearXNG Web',
       title: 'SearXNG Zero-Cloud Metasearch',
       description: "Execute 4-phase autonomous research across SearXNG + Trafilatura for 2026 enterprise cloud benchmarks and Acme outage telemetry.",
       toolCall: "web_agent.research(queries=['enterprise cloud pricing benchmark 2026', 'Acme Cloud downtime log'])",
@@ -291,7 +292,7 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       agent: 'rag_agent',
       agentLabel: 'RAG Hybrid Engine',
       badge: 'Parent-Child RRF',
-      title: 'Parent-Child RRF Synthesis & Reconciliation',
+      title: 'Parent-Child RRF Synthesis',
       description: "Fuse TableFormer pricing tables ($step_2a), Cognitive Memory rules ($step_2b), and Web evidence ($step_3) into a cited counter-negotiation brief.",
       toolCall: "rag_agent.synthesize_with_citations(sources=['vault', 'memory', 'web'])",
       variables: ["$step_4.counter_terms -> '+4.5% blended rate, 99.95% SLA credit multiplier'"],
@@ -303,8 +304,8 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       stepId: 'step_5',
       agent: 'mail_agent',
       agentLabel: 'Autonomy Governance',
-      badge: 'Supervised Gating',
-      title: 'Supervised Outbound Draft Staging',
+      badge: 'Supervised Gate',
+      title: 'Supervised Outbound Staging',
       description: "Autonomy policy check (SUPERVISED). Intercepts direct external SMTP dispatch and stages formatted counter-offer email into Drafts folder.",
       toolCall: "mail_agent.create_draft(folder='Drafts/Vendor_Renewals', attach_matrix=True)",
       variables: ["$step_5.draft_uid -> 'draft_9041'", "$step_5.status -> 'STAGED_SUPERVISED'"],
@@ -1481,6 +1482,7 @@ AI / ML Infrastructure Operations`
         }
         this.argusSteps[index].status = 'running';
         this.argusCurrentStep = index + 1;
+        this.scrollToArgusStep(index);
 
         // Parallel branch execution visualization for step 2a & 2b
         if (index === 1) {
@@ -1488,11 +1490,13 @@ AI / ML Infrastructure Operations`
           this.argusActiveView = 'doc';
         } else if (index === 2) {
           this.argusSteps[1].status = 'completed';
-          this.argusSteps[2].status = 'completed';
+          this.argusSteps[2].status = 'running';
           this.argusActiveView = 'memory';
         } else if (index === 0) {
           this.argusActiveView = 'email';
         } else if (index === 3) {
+          this.argusSteps[1].status = 'completed';
+          this.argusSteps[2].status = 'completed';
           this.argusActiveView = 'web';
         } else if (index === 4) {
           this.argusActiveView = 'dag';
@@ -1514,6 +1518,7 @@ AI / ML Infrastructure Operations`
         this.mailDocLogs.forEach(l => l.status = 'done');
         this.argusCurrentStep = this.argusSteps.length;
         this.isArgusRunning = false;
+        this.scrollToArgusStep(this.argusSteps.length - 1);
       }
     };
 
@@ -1530,6 +1535,7 @@ AI / ML Infrastructure Operations`
     this.argusActiveView = 'dag';
     this.argusSteps.forEach(s => s.status = 'pending');
     this.mailDocLogs.forEach(l => l.status = 'pending');
+    this.scrollToArgusStep(0);
   }
 
   jumpToArgusStep(targetStepNumber: number) {
@@ -1543,22 +1549,128 @@ AI / ML Infrastructure Operations`
       if (idx < targetStepNumber - 1) {
         s.status = 'completed';
       } else if (idx === targetStepNumber - 1) {
-        s.status = 'completed';
+        s.status = 'running';
       } else {
         s.status = 'pending';
       }
     });
 
-    if (targetStepNumber === 1) this.argusActiveView = 'email';
-    else if (targetStepNumber === 2) this.argusActiveView = 'doc';
-    else if (targetStepNumber === 3) this.argusActiveView = 'memory';
-    else if (targetStepNumber === 4) this.argusActiveView = 'web';
-    else if (targetStepNumber === 5) this.argusActiveView = 'dag';
-    else if (targetStepNumber === 6) this.argusActiveView = 'email';
+    if (targetStepNumber === 2) {
+      this.argusSteps[2].status = 'running';
+      this.argusActiveView = 'doc';
+    } else if (targetStepNumber === 3) {
+      this.argusSteps[1].status = 'completed';
+      this.argusActiveView = 'memory';
+    } else if (targetStepNumber === 1) {
+      this.argusActiveView = 'email';
+    } else if (targetStepNumber === 4) {
+      this.argusSteps[1].status = 'completed';
+      this.argusSteps[2].status = 'completed';
+      this.argusActiveView = 'web';
+    } else if (targetStepNumber === 5) {
+      this.argusSteps[1].status = 'completed';
+      this.argusSteps[2].status = 'completed';
+      this.argusSteps[3].status = 'completed';
+      this.argusActiveView = 'dag';
+    } else if (targetStepNumber === 6) {
+      this.argusSteps.forEach(s => s.status = 'completed');
+      this.argusSteps[5].status = 'running';
+      this.argusActiveView = 'email';
+    }
+
+    this.scrollToArgusStep(targetStepNumber - 1);
+  }
+
+  scrollToArgusStep(stepIndex: number) {
+    if (typeof window === 'undefined') return;
+    try {
+      const container = document.getElementById('argus-dag-viewport');
+      if (container) {
+        const nodePositions = [16, 226, 226, 436, 646, 856];
+        const targetX = nodePositions[stepIndex] ?? 0;
+        const viewportWidth = container.clientWidth;
+        const scrollLeft = Math.max(0, targetX - (viewportWidth / 2) + 87);
+        container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+      }
+    } catch {
+      // safe fallback
+    }
   }
 
   setArgusPlaybackSpeed(speed: 1 | 2) {
     this.argusPlaybackSpeed = speed;
+  }
+
+  getArgusEdgeState(edge: '1_to_2a' | '1_to_2b' | '2a_to_3' | '2a_to_4' | '2b_to_4' | '3_to_4' | '4_to_5'): 'completed' | 'running' | 'pending' {
+    const s1 = this.argusSteps[0]?.status;
+    const s2a = this.argusSteps[1]?.status;
+    const s2b = this.argusSteps[2]?.status;
+    const s3 = this.argusSteps[3]?.status;
+    const s4 = this.argusSteps[4]?.status;
+    const s5 = this.argusSteps[5]?.status;
+
+    switch (edge) {
+      case '1_to_2a':
+        if (s1 === 'completed' && s2a === 'completed') return 'completed';
+        if (s2a === 'running') return 'running';
+        return 'pending';
+      case '1_to_2b':
+        if (s1 === 'completed' && s2b === 'completed') return 'completed';
+        if (s2b === 'running') return 'running';
+        return 'pending';
+      case '2a_to_3':
+        if (s2a === 'completed' && s3 === 'completed') return 'completed';
+        if (s3 === 'running') return 'running';
+        return 'pending';
+      case '2a_to_4':
+        if (s2a === 'completed' && s4 === 'completed') return 'completed';
+        if (s4 === 'running') return 'running';
+        return 'pending';
+      case '2b_to_4':
+        if (s2b === 'completed' && s4 === 'completed') return 'completed';
+        if (s4 === 'running') return 'running';
+        return 'pending';
+      case '3_to_4':
+        if (s3 === 'completed' && s4 === 'completed') return 'completed';
+        if (s4 === 'running') return 'running';
+        return 'pending';
+      case '4_to_5':
+        if (s4 === 'completed' && s5 === 'completed') return 'completed';
+        if (s5 === 'running') return 'running';
+        return 'pending';
+      default:
+        return 'pending';
+    }
+  }
+
+  getArgusNodeStyle(idx: number): { [key: string]: string } {
+    const positions = [
+      { left: '16px', top: '126px', width: '174px', height: '122px' },  // step_1
+      { left: '226px', top: '42px', width: '174px', height: '122px' },  // step_2a
+      { left: '226px', top: '210px', width: '174px', height: '122px' }, // step_2b
+      { left: '436px', top: '126px', width: '174px', height: '122px' }, // step_3
+      { left: '646px', top: '126px', width: '174px', height: '122px' }, // step_4
+      { left: '856px', top: '126px', width: '174px', height: '122px' }  // step_5
+    ];
+    return positions[idx] || positions[0];
+  }
+
+  inspectArgusStep(targetStepNumber: number, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.jumpToArgusStep(targetStepNumber);
+    this.argusActiveView = 'dag';
+    if (typeof window !== 'undefined') {
+      try {
+        const inspector = document.getElementById('argus-inspector-deck');
+        if (inspector) {
+          inspector.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      } catch {
+        // safe
+      }
+    }
   }
 
   // Alias for backward compatibility

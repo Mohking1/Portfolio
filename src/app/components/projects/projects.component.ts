@@ -405,13 +405,13 @@ with et.init(
       stepId: 'step_1',
       agent: 'mail_agent',
       agentLabel: 'Mail Agent',
-      badge: 'IMAP Protocol',
-      title: 'IMAP Search & PDF Extraction',
+      badge: 'IMAP SSL',
+      title: 'Inbound Verification & Ingestion',
       description: "Scan priority thread from licensing-renewals@acme-cloud.io and download 'Acme_Enterprise_Renewal_2026.pdf' to Document Vault.",
       toolCall: "mail_agent.fetch_attachment(uid=4492, save_to='data/vault/')",
       variables: [
         {
-          name: '$step_1.saved_paths',
+          name: 'step_1.saved_paths',
           resolved: "'data/vault/Acme_Enterprise_Renewal_2026.pdf'",
           latex: '\\mathcal{B}[\\text{step}_1.\\text{saved\\_paths}] \\xrightarrow{\\text{bind}} \\mathtt{"data/vault/Acme\\_Enterprise\\_Renewal\\_2026.pdf"}'
         }
@@ -426,16 +426,16 @@ with et.init(
       agentLabel: 'Doc Agent',
       badge: 'Docling Tables',
       title: 'Docling & TableFormer Extraction',
-      description: "Parse '$step_1.saved_paths' via IBM TableFormer (ACCURATE mode). Extracts compute pricing matrix & SLA clauses.",
-      toolCall: "doc_agent.parse_and_extract_tables(file_path=$step_1.saved_paths)",
+      description: "Parse 'step_1.saved_paths' via IBM TableFormer (ACCURATE mode). Extracts compute pricing matrix & SLA clauses.",
+      toolCall: "doc_agent.parse_and_extract_tables(file_path=step_1.saved_paths)",
       variables: [
         {
-          name: '$step_2a.tables',
+          name: 'step_2a.tables',
           resolved: '3 pricing matrices',
           latex: '\\mathcal{B}[\\text{step}_{2\\text{a}}.\\text{tables}] \\xrightarrow{\\text{bind}} 3\\ \\text{pricing matrices}'
         },
         {
-          name: '$step_2a.clauses',
+          name: 'step_2a.clauses',
           resolved: '2 SLA policies',
           latex: '\\mathcal{B}[\\text{step}_{2\\text{a}}.\\text{clauses}] \\xrightarrow{\\text{bind}} 2\\ \\text{SLA policies}'
         }
@@ -454,7 +454,7 @@ with et.init(
       toolCall: "memory.search_beliefs(wing='projects', hall='decisions')",
       variables: [
         {
-          name: '$step_2b.active_rules',
+          name: 'step_2b.active_rules',
           resolved: "'vendor_escalation_cap: max 6.0%'",
           latex: '\\mathcal{B}[\\text{step}_{2\\text{b}}.\\text{active\\_rules}] \\xrightarrow{\\text{bind}} \\mathtt{"vendor\\_escalation\\_cap: max 6.0\\%"}'
         }
@@ -473,12 +473,12 @@ with et.init(
       toolCall: "web_agent.research(queries=['enterprise cloud pricing benchmark 2026', 'Acme Cloud downtime log'])",
       variables: [
         {
-          name: '$step_3.market_rate',
+          name: 'step_3.market_rate',
           resolved: '-3.8% avg contraction',
           latex: '\\mathcal{B}[\\text{step}_3.\\text{market\\_rate}] \\xrightarrow{\\text{bind}} -3.8\\%\\ \\text{avg contraction}'
         },
         {
-          name: '$step_3.incident',
+          name: 'step_3.incident',
           resolved: 'ACM-8821 (4h downtime)',
           latex: '\\mathcal{B}[\\text{step}_3.\\text{incident}] \\xrightarrow{\\text{bind}} \\mathtt{"ACM-8821 (4h downtime)"}'
         }
@@ -493,11 +493,11 @@ with et.init(
       agentLabel: 'RAG Hybrid Engine',
       badge: 'Parent-Child RRF',
       title: 'Parent-Child RRF Synthesis',
-      description: "Fuse TableFormer pricing tables ($step_2a), Cognitive Memory rules ($step_2b), and Web evidence ($step_3) into a cited counter-negotiation brief.",
+      description: "Fuse TableFormer pricing tables (step_2a), Cognitive Memory rules (step_2b), and Web evidence (step_3) into a cited counter-negotiation brief.",
       toolCall: "rag_agent.synthesize_with_citations(sources=['vault', 'memory', 'web'])",
       variables: [
         {
-          name: '$step_4.counter_terms',
+          name: 'step_4.counter_terms',
           resolved: "'+4.5% blended rate, 99.95% SLA credit multiplier'",
           latex: '\\mathcal{B}[\\text{step}_4.\\text{counter\\_terms}] \\xrightarrow{\\text{bind}} \\mathtt{"+4.5\\% blended rate, 99.95\\% SLA credit"}'
         }
@@ -516,12 +516,12 @@ with et.init(
       toolCall: "mail_agent.create_draft(folder='Drafts/Vendor_Renewals', attach_matrix=True)",
       variables: [
         {
-          name: '$step_5.draft_uid',
+          name: 'step_5.draft_uid',
           resolved: "'draft_9041'",
           latex: '\\mathcal{B}[\\text{step}_5.\\text{draft\\_uid}] \\xrightarrow{\\text{bind}} \\mathtt{"draft\\_9041"}'
         },
         {
-          name: '$step_5.status',
+          name: 'step_5.status',
           resolved: "'STAGED_SUPERVISED'",
           latex: '\\mathcal{B}[\\text{step}_5.\\text{status}] \\xrightarrow{\\text{bind}} \\mathbf{STAGED\\_SUPERVISED}'
         }
@@ -661,7 +661,7 @@ AI / ML Infrastructure Operations`
   argusTraces = [
     { level: 'INFO', type: 'PLAN_FORMULATED', component: 'planner', msg: 'Decomposed goal into 5 DAG steps with 2 parallel branches (TopologicalSorter resolved 0 cycles)', time: '0ms' },
     { level: 'INFO', type: 'TOOL_CALL', component: 'mail_agent', msg: 'search_emails(from="acme-cloud.io", subject="renewal") -> Matched UID: 4492', time: '180ms' },
-    { level: 'INFO', type: 'BLACKBOARD_VAR', component: 'blackboard', msg: 'Interpolated $step_1.saved_paths -> "data/vault/Acme_Enterprise_Renewal_2026.pdf"', time: '320ms' },
+    { level: 'INFO', type: 'BLACKBOARD_VAR', component: 'blackboard', msg: 'Interpolated step_1.saved_paths -> "data/vault/Acme_Enterprise_Renewal_2026.pdf"', time: '320ms' },
     { level: 'INFO', type: 'TOOL_CALL', component: 'doc_agent', msg: 'IBM TableFormer (ACCURATE) extracted Table 4.1 matrix (4 rows, 6 columns)', time: '1460ms' },
     { level: 'INFO', type: 'TOOL_CALL', component: 'memory_agent', msg: 'FTS5 BM25 match in wings/projects/decisions -> Active key: "vendor_escalation_cap" (+6.0%)', time: '1480ms' },
     { level: 'INFO', type: 'TOOL_CALL', component: 'web_agent', msg: 'SearXNG dispatched 2 queries -> Reranked 14 URLs -> Trafilatura extracted 2 authoritative citations', time: '2370ms' },

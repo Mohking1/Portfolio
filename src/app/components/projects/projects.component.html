@@ -821,16 +821,16 @@
               <strong class="text-white">Blackboard Variable Interpolation:</strong>
               <span class="text-slate-300 block mt-0.5">
                 Downstream steps dynamically consume verified artifacts (
-                <button (click)="inspectVariable('$step_1.saved_paths', 1)"
+                <button (click)="inspectVariable('step_1.saved_paths', 1)"
                         class="text-emerald-300 hover:text-emerald-200 bg-emerald-500/10 hover:bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30 transition-colors font-mono text-[11px] cursor-pointer inline-flex items-center gap-1"
-                        title="Click to inspect $step_1.saved_paths in LaTeX">
-                  <span>$step_1.saved_paths</span>
+                        title="Click to inspect step_1.saved_paths in LaTeX">
+                  <span>step_1.saved_paths</span>
                 </button>
                 <span class="text-slate-500 mx-1">&rarr;</span>
-                <button (click)="inspectVariable('$step_2a.tables', 2)"
+                <button (click)="inspectVariable('step_2a.tables', 2)"
                         class="text-emerald-300 hover:text-emerald-200 bg-emerald-500/10 hover:bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30 transition-colors font-mono text-[11px] cursor-pointer inline-flex items-center gap-1"
-                        title="Click to inspect $step_2a.tables in LaTeX">
-                  <span>$step_2a.tables</span>
+                        title="Click to inspect step_2a.tables in LaTeX">
+                  <span>step_2a.tables</span>
                 </button>
                 ). Click any variable to inspect resolution.
               </span>
@@ -1130,35 +1130,35 @@
 
                 <!-- Arch Upper Edge Badge (Interactive) -->
                 <g class="pointer-events-auto cursor-pointer group"
-                   (click)="inspectVariable('$step_2a.tables', 2)"
+                   (click)="inspectVariable('step_2a.tables', 2)"
                    transform="translate(523, 44)">
                   <rect x="-82" y="-11" width="164" height="22" rx="11"
-                        [attr.fill]="highlightedVariable === '$step_2a.tables' ? '#0b1329' : '#07090e'"
-                        [attr.stroke]="highlightedVariable === '$step_2a.tables' ? '#34d399' : 'rgba(167,139,250,0.4)'"
+                        [attr.fill]="highlightedVariable === 'step_2a.tables' ? '#0b1329' : '#07090e'"
+                        [attr.stroke]="highlightedVariable === 'step_2a.tables' ? '#34d399' : 'rgba(167,139,250,0.4)'"
                         stroke-width="1.5"
                         class="group-hover:stroke-emerald-400 group-hover:fill-[#0c162d] transition-all" />
                   <text x="0" y="3.5"
-                        [attr.fill]="highlightedVariable === '$step_2a.tables' ? '#34d399' : '#c4b5fd'"
+                        [attr.fill]="highlightedVariable === 'step_2a.tables' ? '#34d399' : '#c4b5fd'"
                         font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="600" text-anchor="middle"
                         class="group-hover:fill-emerald-300">
-                    ↳ $step_2a.tables (Doc Vault)
+                    ↳ step_2a.tables (Doc Vault)
                   </text>
                 </g>
 
                 <!-- Arch Lower Edge Badge (Interactive) -->
                 <g class="pointer-events-auto cursor-pointer group"
-                   (click)="inspectVariable('$step_2b.active_rules', 3)"
+                   (click)="inspectVariable('step_2b.active_rules', 3)"
                    transform="translate(523, 338)">
                   <rect x="-92" y="-11" width="184" height="22" rx="11"
-                        [attr.fill]="highlightedVariable === '$step_2b.active_rules' ? '#0b1329' : '#07090e'"
-                        [attr.stroke]="highlightedVariable === '$step_2b.active_rules' ? '#34d399' : 'rgba(167,139,250,0.4)'"
+                        [attr.fill]="highlightedVariable === 'step_2b.active_rules' ? '#0b1329' : '#07090e'"
+                        [attr.stroke]="highlightedVariable === 'step_2b.active_rules' ? '#34d399' : 'rgba(167,139,250,0.4)'"
                         stroke-width="1.5"
                         class="group-hover:stroke-emerald-400 group-hover:fill-[#0c162d] transition-all" />
                   <text x="0" y="3.5"
-                        [attr.fill]="highlightedVariable === '$step_2b.active_rules' ? '#34d399' : '#c4b5fd'"
+                        [attr.fill]="highlightedVariable === 'step_2b.active_rules' ? '#34d399' : '#c4b5fd'"
                         font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="600" text-anchor="middle"
                         class="group-hover:fill-emerald-300">
-                    ↳ $step_2b.active_rules (Loci Memory)
+                    ↳ step_2b.active_rules (Loci Memory)
                   </text>
                 </g>
               </svg>

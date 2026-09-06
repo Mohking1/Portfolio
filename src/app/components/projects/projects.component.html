@@ -819,7 +819,21 @@
             <span class="text-violet-400 font-mono font-bold mt-0.5">▸</span>
             <div>
               <strong class="text-white">Blackboard Variable Interpolation:</strong>
-              <span class="text-slate-300 block">Downstream steps dynamically consume verified artifacts (<code class="text-emerald-300 font-mono text-[11px]">$step_1.saved_paths &rarr; $step_2a.table_matrix</code>).</span>
+              <span class="text-slate-300 block mt-0.5">
+                Downstream steps dynamically consume verified artifacts (
+                <button (click)="inspectVariable('$step_1.saved_paths', 1)"
+                        class="text-emerald-300 hover:text-emerald-200 bg-emerald-500/10 hover:bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30 transition-colors font-mono text-[11px] cursor-pointer inline-flex items-center gap-1"
+                        title="Click to inspect $step_1.saved_paths in LaTeX">
+                  <span>$step_1.saved_paths</span>
+                </button>
+                <span class="text-slate-500 mx-1">&rarr;</span>
+                <button (click)="inspectVariable('$step_2a.tables', 2)"
+                        class="text-emerald-300 hover:text-emerald-200 bg-emerald-500/10 hover:bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30 transition-colors font-mono text-[11px] cursor-pointer inline-flex items-center gap-1"
+                        title="Click to inspect $step_2a.tables in LaTeX">
+                  <span>$step_2a.tables</span>
+                </button>
+                ). Click any variable to inspect resolution.
+              </span>
             </div>
           </div>
           <div class="flex items-start gap-2.5">
@@ -1114,18 +1128,36 @@
                       [attr.filter]="getArgusEdgeState('4_to_5') === 'completed' ? 'url(#glow-emerald)' : (getArgusEdgeState('4_to_5') === 'running' ? 'url(#glow-violet)' : null)"
                       [attr.marker-end]="getArgusEdgeState('4_to_5') === 'completed' ? 'url(#arrow-emerald)' : (getArgusEdgeState('4_to_5') === 'running' ? 'url(#arrow-violet)' : 'url(#arrow-muted)')" />
 
-                <!-- Arch Upper Edge Badge -->
-                <g transform="translate(523, 44)">
-                  <rect x="-80" y="-9" width="160" height="18" rx="9" fill="#07090e" stroke="rgba(167,139,250,0.35)" stroke-width="1" />
-                  <text x="0" y="3.5" fill="#c4b5fd" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="600" text-anchor="middle">
+                <!-- Arch Upper Edge Badge (Interactive) -->
+                <g class="pointer-events-auto cursor-pointer group"
+                   (click)="inspectVariable('$step_2a.tables', 2)"
+                   transform="translate(523, 44)">
+                  <rect x="-82" y="-11" width="164" height="22" rx="11"
+                        [attr.fill]="highlightedVariable === '$step_2a.tables' ? '#0b1329' : '#07090e'"
+                        [attr.stroke]="highlightedVariable === '$step_2a.tables' ? '#34d399' : 'rgba(167,139,250,0.4)'"
+                        stroke-width="1.5"
+                        class="group-hover:stroke-emerald-400 group-hover:fill-[#0c162d] transition-all" />
+                  <text x="0" y="3.5"
+                        [attr.fill]="highlightedVariable === '$step_2a.tables' ? '#34d399' : '#c4b5fd'"
+                        font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="600" text-anchor="middle"
+                        class="group-hover:fill-emerald-300">
                     ↳ $step_2a.tables (Doc Vault)
                   </text>
                 </g>
 
-                <!-- Arch Lower Edge Badge -->
-                <g transform="translate(523, 338)">
-                  <rect x="-88" y="-9" width="176" height="18" rx="9" fill="#07090e" stroke="rgba(167,139,250,0.35)" stroke-width="1" />
-                  <text x="0" y="3.5" fill="#c4b5fd" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="600" text-anchor="middle">
+                <!-- Arch Lower Edge Badge (Interactive) -->
+                <g class="pointer-events-auto cursor-pointer group"
+                   (click)="inspectVariable('$step_2b.active_rules', 3)"
+                   transform="translate(523, 338)">
+                  <rect x="-92" y="-11" width="184" height="22" rx="11"
+                        [attr.fill]="highlightedVariable === '$step_2b.active_rules' ? '#0b1329' : '#07090e'"
+                        [attr.stroke]="highlightedVariable === '$step_2b.active_rules' ? '#34d399' : 'rgba(167,139,250,0.4)'"
+                        stroke-width="1.5"
+                        class="group-hover:stroke-emerald-400 group-hover:fill-[#0c162d] transition-all" />
+                  <text x="0" y="3.5"
+                        [attr.fill]="highlightedVariable === '$step_2b.active_rules' ? '#34d399' : '#c4b5fd'"
+                        font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="600" text-anchor="middle"
+                        class="group-hover:fill-emerald-300">
                     ↳ $step_2b.active_rules (Loci Memory)
                   </text>
                 </g>
@@ -1300,9 +1332,14 @@
                   </span>
                 </div>
                 @for (v of cur.variables; track v.name) {
-                <div class="p-2 rounded bg-white/[0.02] border border-white/[0.04] space-y-1">
+                <div [class]="'p-2.5 rounded-lg transition-all duration-300 space-y-1.5 ' +
+                             (highlightedVariable === v.name ? 'bg-emerald-500/10 border border-emerald-400/60 ring-1 ring-emerald-400/40 shadow-[0_0_12px_rgba(52,211,153,0.2)]' : 'bg-white/[0.02] border border-white/[0.04]')">
+                  <div class="flex items-center justify-between text-[10px] font-mono">
+                    <span class="text-violet-300 font-bold">{{ v.name }}</span>
+                    <span class="text-[9px] text-emerald-400 bg-emerald-500/10 px-1 rounded border border-emerald-500/20">LaTeX Bound</span>
+                  </div>
                   <div class="text-xs text-emerald-300 font-mono overflow-x-auto py-1" [innerHTML]="renderLatex(v.latex)"></div>
-                  <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5">
+                  <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 pt-0.5 border-t border-white/[0.04]">
                     <span class="text-violet-400 font-bold">Resolved:</span>
                     <span class="text-slate-200 truncate">{{ v.resolved }}</span>
                   </div>
@@ -1315,31 +1352,74 @@
                 <strong>Verified Receipt:</strong> {{ cur.receipt }}
               </div>
               }
+
+              <!-- Contextual Deep Link to Raw Artifact Views -->
+              <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-white/[0.06]">
+                @if (cur.stepId === 'step_1') {
+                  <button (click)="argusActiveView = 'email'" class="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/30 hover:bg-violet-500/25 transition-colors flex items-center gap-1.5 cursor-pointer">
+                    <span>📧 View Ingested Email Thread & PDF Attachment</span>
+                    <span>➔</span>
+                  </button>
+                } @else if (cur.stepId === 'step_2a') {
+                  <button (click)="argusActiveView = 'doc'" class="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/30 hover:bg-violet-500/25 transition-colors flex items-center gap-1.5 cursor-pointer">
+                    <span>📄 View Docling & TableFormer Extracted Pricing Matrix</span>
+                    <span>➔</span>
+                  </button>
+                } @else if (cur.stepId === 'step_2b') {
+                  <button (click)="argusActiveView = 'memory'" class="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/30 hover:bg-violet-500/25 transition-colors flex items-center gap-1.5 cursor-pointer">
+                    <span>🧠 View SQLite Loci-Hindsight Cognitive Knowledge Tree</span>
+                    <span>➔</span>
+                  </button>
+                } @else if (cur.stepId === 'step_3') {
+                  <button (click)="argusActiveView = 'web'" class="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/30 hover:bg-violet-500/25 transition-colors flex items-center gap-1.5 cursor-pointer">
+                    <span>🌐 View SearXNG Metasearch Queries & Authoritative Citations</span>
+                    <span>➔</span>
+                  </button>
+                } @else if (cur.stepId === 'step_4') {
+                  <button (click)="argusActiveView = 'telemetry'" class="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/30 hover:bg-violet-500/25 transition-colors flex items-center gap-1.5 cursor-pointer">
+                    <span>🔍 View Real-Time Trace Buffer & Synthesis Ring</span>
+                    <span>➔</span>
+                  </button>
+                } @else if (cur.stepId === 'step_5') {
+                  <button (click)="argusActiveView = 'email'" class="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition-colors flex items-center gap-1.5 cursor-pointer">
+                    <span>✉️ View Staged Supervised Counter-Negotiation Draft</span>
+                    <span>➔</span>
+                  </button>
+                }
+              </div>
             </div>
           </div>
           }
 
           <!-- View 2: Email Thread & Staged Draft -->
           @if (argusActiveView === 'email') {
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] space-y-2">
-              <span class="text-[10px] uppercase text-slate-500 block">INCOMING VENDOR EMAIL</span>
-              <div class="text-[11px] text-slate-400">From: <strong class="text-white">{{ argusEmail.inbound.from }}</strong></div>
-              <div class="text-[11px] text-slate-400">Subject: <strong class="text-white">{{ argusEmail.inbound.subject }}</strong></div>
-              <div class="p-2 bg-black/40 rounded text-slate-300 text-[11px] leading-relaxed">
-                {{ argusEmail.inbound.snippet }}
-              </div>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+              <button (click)="argusActiveView = 'dag'" class="px-2.5 py-1 rounded text-[11px] font-mono bg-violet-500/15 text-violet-300 hover:text-white hover:bg-violet-500/25 border border-violet-500/30 transition-colors flex items-center gap-1 cursor-pointer">
+                <span>⮌ Return to Step Details & Blackboard Variables</span>
+              </button>
+              <span class="text-[10px] text-slate-500 font-mono">IMAP Protocol & Drafts</span>
             </div>
-
-            <div class="p-3 bg-[#03060c] rounded-xl border border-emerald-500/30 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] uppercase text-emerald-400 block font-bold">STAGED COUNTER-OFFER DRAFT</span>
-                <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">Supervised</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] space-y-2">
+                <span class="text-[10px] uppercase text-slate-500 block">INCOMING VENDOR EMAIL</span>
+                <div class="text-[11px] text-slate-400">From: <strong class="text-white">{{ argusEmail.inbound.from }}</strong></div>
+                <div class="text-[11px] text-slate-400">Subject: <strong class="text-white">{{ argusEmail.inbound.subject }}</strong></div>
+                <div class="p-2 bg-black/40 rounded text-slate-300 text-[11px] leading-relaxed">
+                  {{ argusEmail.inbound.snippet }}
+                </div>
               </div>
-              <div class="text-[11px] text-slate-400">Folder: <strong class="text-white">{{ argusEmail.draft.folder }}</strong></div>
-              <div class="text-[11px] text-slate-400">Subject: <strong class="text-white">{{ argusEmail.draft.subject }}</strong></div>
-              <div class="p-2 bg-black/40 rounded text-emerald-200/90 text-[11px] leading-relaxed">
-                {{ argusEmail.draft.body }}
+
+              <div class="p-3 bg-[#03060c] rounded-xl border border-emerald-500/30 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] uppercase text-emerald-400 block font-bold">STAGED COUNTER-OFFER DRAFT</span>
+                  <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">Supervised</span>
+                </div>
+                <div class="text-[11px] text-slate-400">Folder: <strong class="text-white">{{ argusEmail.draft.folder }}</strong></div>
+                <div class="text-[11px] text-slate-400">Subject: <strong class="text-white">{{ argusEmail.draft.subject }}</strong></div>
+                <div class="p-2 bg-black/40 rounded text-emerald-200/90 text-[11px] leading-relaxed">
+                  {{ argusEmail.draft.body }}
+                </div>
               </div>
             </div>
           </div>
@@ -1348,6 +1428,12 @@
           <!-- View 3: TableFormer Document Matrix -->
           @if (argusActiveView === 'doc') {
           <div class="space-y-4 font-mono text-xs">
+            <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+              <button (click)="argusActiveView = 'dag'" class="px-2.5 py-1 rounded text-[11px] font-mono bg-violet-500/15 text-violet-300 hover:text-white hover:bg-violet-500/25 border border-violet-500/30 transition-colors flex items-center gap-1 cursor-pointer">
+                <span>⮌ Return to Step Details & Blackboard Variables</span>
+              </button>
+              <span class="text-[10px] text-slate-500 font-mono">Docling & TableFormer Vault</span>
+            </div>
             <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] flex flex-wrap items-center justify-between gap-2">
               <div>
                 <div class="text-violet-400 font-bold">{{ argusDocling.fileName }}</div>
@@ -1408,6 +1494,12 @@
           <!-- View 4: Cognitive Loci Memory -->
           @if (argusActiveView === 'memory') {
           <div class="space-y-4 font-mono text-xs">
+            <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+              <button (click)="argusActiveView = 'dag'" class="px-2.5 py-1 rounded text-[11px] font-mono bg-violet-500/15 text-violet-300 hover:text-white hover:bg-violet-500/25 border border-violet-500/30 transition-colors flex items-center gap-1 cursor-pointer">
+                <span>⮌ Return to Step Details & Blackboard Variables</span>
+              </button>
+              <span class="text-[10px] text-slate-500 font-mono">SQLite Loci-Hindsight Engine</span>
+            </div>
             <div class="p-3 bg-[#03060c] rounded-xl border border-white/[0.08] flex flex-wrap items-center justify-between gap-2">
               <div>
                 <div class="text-violet-400 font-bold">Loci-Hindsight Cognitive Memory Engine</div>
@@ -1455,6 +1547,12 @@
           <!-- View 5: SearXNG Web Intelligence -->
           @if (argusActiveView === 'web') {
           <div class="space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+              <button (click)="argusActiveView = 'dag'" class="px-2.5 py-1 rounded text-[11px] font-mono bg-violet-500/15 text-violet-300 hover:text-white hover:bg-violet-500/25 border border-violet-500/30 transition-colors flex items-center gap-1 cursor-pointer">
+                <span>⮌ Return to Step Details & Blackboard Variables</span>
+              </button>
+              <span class="text-[10px] text-slate-500 font-mono">SearXNG Metasearch Intelligence</span>
+            </div>
             <div class="text-[11px] text-slate-400">
               Metasearch Backend: <span class="text-white font-semibold">{{ argusWeb.searchBackend }}</span>
             </div>
@@ -1474,6 +1572,12 @@
           <!-- View 6: Telemetry Traces -->
           @if (argusActiveView === 'telemetry') {
           <div class="space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+              <button (click)="argusActiveView = 'dag'" class="px-2.5 py-1 rounded text-[11px] font-mono bg-violet-500/15 text-violet-300 hover:text-white hover:bg-violet-500/25 border border-violet-500/30 transition-colors flex items-center gap-1 cursor-pointer">
+                <span>⮌ Return to Step Details & Blackboard Variables</span>
+              </button>
+              <span class="text-[10px] text-slate-500 font-mono">Ring Buffer Telemetry</span>
+            </div>
             <span class="text-[10px] uppercase text-slate-500 block">RING BUFFER DEBUG TRACE STREAM</span>
             <div class="space-y-1.5 p-3 bg-[#03060c] rounded-xl border border-white/[0.08] max-h-48 overflow-y-auto">
               @for (tr of argusTraces; track $index) {

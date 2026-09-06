@@ -1788,21 +1788,12 @@ AI / ML Infrastructure Operations`
         // Parallel branch execution visualization for step 2a & 2b
         if (index === 1) {
           this.argusSteps[2].status = 'running';
-          this.argusActiveView = 'doc';
         } else if (index === 2) {
           this.argusSteps[1].status = 'completed';
           this.argusSteps[2].status = 'running';
-          this.argusActiveView = 'memory';
-        } else if (index === 0) {
-          this.argusActiveView = 'email';
         } else if (index === 3) {
           this.argusSteps[1].status = 'completed';
           this.argusSteps[2].status = 'completed';
-          this.argusActiveView = 'web';
-        } else if (index === 4) {
-          this.argusActiveView = 'dag';
-        } else if (index === 5) {
-          this.argusActiveView = 'email';
         }
 
         if (index < this.mailDocLogs.length) {
@@ -1839,6 +1830,8 @@ AI / ML Infrastructure Operations`
     this.scrollToArgusStep(0);
   }
 
+  highlightedVariable: string | null = null;
+
   jumpToArgusStep(targetStepNumber: number) {
     if (this.argusTimer) {
       clearTimeout(this.argusTimer);
@@ -1858,28 +1851,47 @@ AI / ML Infrastructure Operations`
 
     if (targetStepNumber === 2) {
       this.argusSteps[2].status = 'running';
-      this.argusActiveView = 'doc';
     } else if (targetStepNumber === 3) {
       this.argusSteps[1].status = 'completed';
-      this.argusActiveView = 'memory';
-    } else if (targetStepNumber === 1) {
-      this.argusActiveView = 'email';
-    } else if (targetStepNumber === 4) {
+    } else if (targetStepNumber >= 4) {
       this.argusSteps[1].status = 'completed';
       this.argusSteps[2].status = 'completed';
-      this.argusActiveView = 'web';
-    } else if (targetStepNumber === 5) {
-      this.argusSteps[1].status = 'completed';
-      this.argusSteps[2].status = 'completed';
-      this.argusSteps[3].status = 'completed';
-      this.argusActiveView = 'dag';
-    } else if (targetStepNumber === 6) {
-      this.argusSteps.forEach(s => s.status = 'completed');
-      this.argusSteps[5].status = 'running';
-      this.argusActiveView = 'email';
+      if (targetStepNumber >= 5) {
+        this.argusSteps[3].status = 'completed';
+      }
+      if (targetStepNumber === 6) {
+        this.argusSteps[4].status = 'completed';
+      }
     }
 
+    // Retain the Topological Step Inspector view with Blackboard Variable Resolution
+    this.argusActiveView = 'dag';
     this.scrollToArgusStep(targetStepNumber - 1);
+  }
+
+  inspectVariable(varName: string, stepNumber?: number) {
+    let stepNum = stepNumber;
+    if (!stepNum) {
+      if (varName.includes('step_1')) stepNum = 1;
+      else if (varName.includes('step_2a')) stepNum = 2;
+      else if (varName.includes('step_2b')) stepNum = 3;
+      else if (varName.includes('step_3')) stepNum = 4;
+      else if (varName.includes('step_4')) stepNum = 5;
+      else if (varName.includes('step_5')) stepNum = 6;
+      else stepNum = 1;
+    }
+    this.highlightedVariable = varName;
+    this.jumpToArgusStep(stepNum);
+    if (typeof window !== 'undefined') {
+      try {
+        const deck = document.getElementById('argus-inspector-deck');
+        if (deck) {
+          deck.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      } catch {
+        // safe
+      }
+    }
   }
 
   scrollToArgusStep(stepIndex: number) {

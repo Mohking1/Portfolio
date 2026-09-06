@@ -16,12 +16,21 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      import('aos').then(AOS => AOS.default.init({
-        duration: 1000,
-        once: true,
-        mirror: false
-      }));
-      window.scrollTo(0, 0);
+      import('aos').then(m => {
+        const aos = (m as any).default || m;
+        if (typeof aos?.init === 'function') {
+          aos.init({
+            duration: 800,
+            once: true,
+            mirror: false
+          });
+        }
+      }).catch(() => {});
+      try {
+        window.scrollTo(0, 0);
+      } catch {
+        // Safe fallback in non-browser context
+      }
     }
   }
 

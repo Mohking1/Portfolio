@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, Inject, PLATFORM_ID, NgZone } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -17,7 +17,11 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
   private hasStartedPlayback = false;
   Math = Math;
 
-  constructor(@Inject(PLATFORM_ID) platformId: object, private sanitizer: DomSanitizer) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: object,
+    private sanitizer: DomSanitizer,
+    private ngZone: NgZone
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
@@ -64,6 +68,17 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
   private telemetryCache: { [key: string]: any } = {};
   isLoadingTelemetry = false;
   private sdkInterval: any = null;
+
+  lossPoints: { x: number; y: number; step: number; val: number }[] = [];
+  lossPath = '';
+  lossAreaPath = '';
+  lossLastPoint = { x: 280, y: 100 };
+
+  accPoints: { x: number; y: number; step: number; val: number }[] = [];
+  accPath = '';
+  accAreaPath = '';
+  accLastPoint = { x: 280, y: 20 };
+  private latexCache = new Map<string, SafeHtml>();
 
   // ==========================================
   // 2. LOCAL ML EXPERIMENT TRACKER DEMO STATE
@@ -716,6 +731,7 @@ AI / ML Infrastructure Operations`
   ];
 
   ngOnInit() {
+    this.updateExpChartPaths();
     if (this.isBrowser) {
       this.preloadSimulations();
       this.startSimulationLoop();
@@ -832,44 +848,50 @@ AI / ML Infrastructure Operations`
 
   startSimulationLoop() {
     if (!this.isBrowser) return;
-    let lastTime = performance.now();
-    let frameAcc = 0;
+    this.ngZone.runOutsideAngular(() => {
+      let lastTime = performance.now();
+      let frameAcc = 0;
+      let lastHudUpdate = 0;
 
-    const render = (time: number) => {
-      this.animFrameId = requestAnimationFrame(render);
-      const dt = Math.min((time - lastTime) / 1000, 0.1);
-      lastTime = time;
+      const render = (time: number) => {
+        this.animFrameId = requestAnimationFrame(render);
+        const dt = Math.min((time - lastTime) / 1000, 0.1);
+        lastTime = time;
 
-      if (this.isPlaying && !this.isLoadingTelemetry) {
-        if (this.telemetryData && this.totalFrames > 0) {
-          frameAcc += dt * 30 * this.playbackSpeed; // 30 FPS telemetry playback
-          if (frameAcc >= 1) {
-            const stepFrames = Math.floor(frameAcc);
-            frameAcc -= stepFrames;
-            const nextFrame = this.currentFrameIdx + stepFrames;
-            if (nextFrame >= this.totalFrames) {
-              // Seamless auto continue to next terrain pass
-              frameAcc = 0;
-              const currentIdx = this.terrains.findIndex(t => t.id === this.selectedTerrain.id);
-              const nextIdx = (currentIdx + 1) % this.terrains.length;
-              this.selectTerrain(this.terrains[nextIdx]);
-            } else {
-              this.currentFrameIdx = nextFrame;
+        if (this.isPlaying && !this.isLoadingTelemetry) {
+          if (this.telemetryData && this.totalFrames > 0) {
+            frameAcc += dt * 30 * this.playbackSpeed; // 30 FPS telemetry playback
+            if (frameAcc >= 1) {
+              const stepFrames = Math.floor(frameAcc);
+              frameAcc -= stepFrames;
+              const nextFrame = this.currentFrameIdx + stepFrames;
+              if (nextFrame >= this.totalFrames) {
+                this.currentFrameIdx = 0;
+                frameAcc = 0;
+              } else {
+                this.currentFrameIdx = nextFrame;
+              }
             }
+          } else {
+            // Procedural locomotion loop for other morphologies
+            const speed = parseFloat(this.selectedCreature.speed) || 2.5;
+            this.simTime += dt * this.playbackSpeed;
+            this.simTrackX = (this.simTrackX + dt * speed * this.playbackSpeed) % 100;
+            this.simSpeed = speed * (0.9 + 0.15 * Math.cos(this.simTime * 4));
+            const baseRew = parseFloat(this.selectedCreature.reward.replace('+', '')) || 1500;
+            this.simReward = Math.round(baseRew * (0.95 + 0.05 * Math.sin(this.simTime * 2)));
           }
-        } else {
-          // Procedural locomotion loop for other morphologies
-          const speed = parseFloat(this.selectedCreature.speed) || 2.5;
-          this.simTime += dt * this.playbackSpeed;
-          this.simTrackX = (this.simTrackX + dt * speed * this.playbackSpeed) % 100;
-          this.simSpeed = speed * (0.9 + 0.15 * Math.cos(this.simTime * 4));
-          const baseRew = parseFloat(this.selectedCreature.reward.replace('+', '')) || 1500;
-          this.simReward = Math.round(baseRew * (0.95 + 0.05 * Math.sin(this.simTime * 2)));
+          this.drawCreature();
+
+          // Throttle HUD change detection to ~10 FPS (every 100ms) to avoid high CPU
+          if (time - lastHudUpdate > 100) {
+            lastHudUpdate = time;
+            this.ngZone.run(() => {});
+          }
         }
-        this.drawCreature();
-      }
-    };
-    this.animFrameId = requestAnimationFrame(render);
+      };
+      this.animFrameId = requestAnimationFrame(render);
+    });
   }
 
   selectCreature(c: any) {
@@ -922,6 +944,7 @@ AI / ML Infrastructure Operations`
     if (this.selectedExp.gradients.length === 0 && this.trackerActiveTab === 'gradients') {
       this.trackerActiveTab = 'charts';
     }
+    this.updateExpChartPaths();
   }
 
   runSdkPipeline() {
@@ -1049,15 +1072,34 @@ AI / ML Infrastructure Operations`
   }
 
   renderLatex(expr: string): SafeHtml {
+    if (this.latexCache.has(expr)) {
+      return this.latexCache.get(expr)!;
+    }
     try {
       const html = katex.renderToString(expr, {
         throwOnError: false,
         displayMode: false
       });
-      return this.sanitizer.bypassSecurityTrustHtml(html);
+      const safe = this.sanitizer.bypassSecurityTrustHtml(html);
+      this.latexCache.set(expr, safe);
+      return safe;
     } catch {
-      return this.sanitizer.bypassSecurityTrustHtml(expr);
+      const safe = this.sanitizer.bypassSecurityTrustHtml(expr);
+      this.latexCache.set(expr, safe);
+      return safe;
     }
+  }
+
+  updateExpChartPaths() {
+    this.lossPoints = this.getLossPoints();
+    this.lossPath = this.getLossPath();
+    this.lossAreaPath = this.getLossAreaPath();
+    this.lossLastPoint = this.lossPoints[this.lossPoints.length - 1] || { x: 280, y: 100 };
+
+    this.accPoints = this.getAccPoints();
+    this.accPath = this.getAccPath();
+    this.accAreaPath = this.getAccAreaPath();
+    this.accLastPoint = this.accPoints[this.accPoints.length - 1] || { x: 280, y: 20 };
   }
 
   getLossPoints(): { x: number; y: number; step: number; val: number }[] {
@@ -1128,12 +1170,10 @@ AI / ML Infrastructure Operations`
 
   drawCreature() {
     const canvas = this.creatureCanvasRef?.nativeElement;
-    if (!canvas) return;
-    if (canvas.clientWidth > 0 && canvas.clientHeight > 0) {
-      if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
-      }
+    if (!canvas || canvas.clientWidth <= 0 || canvas.clientHeight <= 0) return;
+    if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
     }
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -1904,16 +1944,17 @@ AI / ML Infrastructure Operations`
     }
   }
 
+  readonly argusNodePositions = [
+    { left: '16px', top: '126px', width: '174px', height: '122px' },  // step_1
+    { left: '226px', top: '42px', width: '174px', height: '122px' },  // step_2a
+    { left: '226px', top: '210px', width: '174px', height: '122px' }, // step_2b
+    { left: '436px', top: '126px', width: '174px', height: '122px' }, // step_3
+    { left: '646px', top: '126px', width: '174px', height: '122px' }, // step_4
+    { left: '856px', top: '126px', width: '174px', height: '122px' }  // step_5
+  ];
+
   getArgusNodeStyle(idx: number): { [key: string]: string } {
-    const positions = [
-      { left: '16px', top: '126px', width: '174px', height: '122px' },  // step_1
-      { left: '226px', top: '42px', width: '174px', height: '122px' },  // step_2a
-      { left: '226px', top: '210px', width: '174px', height: '122px' }, // step_2b
-      { left: '436px', top: '126px', width: '174px', height: '122px' }, // step_3
-      { left: '646px', top: '126px', width: '174px', height: '122px' }, // step_4
-      { left: '856px', top: '126px', width: '174px', height: '122px' }  // step_5
-    ];
-    return positions[idx] || positions[0];
+    return this.argusNodePositions[idx] || this.argusNodePositions[0];
   }
 
   inspectArgusStep(targetStepNumber: number, event?: Event) {

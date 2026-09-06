@@ -44,7 +44,7 @@ export class ExperienceComponent {
     role: 'Co-creator & Platform Engineering',
     period: '~2 Years',
     highlight: '500K+ Documented Views',
-    description: 'Helped build and operate a public novel-translation platform that accumulated 500K+ documented views across published titles over roughly two years (verified via Wayback Machine archive records).'
+    description: 'Helped build and operate a public novel-translation platform that accumulated 500K+ documented views across published titles over roughly two years.'
   };
 }
 

@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import katex from 'katex';
 
 @Component({
   selector: 'app-projects',
@@ -13,8 +15,9 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
   private isBrowser: boolean;
   private viewportObserver: IntersectionObserver | null = null;
   private hasStartedPlayback = false;
+  Math = Math;
 
-  constructor(@Inject(PLATFORM_ID) platformId: object) {
+  constructor(@Inject(PLATFORM_ID) platformId: object, private sanitizer: DomSanitizer) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
@@ -93,7 +96,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       id: 'a8c3af2b',
       name: 'PyTorch Deep Residual MLP',
-      framework: 'PyTorch 2.6.0',
+      framework: 'PyTorch 2.6.0 (CUDA)',
       status: 'Completed',
       duration: '6.88s',
       epochs: 20,
@@ -103,44 +106,102 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
       lr: '0.0030 → 0.0001',
       batchSize: 64,
       optimizer: 'AdamW (CosineAnneal)',
-      lossPoints: '0,108 15,96 30,82 45,68 60,54 75,44 90,36 105,30 120,25 135,21 150,18 165,15 180,13 195,12 210,11 225,10 240,9 255,9 270,8 300,8',
-      accPoints: '0,20 15,35 30,50 45,62 60,72 75,80 90,86 105,90 120,93 135,96 150,98 165,100 180,102 195,104 210,106 225,108 240,109 255,110 270,111 300,112',
+      hardware: 'NVIDIA RTX 4090 · 6.88s duration · 5.8 GB RAM',
       matrix: [
-        [1420, 45, 15],
-        [38, 380, 42],
-        [12, 28, 520]
+        [250, 3, 2],
+        [7, 93, 2],
+        [12, 3, 28]
       ],
-      codeSnippet: `import experiment_tracker as et
-from experiment_tracker.integrations.pytorch import watch
+      features: [
+        { name: 'merchant_risk_tier', score: 0.94 },
+        { name: 'device_trust_score', score: 0.88 },
+        { name: 'geo_distance_km', score: 0.81 },
+        { name: 'behavioral_entropy', score: 0.76 },
+        { name: 'card_age_days', score: 0.69 }
+      ],
+      history: [
+        { step: 1, loss: 0.6156, accuracy: 77.75 },
+        { step: 2, loss: 0.4438, accuracy: 83.75 },
+        { step: 3, loss: 0.3982, accuracy: 84.75 },
+        { step: 4, loss: 0.3819, accuracy: 86.25 },
+        { step: 5, loss: 0.3353, accuracy: 88.25 },
+        { step: 6, loss: 0.3279, accuracy: 89.25 },
+        { step: 7, loss: 0.2843, accuracy: 90.75 },
+        { step: 8, loss: 0.2684, accuracy: 91.75 },
+        { step: 9, loss: 0.2533, accuracy: 93.50 },
+        { step: 10, loss: 0.2705, accuracy: 91.25 },
+        { step: 11, loss: 0.2605, accuracy: 91.75 },
+        { step: 12, loss: 0.2716, accuracy: 92.00 },
+        { step: 13, loss: 0.2649, accuracy: 91.75 },
+        { step: 14, loss: 0.2504, accuracy: 93.75 },
+        { step: 15, loss: 0.2628, accuracy: 92.50 },
+        { step: 16, loss: 0.2640, accuracy: 92.00 },
+        { step: 17, loss: 0.2541, accuracy: 92.75 },
+        { step: 18, loss: 0.2530, accuracy: 92.50 },
+        { step: 19, loss: 0.2652, accuracy: 93.25 },
+        { step: 20, loss: 0.0984, accuracy: 92.75 }
+      ],
+      codeSnippet: `import torch
+import torch.nn as nn
+import experiment_tracker as et
 
-# 1. Initialize local-first run
-with et.init(project="fraud-benchmark", name="deep_residual_mlp") as run:
-    # 2. Attach backward hooks for gradient health
-    watch(model, log_gradients=True)
+class ResidualMLP(nn.Module):
+    def __init__(self, in_dim=20, hidden_dim=64, num_classes=3):
+        super().__init__()
+        self.input_layer = nn.Sequential(
+            nn.Linear(in_dim, hidden_dim),
+            nn.LayerNorm(hidden_dim),
+            nn.SiLU()
+        )
+        self.res_block = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.SiLU(),
+            nn.Linear(hidden_dim, hidden_dim)
+        )
+        self.head = nn.Linear(hidden_dim, num_classes)
+        
+    def forward(self, x):
+        h = self.input_layer(x)
+        return self.head(h + self.res_block(h))
+
+model = ResidualMLP().to("cuda" if torch.cuda.is_available() else "cpu")
+optimizer = torch.optim.AdamW(model.parameters(), lr=3e-3, weight_decay=0.01)
+scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=20)
+
+with et.init(
+    project="fraud-detection-benchmark",
+    tags=["pytorch", "residual_mlp", "cuda"],
+    config={"in_features": 20, "hidden_dim": 64, "lr": 0.003, "epochs": 20}
+) as run:
+    # Attach backward hooks for gradient & weight norm health tracking
+    run.watch(model, optimizer=optimizer, log_freq=1)
     
-    # 3. Train & stream real-time metrics
-    for epoch in range(20):
-        loss, acc = train_step(batch)
+    for epoch in range(1, 21):
+        train_loss, train_acc = train_epoch(model, train_loader, optimizer)
+        val_loss, val_acc = evaluate(model, val_loader)
+        scheduler.step()
+        
         run.log({
-            "loss": loss.item(),
-            "accuracy": acc.item(),
-            "learning_rate": scheduler.get_last_lr()[0]
-        })
-    
-    # 4. Version artifacts & model weights
-    run.log_artifact("confusion_matrix", matrix=cm_data)
-    run.save_model(model, "best_model_weights.pt")`,
+            "epoch": epoch,
+            "train/loss": train_loss,
+            "val/loss": val_loss,
+            "val/accuracy": val_acc,
+            "lr": scheduler.get_last_lr()[0]
+        }, step=epoch)
+        
+    # Serialize checkpoint & confusion matrix
+    run.log_artifact(et.Artifact.from_model("best_model_weights.pt", model.state_dict()))`,
       gradients: [
-        { layer: 'Input Linear (20->64)', norm: '1.266', mean: '0.0227', min: '0.000009', status: 'Healthy' },
-        { layer: 'LayerNorm 1 (dim=64)', norm: '0.155', mean: '0.0132', min: '0.000047', status: 'Healthy' },
-        { layer: 'Residual Linear 1 (64->64)', norm: '1.081', mean: '0.0092', min: '0.000001', status: 'Healthy' },
-        { layer: 'Residual Linear 2 (64->64)', norm: '0.485', mean: '0.0046', min: '0.000001', status: 'Healthy' },
-        { layer: 'Output Logits Head (32->3)', norm: '0.082', mean: '0.0074', min: '0.000197', status: 'Healthy' },
+        { layer: 'input_layer.0.weight (20->64)', norm: '0.966', mean: '0.0175', min: '0.000027', status: 'Healthy' },
+        { layer: 'input_layer.1.norm (dim=64)', norm: '0.165', mean: '0.0148', min: '0.000179', status: 'Healthy' },
+        { layer: 'res_block.0.weight (64->64)', norm: '1.143', mean: '0.0104', min: '0.000001', status: 'Healthy' },
+        { layer: 'res_block.4.weight (64->64)', norm: '0.448', mean: '0.0043', min: '0.000001', status: 'Healthy' },
+        { layer: 'head.3.weight (64->3)', norm: '0.659', mean: '0.0430', min: '0.000000', status: 'Healthy' }
       ],
       artifacts: [
-        { name: 'best_model_weights.pt', type: 'PyTorch Weights', size: '50 KB' },
+        { name: 'best_model_weights.pt', type: 'PyTorch Checkpoint', size: '47 KB' },
         { name: 'confusion_matrix.json', type: '3x3 Matrix', size: '1.2 KB' },
-        { name: 'roc_curve_high_risk.json', type: 'ROC Profile (AUC=0.925)', size: '3.4 KB' },
+        { name: 'roc_curve_high_risk.json', type: 'ROC Profile (AUC=0.925)', size: '3.4 KB' }
       ]
     },
     {
@@ -148,36 +209,89 @@ with et.init(project="fraud-benchmark", name="deep_residual_mlp") as run:
       name: 'XGBoost Tree Ensemble',
       framework: 'XGBoost 2.1.4',
       status: 'Completed',
-      duration: '1.85s',
-      epochs: 100,
+      duration: '0.724s',
+      epochs: 40,
       accuracy: '85.50%',
       auc: '0.8513',
-      loss: 0.3412,
-      lr: '0.10 (Newton Step)',
+      loss: 0.4698,
+      lr: '0.08 (Fixed Step)',
       batchSize: 1600,
       optimizer: 'Hist Gradient Boosting',
-      lossPoints: '0,105 30,78 60,56 90,42 120,32 150,25 180,20 210,17 240,15 270,14 300,13',
-      accPoints: '0,30 30,55 60,70 90,82 120,89 150,94 180,98 210,101 240,103 270,104 300,105',
+      hardware: '8-Core CPU (OMP=8) · 0.72s duration · 5.4 GB RAM',
       matrix: [
-        [1360, 85, 35],
-        [52, 340, 68],
-        [25, 45, 490]
+        [235, 14, 6],
+        [12, 88, 2],
+        [18, 6, 19]
       ],
-      codeSnippet: `import experiment_tracker as et
-from experiment_tracker.integrations.xgboost import track_booster
+      features: [
+        { name: 'merchant_risk_tier', score: 1.00 },
+        { name: 'card_age_days', score: 0.61 },
+        { name: 'noise_jitter_4', score: 0.57 },
+        { name: 'signal_corr_b', score: 0.57 },
+        { name: 'geo_distance_km', score: 0.52 }
+      ],
+      history: [
+        { step: 1, loss: 0.8456, accuracy: 63.75 },
+        { step: 4, loss: 0.7694, accuracy: 63.75 },
+        { step: 8, loss: 0.6945, accuracy: 72.00 },
+        { step: 12, loss: 0.6402, accuracy: 77.50 },
+        { step: 16, loss: 0.5960, accuracy: 80.25 },
+        { step: 20, loss: 0.5531, accuracy: 81.75 },
+        { step: 24, loss: 0.5262, accuracy: 83.00 },
+        { step: 28, loss: 0.5034, accuracy: 84.25 },
+        { step: 32, loss: 0.4871, accuracy: 84.75 },
+        { step: 36, loss: 0.4742, accuracy: 85.25 },
+        { step: 40, loss: 0.4698, accuracy: 85.50 }
+      ],
+      codeSnippet: `import numpy as np
+import xgboost as xgb
+import experiment_tracker as et
+from experiment_tracker.integrations.xgboost import callback as xgb_callback
 
-with et.init(project="fraud-benchmark", name="xgboost_trees") as run:
-    booster = xgb.train(params, dtrain, num_boost_round=100,
-                        evals=[(dval, "val")],
-                        callbacks=[track_booster(run)])
+# Load 20-dim fraud transaction benchmark dataset
+X_train, y_train, X_val, y_val = load_fraud_dataset(features=20, classes=3)
+dtrain = xgb.DMatrix(X_train, label=y_train)
+dval = xgb.DMatrix(X_val, label=y_val)
+
+params = {
+    "max_depth": 5,
+    "learning_rate": 0.08,
+    "subsample": 0.85,
+    "colsample_bytree": 0.85,
+    "objective": "multi:softprob",
+    "num_class": 3,
+    "eval_metric": ["mlogloss", "merror"],
+    "tree_method": "hist",
+    "seed": 42
+}
+
+with et.init(
+    project="fraud-detection-benchmark",
+    tags=["xgboost", "gradient_boosting", "tabular_v2"],
+    config=params
+) as run:
+    evals_result = {}
+    booster = xgb.train(
+        params,
+        dtrain,
+        num_boost_round=40,
+        evals=[(dtrain, "train"), (dval, "val")],
+        evals_result=evals_result,
+        callbacks=[xgb_callback(run, log_feature_importance=True)]
+    )
     
-    run.log_artifact("feature_importance", booster.get_score())
-    run.log_artifact("roc_curve_high_risk", roc_data)`,
+    # Save serialized booster dump and evaluation metrics
+    run.log_artifact(et.Artifact.from_model("xgboost_model", booster, format="json"))
+    run.log_summary({
+        "val/logloss": float(evals_result["val"]["mlogloss"][-1]),
+        "val/final_accuracy": 0.8550,
+        "val/roc_auc_macro": 0.8513
+    })`,
       gradients: [],
       artifacts: [
-        { name: 'xgboost_model.json', type: 'Booster Dump', size: '124 KB' },
-        { name: 'feature_importance.json', type: 'Feature Gain Array', size: '2.1 KB' },
-        { name: 'roc_curve_high_risk.json', type: 'ROC Profile (AUC=0.851)', size: '3.1 KB' },
+        { name: 'xgboost_model.json', type: 'Booster Serialization', size: '124 KB' },
+        { name: 'feature_importance.json', type: 'Gain-Based Array', size: '1.3 KB' },
+        { name: 'roc_curve_high_risk.json', type: 'ROC Profile (AUC=0.851)', size: '3.1 KB' }
       ]
     },
     {
@@ -185,37 +299,74 @@ with et.init(project="fraud-benchmark", name="xgboost_trees") as run:
       name: 'Scikit-Learn Random Forest',
       framework: 'Scikit-Learn 1.6.1',
       status: 'Completed',
-      duration: '0.82s',
+      duration: '0.820s',
       epochs: 100,
       accuracy: '84.00%',
       auc: '0.7786 (F1)',
       loss: 0.3890,
       lr: 'N/A (Bagging)',
       batchSize: 1600,
-      optimizer: 'Gini Impurity Forest',
-      lossPoints: '0,100 30,68 60,48 90,36 120,28 150,22 180,18 210,16 240,15 270,14 300,14',
-      accPoints: '0,35 30,60 60,75 90,85 120,92 150,96 180,99 210,101 240,102 270,102 300,102',
+      optimizer: 'Gini Impurity Forest (100 Trees)',
+      hardware: 'Multi-Process CPU · 0.82s duration · 5.2 GB RAM',
       matrix: [
-        [1340, 100, 40],
-        [65, 320, 75],
-        [35, 55, 470]
+        [226, 22, 7],
+        [15, 85, 2],
+        [15, 3, 25]
       ],
-      codeSnippet: `import experiment_tracker as et
-from experiment_tracker.integrations.sklearn import autolog
+      features: [
+        { name: 'merchant_risk_tier', score: 0.89 },
+        { name: 'card_age_days', score: 0.74 },
+        { name: 'geo_distance_km', score: 0.63 },
+        { name: 'device_trust_score', score: 0.58 },
+        { name: 'behavioral_entropy', score: 0.49 }
+      ],
+      history: [
+        { step: 10, loss: 0.7210, accuracy: 68.50 },
+        { step: 20, loss: 0.5840, accuracy: 74.25 },
+        { step: 30, loss: 0.4920, accuracy: 78.50 },
+        { step: 40, loss: 0.4410, accuracy: 80.75 },
+        { step: 50, loss: 0.4150, accuracy: 82.00 },
+        { step: 60, loss: 0.4020, accuracy: 82.75 },
+        { step: 70, loss: 0.3950, accuracy: 83.25 },
+        { step: 80, loss: 0.3910, accuracy: 83.75 },
+        { step: 90, loss: 0.3895, accuracy: 83.75 },
+        { step: 100, loss: 0.3890, accuracy: 84.00 }
+      ],
+      codeSnippet: `from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix, f1_score
+import experiment_tracker as et
 
-# Automatic model & parameter tracking
-autolog()
+# Enable automatic model & hyperparameter lifecycle tracking
+et.sklearn.autolog()
 
-with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
-    clf = RandomForestClassifier(n_estimators=100, max_depth=8)
+params = {
+    "n_estimators": 100,
+    "max_depth": 8,
+    "min_samples_split": 5,
+    "class_weight": "balanced",
+    "random_state": 42
+}
+
+with et.init(
+    project="fraud-detection-benchmark",
+    tags=["sklearn", "random_forest", "bagging"],
+    config=params
+) as run:
+    clf = RandomForestClassifier(**params)
     clf.fit(X_train, y_train)
     
-    run.log({"test_accuracy": clf.score(X_test, y_test)})
-    run.log_artifact("confusion_matrix", confusion_matrix(y_test, y_pred))`,
+    y_pred = clf.predict(X_val)
+    val_acc = clf.score(X_val, y_val)
+    macro_f1 = f1_score(y_val, y_pred, average="macro")
+    
+    run.log({"val/accuracy": val_acc, "val/f1_macro": macro_f1})
+    run.log_artifact(et.Artifact.from_dict("confusion_matrix.json", confusion_matrix(y_val, y_pred).tolist()))
+    run.log_artifact(et.Artifact.from_dict("feature_importance.json", dict(zip(feature_names, clf.feature_importances_))))`,
       gradients: [],
       artifacts: [
-        { name: 'confusion_matrix.json', type: '3-Class Matrix', size: '1.1 KB' },
-        { name: 'feature_importance.json', type: 'MDI Importance', size: '1.9 KB' },
+        { name: 'random_forest_clf.joblib', type: 'Pickled Estimator', size: '210 KB' },
+        { name: 'confusion_matrix.json', type: '3-Class Evaluation Matrix', size: '1.1 KB' },
+        { name: 'feature_importance.json', type: 'MDI Array', size: '1.8 KB' }
       ]
     }
   ];
@@ -243,7 +394,13 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       title: 'IMAP Search & PDF Extraction',
       description: "Scan priority thread from licensing-renewals@acme-cloud.io and download 'Acme_Enterprise_Renewal_2026.pdf' to Document Vault.",
       toolCall: "mail_agent.fetch_attachment(uid=4492, save_to='data/vault/')",
-      variables: ["$step_1.saved_paths -> 'data/vault/Acme_Enterprise_Renewal_2026.pdf'"],
+      variables: [
+        {
+          name: '$step_1.saved_paths',
+          resolved: "'data/vault/Acme_Enterprise_Renewal_2026.pdf'",
+          latex: '\\mathcal{B}[\\text{step}_1.\\text{saved\\_paths}] \\xrightarrow{\\text{bind}} \\mathtt{"data/vault/Acme\\_Enterprise\\_Renewal\\_2026.pdf"}'
+        }
+      ],
       durationMs: 320,
       status: 'pending' as 'pending' | 'running' | 'completed',
       receipt: "Downloaded 1 attachment (2.8 MB PDF, SHA256: c8f92a10) to vault."
@@ -256,7 +413,18 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       title: 'Docling & TableFormer Extraction',
       description: "Parse '$step_1.saved_paths' via IBM TableFormer (ACCURATE mode). Extracts compute pricing matrix & SLA clauses.",
       toolCall: "doc_agent.parse_and_extract_tables(file_path=$step_1.saved_paths)",
-      variables: ["$step_2a.tables -> 3 pricing matrices", "$step_2a.clauses -> 2 SLA policies"],
+      variables: [
+        {
+          name: '$step_2a.tables',
+          resolved: '3 pricing matrices',
+          latex: '\\mathcal{B}[\\text{step}_{2\\text{a}}.\\text{tables}] \\xrightarrow{\\text{bind}} 3\\ \\text{pricing matrices}'
+        },
+        {
+          name: '$step_2a.clauses',
+          resolved: '2 SLA policies',
+          latex: '\\mathcal{B}[\\text{step}_{2\\text{a}}.\\text{clauses}] \\xrightarrow{\\text{bind}} 2\\ \\text{SLA policies}'
+        }
+      ],
       durationMs: 1140,
       status: 'pending' as 'pending' | 'running' | 'completed',
       receipt: "Detected unannounced +14.28% YoY price hike on c6i.8xlarge; SLA downgraded to 99.90%."
@@ -269,7 +437,13 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       title: 'Loci Beliefs & Budget Rules',
       description: "Query SQLite FTS5 spatial index in 'wings/projects/decisions' and 'wings/beliefs' for active spending ceilings and negotiation policies.",
       toolCall: "memory.search_beliefs(wing='projects', hall='decisions')",
-      variables: ["$step_2b.active_rules -> 'vendor_escalation_cap: max 6.0%'"],
+      variables: [
+        {
+          name: '$step_2b.active_rules',
+          resolved: "'vendor_escalation_cap: max 6.0%'",
+          latex: '\\mathcal{B}[\\text{step}_{2\\text{b}}.\\text{active\\_rules}] \\xrightarrow{\\text{bind}} \\mathtt{"vendor\\_escalation\\_cap: max 6.0\\%"}'
+        }
+      ],
       durationMs: 180,
       status: 'pending' as 'pending' | 'running' | 'completed',
       receipt: "Retrieved active CFO rule: Max +6.0% YoY escalation; 99.95% SLA mandate with credit penalties."
@@ -282,7 +456,18 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       title: 'SearXNG Zero-Cloud Metasearch',
       description: "Execute 4-phase autonomous research across SearXNG + Trafilatura for 2026 enterprise cloud benchmarks and Acme outage telemetry.",
       toolCall: "web_agent.research(queries=['enterprise cloud pricing benchmark 2026', 'Acme Cloud downtime log'])",
-      variables: ["$step_3.market_rate -> -3.8% avg contraction", "$step_3.incident -> ACM-8821 (4h downtime)"],
+      variables: [
+        {
+          name: '$step_3.market_rate',
+          resolved: '-3.8% avg contraction',
+          latex: '\\mathcal{B}[\\text{step}_3.\\text{market\\_rate}] \\xrightarrow{\\text{bind}} -3.8\\%\\ \\text{avg contraction}'
+        },
+        {
+          name: '$step_3.incident',
+          resolved: 'ACM-8821 (4h downtime)',
+          latex: '\\mathcal{B}[\\text{step}_3.\\text{incident}] \\xrightarrow{\\text{bind}} \\mathtt{"ACM-8821 (4h downtime)"}'
+        }
+      ],
       durationMs: 890,
       status: 'pending' as 'pending' | 'running' | 'completed',
       receipt: "Found Q3 market benchmark (-3.8% YoY) and documented 4h global control plane downtime incident."
@@ -295,7 +480,13 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       title: 'Parent-Child RRF Synthesis',
       description: "Fuse TableFormer pricing tables ($step_2a), Cognitive Memory rules ($step_2b), and Web evidence ($step_3) into a cited counter-negotiation brief.",
       toolCall: "rag_agent.synthesize_with_citations(sources=['vault', 'memory', 'web'])",
-      variables: ["$step_4.counter_terms -> '+4.5% blended rate, 99.95% SLA credit multiplier'"],
+      variables: [
+        {
+          name: '$step_4.counter_terms',
+          resolved: "'+4.5% blended rate, 99.95% SLA credit multiplier'",
+          latex: '\\mathcal{B}[\\text{step}_4.\\text{counter\\_terms}] \\xrightarrow{\\text{bind}} \\mathtt{"+4.5\\% blended rate, 99.95\\% SLA credit"}'
+        }
+      ],
       durationMs: 620,
       status: 'pending' as 'pending' | 'running' | 'completed',
       receipt: "Synthesized 3-point counter-proposal with verified multi-source citations [Doc: Table 4.1, Web: CloudMetrics]."
@@ -308,7 +499,18 @@ with et.init(project="fraud-benchmark", name="sklearn_rf") as run:
       title: 'Supervised Outbound Staging',
       description: "Autonomy policy check (SUPERVISED). Intercepts direct external SMTP dispatch and stages formatted counter-offer email into Drafts folder.",
       toolCall: "mail_agent.create_draft(folder='Drafts/Vendor_Renewals', attach_matrix=True)",
-      variables: ["$step_5.draft_uid -> 'draft_9041'", "$step_5.status -> 'STAGED_SUPERVISED'"],
+      variables: [
+        {
+          name: '$step_5.draft_uid',
+          resolved: "'draft_9041'",
+          latex: '\\mathcal{B}[\\text{step}_5.\\text{draft\\_uid}] \\xrightarrow{\\text{bind}} \\mathtt{"draft\\_9041"}'
+        },
+        {
+          name: '$step_5.status',
+          resolved: "'STAGED_SUPERVISED'",
+          latex: '\\mathcal{B}[\\text{step}_5.\\text{status}] \\xrightarrow{\\text{bind}} \\mathbf{STAGED\\_SUPERVISED}'
+        }
+      ],
       durationMs: 410,
       status: 'pending' as 'pending' | 'running' | 'completed',
       receipt: "Draft safely staged into IMAP Drafts. Supervised policy prevented unauthorized external transmission."
@@ -706,12 +908,16 @@ AI / ML Infrastructure Operations`
 
   selectExperiment(exp: any) {
     this.selectedExp = exp;
+    this.hoveredLossIndex = null;
+    this.hoveredAccIndex = null;
+    this.currentEpoch = exp.epochs;
+    this.sdkProgress = 100;
     this.liveMetrics = {
       loss: exp.loss,
       accuracy: exp.accuracy,
       lr: exp.lr.split('→')[1]?.trim() || exp.lr,
       gradNorm: exp.gradients[0]?.norm || '0.942',
-      stepTime: '34ms'
+      stepTime: exp.id === '0f43af47' ? '18ms' : exp.id === '8c8c23ae' ? '8ms' : '34ms'
     };
     if (this.selectedExp.gradients.length === 0 && this.trackerActiveTab === 'gradients') {
       this.trackerActiveTab = 'charts';
@@ -807,28 +1013,79 @@ AI / ML Infrastructure Operations`
     return matrix.reduce((acc, row) => acc + row.reduce((rSum, v) => rSum + v, 0), 0);
   }
 
-  getLossPoints(): { x: number; y: number }[] {
-    const raw = this.selectedExp.lossPoints || '0,108 300,8';
-    const pairs = raw.trim().split(/\s+/).map(p => p.split(',').map(Number));
-    return pairs.map(([x, y]) => {
-      const px = 20 + (x / 300) * 260;
-      const py = Math.max(15, Math.min(105, 105 - ((y - 5) / 105) * 85));
-      return { x: px, y: py };
+  hoveredLossIndex: number | null = null;
+  hoveredAccIndex: number | null = null;
+
+  onLossChartMouseMove(event: MouseEvent) {
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const relX = event.clientX - rect.left;
+    const svgWidth = rect.width || 300;
+    const normX = Math.max(0, Math.min(1, relX / svgWidth));
+    const history = this.selectedExp.history;
+    if (!history || history.length === 0) return;
+    const idx = Math.round(normX * (history.length - 1));
+    this.hoveredLossIndex = Math.max(0, Math.min(history.length - 1, idx));
+  }
+
+  onLossChartMouseLeave() {
+    this.hoveredLossIndex = null;
+  }
+
+  onAccChartMouseMove(event: MouseEvent) {
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const relX = event.clientX - rect.left;
+    const svgWidth = rect.width || 300;
+    const normX = Math.max(0, Math.min(1, relX / svgWidth));
+    const history = this.selectedExp.history;
+    if (!history || history.length === 0) return;
+    const idx = Math.round(normX * (history.length - 1));
+    this.hoveredAccIndex = Math.max(0, Math.min(history.length - 1, idx));
+  }
+
+  onAccChartMouseLeave() {
+    this.hoveredAccIndex = null;
+  }
+
+  renderLatex(expr: string): SafeHtml {
+    try {
+      const html = katex.renderToString(expr, {
+        throwOnError: false,
+        displayMode: false
+      });
+      return this.sanitizer.bypassSecurityTrustHtml(html);
+    } catch {
+      return this.sanitizer.bypassSecurityTrustHtml(expr);
+    }
+  }
+
+  getLossPoints(): { x: number; y: number; step: number; val: number }[] {
+    const history = this.selectedExp.history || [];
+    if (history.length === 0) return [{ x: 25, y: 100, step: 0, val: 0 }, { x: 280, y: 25, step: 1, val: 0 }];
+    const losses = history.map((h: any) => h.loss);
+    const minLoss = Math.min(...losses);
+    const maxLoss = Math.max(...losses);
+    const range = (maxLoss - minLoss) || 0.1;
+    return history.map((h: any, i: number) => {
+      const x = 25 + (i / (history.length - 1)) * 255;
+      const y = 105 - ((h.loss - minLoss) / range) * 80;
+      return { x, y: Math.max(15, Math.min(105, y)), step: h.step, val: h.loss };
     });
   }
 
   getLossPath(): string {
     const pts = this.getLossPoints();
-    if (pts.length === 0) return 'M 20 25 L 280 100';
+    if (pts.length === 0) return 'M 25 100 L 280 25';
     return 'M ' + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ');
   }
 
   getLossAreaPath(): string {
     const pts = this.getLossPoints();
-    if (pts.length === 0) return 'M 20 25 L 280 100 L 280 108 L 20 108 Z';
+    if (pts.length === 0) return 'M 25 100 L 280 25 L 280 110 L 25 110 Z';
     const first = pts[0];
     const last = pts[pts.length - 1];
-    return `M ${first.x.toFixed(1)} 108 L ` + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ') + ` L ${last.x.toFixed(1)} 108 Z`;
+    return `M ${first.x.toFixed(1)} 110 L ` + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ') + ` L ${last.x.toFixed(1)} 110 Z`;
   }
 
   getLossLastPoint(): { x: number; y: number } {
@@ -836,28 +1093,32 @@ AI / ML Infrastructure Operations`
     return pts[pts.length - 1] || { x: 280, y: 100 };
   }
 
-  getAccPoints(): { x: number; y: number }[] {
-    const raw = this.selectedExp.accPoints || '0,20 300,112';
-    const pairs = raw.trim().split(/\s+/).map(p => p.split(',').map(Number));
-    return pairs.map(([x, y]) => {
-      const px = 20 + (x / 300) * 260;
-      const py = Math.max(15, Math.min(105, 105 - ((y - 15) / 100) * 85));
-      return { x: px, y: py };
+  getAccPoints(): { x: number; y: number; step: number; val: number }[] {
+    const history = this.selectedExp.history || [];
+    if (history.length === 0) return [{ x: 25, y: 100, step: 0, val: 0 }, { x: 280, y: 25, step: 1, val: 0 }];
+    const accs = history.map((h: any) => h.accuracy);
+    const minAcc = Math.min(...accs);
+    const maxAcc = Math.max(...accs);
+    const range = (maxAcc - minAcc) || 1.0;
+    return history.map((h: any, i: number) => {
+      const x = 25 + (i / (history.length - 1)) * 255;
+      const y = 105 - ((h.accuracy - minAcc) / range) * 80;
+      return { x, y: Math.max(15, Math.min(105, y)), step: h.step, val: h.accuracy };
     });
   }
 
   getAccPath(): string {
     const pts = this.getAccPoints();
-    if (pts.length === 0) return 'M 20 105 L 280 20';
+    if (pts.length === 0) return 'M 25 105 L 280 20';
     return 'M ' + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ');
   }
 
   getAccAreaPath(): string {
     const pts = this.getAccPoints();
-    if (pts.length === 0) return 'M 20 105 L 280 20 L 280 108 L 20 108 Z';
+    if (pts.length === 0) return 'M 25 105 L 280 20 L 280 110 L 25 110 Z';
     const first = pts[0];
     const last = pts[pts.length - 1];
-    return `M ${first.x.toFixed(1)} 108 L ` + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ') + ` L ${last.x.toFixed(1)} 108 Z`;
+    return `M ${first.x.toFixed(1)} 110 L ` + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L ') + ` L ${last.x.toFixed(1)} 110 Z`;
   }
 
   getAccLastPoint(): { x: number; y: number } {
